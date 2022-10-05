@@ -1,5 +1,5 @@
 import logging
-from qstars.external.interfaces import IReporter
+from qstars.external.interfaces.IReporter import IReporter
 
 logger = logging.getLogger()
 

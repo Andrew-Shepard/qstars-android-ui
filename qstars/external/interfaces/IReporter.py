@@ -1,5 +1,6 @@
 from abc import abstractmethod, ABCMeta
 
+
 class IReporter(metaclass=ABCMeta):
     @abstractmethod
     def debug(self, msg: str, *args, **kwargs):

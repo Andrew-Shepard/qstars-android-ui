@@ -18,16 +18,13 @@ class Settings(BaseSettings):
         return v_upper
 
 
-# will be initialized on startup
 _settings = None
 
 
-# pylint: disable=global-statement
 def init_settings(settings: Settings):
     global _settings
     if _settings is not None:
         raise RuntimeError("settings already initialized")
-    # kwargs override environment variables
     _settings = settings
 
 

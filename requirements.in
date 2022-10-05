@@ -4,3 +4,4 @@ pip-tools
 uvicorn
 fastapi
 click
+pytest-asyncio
