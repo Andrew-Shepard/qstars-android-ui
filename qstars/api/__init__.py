@@ -2,15 +2,13 @@ import logging
 from fastapi import FastAPI
 from qstars.settings import Settings
 from qstars.external.reporter import LogReporter
+from qstars.api.routes import root as root_router
 
 
 def create_app(settings: Settings):
     app = FastAPI()
     app.reporter = LogReporter()
-
-    @app.get("/")
-    async def root():
-        return {"message": "Hello World"}
+    app.include_router(root_router)
 
     @app.on_event("startup")
     async def _startup():
