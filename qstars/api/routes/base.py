@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Optional, Union, List
-from fastapi import APIRouter, Response
+from fastapi import APIRouter
 
 base_router = APIRouter()
 base_tags: Optional[List[Union[str, Enum]]] = ["base"]

@@ -1,20 +1,19 @@
-import logging
-from qstars.external.interfaces import IReporter
+from abc import abstractmethod, ABCMeta
 
-logger = logging.getLogger()
-
-
-class LogReporter(IReporter):
+class IReporter(metaclass=ABCMeta):
+    @abstractmethod
     def debug(self, msg: str, *args, **kwargs):
-        logger.debug(msg)
+        "Debug level of logging"
 
+    @abstractmethod
     def info(self, msg: str, *args, **kwargs):
-        logger.info(msg)
+        "Info level of logging"
 
+    @abstractmethod
     def warning(
         self, exc: Exception, context: str = None, cause: Exception = None,
     ):
-        logger.warning("[%s] %s: %s", exc.__class__.__name__, exc)
+        "Warning level of logging"
 
     def error(
         self, exc: Exception, context: str = None, cause: Exception = None,
