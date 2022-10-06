@@ -22,5 +22,10 @@ and API to Kotlin
 end
 Note over Kotlin,API: Return request status
 API->>Kotlin: Requested DB Selection
+
+UI->>Kotlin: 
+
+UI->>user: 
+
 actor user
 ```
