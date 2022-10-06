@@ -15,8 +15,8 @@ else is delete
     API->>DB: 
 end
 Note over API,DB: Translate qr code to item id
-par Django to API
-    Django->>API: Pass OAuth2
+par Kotlin to API
+    Kotlin->>API: Pass OAuth2
 and API to Kotlin
     Kotlin->>API: Request inventory transaction
 end
