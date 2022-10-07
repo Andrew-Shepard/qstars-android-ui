@@ -23,9 +23,11 @@ end
 Note over Kotlin,API: Return request status
 API->>Kotlin: Requested DB Selection
 
-UI->>Kotlin: 
-
-UI->>user: 
+UI->>Kotlin: Sends request
+Kotlin->>UI: Return requested information
 
 actor user
+
+user->>UI: Log In
+UI->>user: Present Information
 ```
