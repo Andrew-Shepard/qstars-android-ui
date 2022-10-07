@@ -5,3 +5,6 @@ uvicorn
 fastapi
 click
 pytest-asyncio
+uvloop
+invoke
+pydantic
