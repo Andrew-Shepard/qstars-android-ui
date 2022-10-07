@@ -15,12 +15,19 @@ else is delete
     API->>DB: 
 end
 Note over API,DB: Translate qr code to item id
-par Django to API
-    Django->>API: Pass OAuth2
-and API to Django
-    Django->>API: Request inventory transaction
+par Kotlin to API
+    Kotlin->>API: Pass OAuth2
+and API to Kotlin
+    Kotlin->>API: Request inventory transaction
 end
-Note over Django,API: Return request status
-API->>Django: Requested DB Selection
+Note over Kotlin,API: Return request status
+API->>Kotlin: Requested DB Selection
+
+UI->>Kotlin: Sends request
+Kotlin->>UI: Return requested information
+
 actor user
+
+user->>UI: Log In
+UI->>user: Display Information
 ```
