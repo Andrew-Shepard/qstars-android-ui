@@ -17,3 +17,6 @@ def main(reload=False):
         log_level="info",
         **kwargs,
     )
+
+if __name__ == "__main__":
+    sys.exit(main())

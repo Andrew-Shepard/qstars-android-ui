@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1
+# Dockerfile
 FROM python:3.8-slim-buster
 
 ARG IMAGE_NAME="qstars"
@@ -8,6 +8,7 @@ ARG VER_PIP=""
 COPY requirements.txt /app/
 COPY utility/install_packages.sh /tmp
 WORKDIR /app
+RUN  chmod +x /tmp/install_packages.sh
 RUN  /tmp/install_packages.sh
 
 RUN pip3 install \
@@ -19,10 +20,11 @@ RUN pip3 install \
 
 COPY . /app
 ENV PYTHONPATH=/app \
-    CREATEDB=false
+    CREATEDB=false 
+    
 EXPOSE 8000
 
-ENTRYPOINT ["/init"]
+CMD ["python3","-m","qstars"]
 
 ARG GIT_COMMIT=""
 ARG GIT_COMMIT_DATE=""
