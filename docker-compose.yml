@@ -9,10 +9,11 @@ services:
     environment:
       - HTTP_HOST=0.0.0.0
       - SERVER_HOSTNAME=localhost
-  
+      
   db: 
     image: "postgres:12-alpine"
     environment:
       - POSTGRES_PASSWORD=postgres
     expose:
       - "5432"
+    

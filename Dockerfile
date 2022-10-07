@@ -1,5 +1,5 @@
 # Dockerfile
-FROM python:3.8-slim-buster
+FROM python:3.11.0rc2-slim-bullseye
 
 ARG IMAGE_NAME="qstars"
 ARG VER_PYTHON=""

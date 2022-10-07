@@ -5,7 +5,7 @@ from pydantic import BaseSettings, Field, validator
 class Settings(BaseSettings):
     app_name: str = Field("qstars")
     http_host: str = Field("0.0.0.0")
-    http_port: int = Field(8080)
+    http_port: int = Field(8000)
     log_level: str = Field("INFO")
 
     mongodb_host: str = Field("localhost")
