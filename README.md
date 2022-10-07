@@ -29,5 +29,5 @@ Kotlin->>UI: Return requested information
 actor user
 
 user->>UI: Log In
-UI->>user: Present Information
+UI->>user: Display Information
 ```
