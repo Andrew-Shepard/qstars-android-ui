@@ -1,6 +1,6 @@
 # Makefile :^)
 
-main_image = qstars:red
+main_image = qstars
 
 docker_build_args = \
 	--build-arg GIT_COMMIT=$(shell git show -s --format=%H) \
@@ -22,7 +22,11 @@ test:
 	pytest tests/
 
 build:
-	DOCKER_BUILDKIT=1 docker build $(docker_build_args) -t $(main_image) .
+	DOCKER_BUILDKIT=1 docker build $(docker_build_args) -t $(main_image) . --no-cache
 	
 run: 
 	docker-compose -p qstars up qstars
+
+setup-local-db:
+	docker-compose -p update-local-db build update-local-db && \
+	docker-compose -p update-local-db up update-local-db

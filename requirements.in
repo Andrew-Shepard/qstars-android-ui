@@ -8,3 +8,7 @@ pytest-asyncio
 uvloop
 invoke
 pydantic
+aiopg
+sqlalchemy
+psycopg2
+alembic

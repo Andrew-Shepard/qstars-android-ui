@@ -8,7 +8,11 @@ class Settings(BaseSettings):
     http_port: int = Field(8000)
     log_level: str = Field("INFO")
 
-    mongodb_host: str = Field("localhost")
+    postgres_host: str
+    postgres_port: str
+    postgres_user: str
+    postgres_password: str
+    postgres_database: str
 
     @validator("log_level")
     def _validate_log_level(cls, v):

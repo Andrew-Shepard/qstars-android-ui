@@ -13,7 +13,11 @@ apt-get -y install --no-install-recommends \
     curl \
     libxslt-dev \
     vim \
-    ca-certificates
+    ca-certificates \
+    libpq-dev \
+    gcc \
+    nginx xz-utils \
+    netcat
 
 pip3 install \
     envtpl==0.6.0 \

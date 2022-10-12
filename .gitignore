@@ -3,3 +3,4 @@ __pycache__/
 qstars/__pycache__
 *.py[cod]
 *$py.class
+/var/lib/postgresql/data/

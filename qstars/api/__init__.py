@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from qstars.settings import Settings
 from qstars.external.reporter import LogReporter
 from qstars.api.routes import root as root_router
+from qstars.db.dependencies import init_db
 
 
 def create_app(settings: Settings):
@@ -12,14 +13,14 @@ def create_app(settings: Settings):
 
     @app.on_event("startup")
     async def _startup():
-        """
-        Use this to initialize all of the singleton dependencies and shared
-        objects.  i.e. db, reporters, bugsnag, etc
-        """
-
         init_logger(settings.log_level)
-
-        # TODO: await init_mongodb(settings.mongodb)
+        await init_db(
+            host=settings.postgres_host,
+            port=settings.postgres_port,
+            user=settings.postgres_user,
+            password=settings.postgres_password,
+            database=settings.postgres_database,
+        )
 
     @app.on_event("shutdown")
     async def _shutdown():

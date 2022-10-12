@@ -8,7 +8,6 @@ base_tags: Optional[List[Union[str, Enum]]] = ["base"]
 
 @base_router.get("/health", tags=base_tags)
 async def health():
-
     return {"status": "OK"}
 
 
