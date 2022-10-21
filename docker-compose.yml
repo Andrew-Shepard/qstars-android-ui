@@ -16,8 +16,6 @@ services:
     image: "postgres:12-alpine"
     env_file:
       - example.env
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
     expose:
       - "5432"
 
@@ -31,6 +29,15 @@ services:
     entrypoint:  bash /app/utility/db_init.sh
     depends_on:
       - db
-    
-volumes:
-    postgres_data:
+  
+  ci:
+    container_name: qstars-ci
+    image: "qstars:latest"
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - example.env
+    entrypoint: /app/utility/run_tests.sh
+    depends_on:
+      - db

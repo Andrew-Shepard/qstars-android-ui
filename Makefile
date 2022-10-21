@@ -30,3 +30,6 @@ run:
 setup-local-db:
 	docker-compose -p update-local-db build update-local-db && \
 	docker-compose -p update-local-db up update-local-db
+
+test:
+	docker-compose -p qstars-ci run -e TAG=latest --rm ci
