@@ -1,12 +1,13 @@
 from pydantic import BaseModel
-from sqlalchemy import TIME,TIMESTAMP,DECIMAL
+from sqlalchemy import TIME, TIMESTAMP, DECIMAL
+
 
 class FlightLog(BaseModel):
     flight_log_id: str
     drone_id: str
     pilot_id: str
     visual_observer_id: str
-    test_mission: bool 
+    test_mission: bool
     mission_date: TIMESTAMP
     start_time: TIMESTAMP
     stop_time: TIMESTAMP
@@ -16,5 +17,5 @@ class FlightLog(BaseModel):
     mission_success: str
     summary: str
 
-    class Config: 
+    class Config:
         orm_mode = True

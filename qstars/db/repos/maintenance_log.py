@@ -1,6 +1,7 @@
 from qstars.db.schemas.maintenance_log import MaintenanceLog
 from qstars.db.repos.base import BaseRepository
 
+
 class MaintenanceLogRepo(BaseRepository):
     async def create_maintenance_log(self, new_maintenance_log: MaintenanceLog):
         sql_query = f"""

@@ -1,9 +1,9 @@
-black
+black==19.10b0
 pytest
 pip-tools
 uvicorn
 fastapi
-click
+click==8.0.4
 pytest-asyncio
 uvloop
 invoke
@@ -12,3 +12,5 @@ aiopg
 sqlalchemy
 psycopg2
 alembic
+httpx
+respx

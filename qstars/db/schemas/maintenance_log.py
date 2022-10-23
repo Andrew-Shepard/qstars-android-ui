@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from sqlalchemy import TIME,TIMESTAMP,DECIMAL
+from sqlalchemy import TIME, TIMESTAMP, DECIMAL
+
 
 class MaintenanceLog(BaseModel):
     maintenance_id: str

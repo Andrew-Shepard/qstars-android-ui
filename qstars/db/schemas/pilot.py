@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from sqlalchemy import TIME,TIMESTAMP,DECIMAL
+from sqlalchemy import TIME, TIMESTAMP, DECIMAL
+
 
 class Pilot(BaseModel):
     pilot_id: str
@@ -9,6 +10,6 @@ class Pilot(BaseModel):
     total_hours_observed: TIME
     FAA_number: str
     TCC_number: str
-    
+
     class Config:
         orm_mode = True

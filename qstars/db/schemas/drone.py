@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from sqlalchemy import TIME,TIMESTAMP,DECIMAL
+from sqlalchemy import TIME, TIMESTAMP, DECIMAL
 
 
 class Drone(BaseModel):

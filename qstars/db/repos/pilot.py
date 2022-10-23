@@ -1,6 +1,7 @@
 from qstars.db.schemas.pilot import Pilot
 from qstars.db.repos.base import BaseRepository
 
+
 class PilotRepo(BaseRepository):
     async def create_pilot(self, new_pilot: Pilot):
         sql_query = f"""

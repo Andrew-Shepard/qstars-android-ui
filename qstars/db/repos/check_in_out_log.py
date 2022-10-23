@@ -1,6 +1,7 @@
 from qstars.db.schemas.check_in_out_log import CheckInOutLog
 from qstars.db.repos.base import BaseRepository
 
+
 class CheckInOutLogRepo(BaseRepository):
     async def create_check_in_out_log(self, new_check_in_out_log: CheckInOutLog):
         sql_query = f"""

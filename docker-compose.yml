@@ -38,6 +38,6 @@ services:
       - "8000:8000"
     env_file:
       - example.env
-    entrypoint: /app/utility/run_tests.sh
+    entrypoint: bash /app/utility/run_tests.sh
     depends_on:
       - db

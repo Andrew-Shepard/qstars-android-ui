@@ -22,15 +22,16 @@ def create_assets_table():
         sa.Column("asset_id", sa.String, primary_key=True),
         sa.Column("name", sa.String, nullable=False),
         sa.Column("type", sa.String),
-        sa.COlumn("status", sa.String)
+        sa.Column("status", sa.String),
         sa.Column("check_in", sa.TIMESTAMP),
         sa.Column("check_out", sa.TIMESTAMP),
         sa.Column("last_maintenance", sa.TIMESTAMP),
         sa.Column("total_hours_used", sa.TIME),
         sa.Column("description", sa.String),
-        sa.Column("latitude", sa.DECIMAL(8,6)),
-        sa.Column("longitude", sa.DECIMAL(9,6)),
+        sa.Column("latitude", sa.DECIMAL(8, 6)),
+        sa.Column("longitude", sa.DECIMAL(9, 6)),
     )
+
 
 def create_check_in_out_logs_table():
     op.create_table(
@@ -43,6 +44,7 @@ def create_check_in_out_logs_table():
         sa.Column("total_time_checkout", sa.TIME),
     )
 
+
 def create_drones_table() -> None:
     op.create_table(
         "drones",
@@ -52,7 +54,7 @@ def create_drones_table() -> None:
         sa.Column("last_maintenance", sa.TIMESTAMP),
         sa.Column("children", sa.String),
         sa.Column("status", sa.String, sa.ForeignKey("status.status_name")),
-        sa.Column("hours_flown",sa.TIME),
+        sa.Column("hours_flown", sa.TIME),
         sa.Column("latitude", sa.DECIMAL(8, 6)),
         sa.Column("longitude", sa.DECIMAL(9, 6)),
     )
@@ -66,6 +68,7 @@ def create_employees_table():
         sa.Column("last_name", sa.String, nullable=False),
         sa.Column("email", sa.String, nullable=False),
     )
+
 
 def create_flight_logs_table():
     op.create_table(
@@ -85,6 +88,7 @@ def create_flight_logs_table():
         sa.Column("summary", sa.String),
     )
 
+
 def create_maintenance_logs_table():
     op.create_table(
         "maintenance_logs",
@@ -94,6 +98,7 @@ def create_maintenance_logs_table():
         sa.Column("date_of_maintenance", sa.TIMESTAMP),
         sa.Column("maintenance_type", sa.String),
     )
+
 
 def create_pilots_table():
     op.create_table(
@@ -106,7 +111,6 @@ def create_pilots_table():
         sa.Column("FAA_number", sa.String),
         sa.Column("TCC_number", sa.String),
     )
-
 
 
 def upgrade():

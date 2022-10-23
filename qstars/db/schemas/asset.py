@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from sqlalchemy import TIME,TIMESTAMP,DECIMAL
+from sqlalchemy import TIME, TIMESTAMP, DECIMAL
+
 
 class Asset(BaseModel):
     asset_id: str
@@ -13,6 +14,6 @@ class Asset(BaseModel):
     description: str
     latitude: DECIMAL(8, 6)
     longitude: DECIMAL(9, 6)
-    
+
     class Config:
         orm_mode = True

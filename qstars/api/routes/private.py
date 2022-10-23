@@ -25,10 +25,12 @@ async def get_example():
     status_code=HTTP_201_CREATED,
 )
 async def create_employee(
-    new_employee: Employee, employee_repo: EmployeeRepo = Depends(get_repository(EmployeeRepo))
+    new_employee: Employee,
+    employee_repo: EmployeeRepo = Depends(get_repository(EmployeeRepo)),
 ) -> Employee:
     await employee_repo.create_employee(new_employee=new_employee)
     return new_employee
+
 
 @private_router.post(
     "/select_all_employees",
@@ -37,8 +39,7 @@ async def create_employee(
     status_code=200,
 )
 async def select_all_employees(
-    employee_repo: EmployeeRepo = Depends(get_repository(EmployeeRepo))
+    employee_repo: EmployeeRepo = Depends(get_repository(EmployeeRepo)),
 ) -> Optional[List[Employee]]:
     employees = await employee_repo.select_all_employees()
     return employees
-

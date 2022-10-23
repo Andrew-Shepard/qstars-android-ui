@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from sqlalchemy import TIME,TIMESTAMP,DECIMAL
+from sqlalchemy import TIME, TIMESTAMP, DECIMAL
+
 
 class CheckInOutLog(BaseModel):
     check_in_out_id: str
