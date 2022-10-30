@@ -16,6 +16,13 @@ branch_labels = None
 depends_on = None
 
 
+def create_asset_tree():
+    op.create_table(
+        "asset_tree",
+        sa.Column("parent_id", sa.String, sa.ForeignKey("assets.asset_id")),
+        sa.Column("child_id", sa.String, sa.ForeignKey("assets.asset_id"))
+    )
+
 def create_assets_table():
     op.create_table(
         "assets",
