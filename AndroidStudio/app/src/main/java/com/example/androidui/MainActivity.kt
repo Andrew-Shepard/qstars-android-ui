@@ -1,46 +1,75 @@
 package com.example.androidui
 
-import android.graphics.Color
-import android.graphics.drawable.shapes.Shape
 import android.os.Bundle
-import android.provider.ContactsContract.Profile
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.androidui.ui.theme.AndroidUITheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.clip
+import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AndroidUITheme {
-                // A surface container using the 'background' color from the theme
-                TopBar()
-                ProfileView()
-            }
-        }
-    }
-}
+            val scaffoldState = rememberScaffoldState()
+            val scope = rememberCoroutineScope()
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    AppBar(
+                        onNavigationIconClick = {
+                            scope.launch{
+                                scaffoldState.drawerState.open()
+                            }
+                        }
+                    )
+                },
+                drawerContent = {
+                    DrawerHeader()
+                    DrawerBody(items = listOf(
+                        MenuItem(
+                            id = "home",
+                            title = "Home",
+                            contentDescription = "Go to home screen",
+                            icon = Icons.Default.Home
+                        ),
+                        MenuItem(
+                            id = "assets",
+                            title = "Assets",
+                            contentDescription = "Go to assets screen",
+                            icon = Icons.Default.WebAsset
+                        ),
+                        MenuItem(
+                            id = "flight logs",
+                            title = "Flight Logs",
+                            contentDescription = "Go to flight logs screen",
+                            icon = Icons.Default.AirplanemodeActive
+                        ),
+                        MenuItem(
+                            id = "checkin/checkout",
+                            title = "Check In/Check Out",
+                            contentDescription = "Go to checkin/checkout screen",
+                            icon = Icons.Default.SwapHoriz
+                        ),
+                        MenuItem(
+                            id = "maintenance logs",
+                            title = "Maintenance Logs",
+                            contentDescription = "Go to maintenance log screen",
+                            icon = Icons.Default.FactCheck
+                        )
+                    ),
+                        onItemClick = {
+                        println("Clicked on ${it.title}")
+                    } )
+                }
+            )
+            {
 
-@Composable
-fun TopBar(){
-    Box(Modifier.fillMaxSize()){
-        Box(
-            Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxWidth()
-                .height(80.dp)
-                .clip(shape = RoundedCornerShape(10.dp))
-                .background(androidx.compose.ui.graphics.Color.LightGray))
+            }
+            ProfileView()
+        }
     }
 }

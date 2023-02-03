@@ -28,7 +28,7 @@ fun ProfilePicture(){
         contentDescription = "Profile Picture",
         contentScale = ContentScale.Crop,
         modifier = Modifier
-            .size(65.dp)
+            .size(55.dp)
             .clip(CircleShape)
     )
 }
