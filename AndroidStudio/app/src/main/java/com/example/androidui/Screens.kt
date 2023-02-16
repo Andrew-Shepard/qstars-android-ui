@@ -49,14 +49,9 @@ fun HomeScreen()
             .background(Color.White)
     )
     {
-
-        Text(
-            text = "Home View",
-            color = Color.Black,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = 25.sp
-        )
+        Table("Assets Checked Out");
+        Spacer(modifier = Modifier.height(20.dp))
+        Table("Flight Logs in Progress")
     }
 }
 

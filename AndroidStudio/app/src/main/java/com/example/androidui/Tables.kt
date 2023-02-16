@@ -9,7 +9,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 @Composable
@@ -31,7 +34,7 @@ fun TableScreen()
     val column1Weight = .3f
     val column2Weight = .7f
 
-    LazyColumn(Modifier.fillMaxSize().padding(16.dp))
+    LazyColumn(Modifier.size(width = 400.dp, height = 200.dp).padding(16.dp))
     {
         item {
             Row(Modifier.background(Color.Gray))
@@ -52,4 +55,22 @@ fun TableScreen()
         }
 
     }
+}
+
+@Composable
+fun Table(tableTitle: String)
+{
+    Column()
+    {
+        Text(text = tableTitle, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.offset(x = 16.dp).offset(y = 10.dp))
+        TableScreen()
+    }
+
+}
+
+@Preview
+@Composable
+fun TablePrev()
+{
+    Table("Assets!")
 }
