@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,9 +51,9 @@ fun HomeScreen()
             .background(Color.White)
     )
     {
-        Table("Assets Checked Out");
+        Table("Assets", "Serial #", "Name", "Asset Type", "Status")
         Spacer(modifier = Modifier.height(20.dp))
-        Table("Flight Logs in Progress")
+        Table("Flight Logs", "Mission ID", "Pilot ID", "Date", "Success")
     }
 }
 
