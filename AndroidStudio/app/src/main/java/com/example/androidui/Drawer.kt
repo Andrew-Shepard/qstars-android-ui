@@ -22,6 +22,9 @@ sealed class DrawerItems(var route: String, var title: String)
 {
     object Home: DrawerItems("home","Home")
     object Assets: DrawerItems("assets", "Assets")
+    object FlightLogs: DrawerItems("flight_logs", "Flight Logs")
+    object CheckInOut: DrawerItems("check_in_out", "Check In/Check Out")
+    object MaintenenceLogs: DrawerItems("maintenence_log", "Maintenence Logs")
 }
 
 @Composable
@@ -29,7 +32,10 @@ fun Drawer(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: N
 {
     val items = listOf(
         DrawerItems.Home,
-        DrawerItems.Assets
+        DrawerItems.Assets,
+        DrawerItems.FlightLogs,
+        DrawerItems.CheckInOut,
+        DrawerItems.MaintenenceLogs
     )
     Column(
         modifier = Modifier

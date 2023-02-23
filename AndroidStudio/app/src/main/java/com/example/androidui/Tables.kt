@@ -1,5 +1,7 @@
 package com.example.androidui
 
+import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -35,7 +37,7 @@ fun RowScope.TableCell(text: String, weight: Float)
 //sticky headers is an experimental feature
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Table(tableTitle: String, column1Title: String, column2Title: String, column3Title: String, column4Title: String) {
+fun Table(tableTitle: String, column1Title: String, column2Title: String, column3Title: String, column4Title: String, width: Int, height: Int) {
     val tableData = (1..100).mapIndexed { index, i -> index to "Item $index" }
     val column1Weight = .3f
     val column2Weight = .3f
@@ -55,7 +57,7 @@ fun Table(tableTitle: String, column1Title: String, column2Title: String, column
         )
         LazyColumn(
             Modifier
-                .size(width = 400.dp, height = 200.dp)
+                .size(width = width.dp, height = height.dp)
                 .padding(15.dp)
                 .border(2.dp, Color.Gray))
         {

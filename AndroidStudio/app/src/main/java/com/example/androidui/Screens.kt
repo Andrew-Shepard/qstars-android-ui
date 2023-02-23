@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -51,9 +52,11 @@ fun HomeScreen()
             .background(Color.White)
     )
     {
-        Table("Assets", "Serial #", "Name", "Asset Type", "Status")
-        Spacer(modifier = Modifier.height(20.dp))
-        Table("Flight Logs", "Mission ID", "Pilot ID", "Date", "Success")
+        SearchBar()
+        Spacer(modifier = Modifier.height(8.dp))
+        Table("Assets Checked Out", "Serial #", "Name", "Asset Type", "Status", 400, 200)
+        //Spacer(modifier = Modifier.height(10.dp))
+        Table("Flight Logs In Progress", "Mission ID", "Pilot ID", "Date", "Success", 400, 200)
     }
 }
 
@@ -66,16 +69,57 @@ fun AssetsScreen(){
             .background(Color.White)
     )
     {
+        SearchBar()
+        Spacer(modifier = Modifier.height(8.dp))
+        Table("Assets", "Serial #", "Name", "Asset Type", "Status", 375, 400)
+        Table("Recently Viewed", "Serial #", "Name", "Asset Type", "Status", 375, 150)
 
-        Text(
-            text = "Assets View",
-            color = Color.Black,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = 25.sp
-        )
     }
 }
+
+@Composable
+fun FlightLogsScreen(){
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    )
+    {
+        SearchBar()
+        Spacer(modifier = Modifier.height(8.dp))
+    }
+}
+
+@Composable
+fun CheckInOutScreen(){
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    )
+    {
+        SearchBar()
+        Spacer(modifier = Modifier.height(8.dp))
+    }
+}
+
+@Composable
+fun MaintenenceLogScreen(){
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    )
+    {
+        SearchBar()
+        Spacer(modifier = Modifier.height(8.dp))
+    }
+}
+
+
 
 @Composable
 fun Navigation(navController: NavHostController)
@@ -89,6 +133,18 @@ fun Navigation(navController: NavHostController)
         composable(DrawerItems.Assets.route)
         {
             AssetsScreen()
+        }
+        composable(DrawerItems.FlightLogs.route)
+        {
+            FlightLogsScreen()
+        }
+        composable(DrawerItems.CheckInOut.route)
+        {
+            CheckInOutScreen()
+        }
+        composable(DrawerItems.MaintenenceLogs.route)
+        {
+            MaintenenceLogScreen()
         }
     }
 }
