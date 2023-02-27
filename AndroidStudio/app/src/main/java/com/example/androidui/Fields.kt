@@ -123,35 +123,3 @@ fun AllInputFields(inputFieldList: List<InputFieldData>, dropDownList: List<List
         }
     }
 }
-
-
-@Composable
-fun NewAssetCreationScreen() {
-
-    val inputFieldList: List<InputFieldData> = listOf(
-        InputFieldData("Asset Serial Number"),
-        InputFieldData("Asset Name"),
-        InputFieldData("Asset Type", 150, dropDown = true),
-        InputFieldData("Status", 150, dropDown = true),
-        InputFieldData("Location"),
-        InputFieldData("Purchase Date", 175),
-        InputFieldData("Description", height = 80)
-    )
-
-    val assetTypeDropDown = listOf(
-        "Drone",
-        "Motor",
-        "Battery",
-        "Other"
-    )
-    val assetStatusDropDown = listOf(
-        "Active",
-        "In Maintenance",
-        "Out of Commission"
-    )
-
-    val dropDownLists: List<List<String>> =
-        listOf(assetTypeDropDown, assetStatusDropDown)
-
-    AllInputFields(inputFieldList, dropDownLists)
-}

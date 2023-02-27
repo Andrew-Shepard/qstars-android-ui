@@ -10,6 +10,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -119,6 +122,43 @@ fun MaintenenceLogScreen(){
     }
 }
 
+@Composable
+fun AssetCreationScreen() {
+    val inputFieldList: List<InputFieldData> = listOf(
+        InputFieldData("Asset Serial Number"),
+        InputFieldData("Asset Name"),
+        InputFieldData("Asset Type", 150, dropDown = true),
+        InputFieldData("Status", 150, dropDown = true),
+        InputFieldData("Location"),
+        InputFieldData("Purchase Date", 175),
+        InputFieldData("Description", height = 80)
+    )
+
+    val assetTypeDropDown = listOf(
+        "Drone",
+        "Motor",
+        "Battery",
+        "Other"
+    )
+    val assetStatusDropDown = listOf(
+        "Active",
+        "In Maintenance",
+        "Out of Commission"
+    )
+
+    val dropDownLists: List<List<String>> = listOf(assetTypeDropDown, assetStatusDropDown)
+
+    Box(modifier = Modifier.fillMaxSize().padding(10.dp)){
+        Column{
+            Box(modifier = Modifier.fillMaxWidth())
+            {
+                Text("Create New Asset", Modifier.align(Alignment.TopCenter), fontSize = 30.sp, fontWeight = FontWeight.Medium)
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            AllInputFields(inputFieldList, dropDownLists)
+        }
+    }
+}
 
 
 @Composable
