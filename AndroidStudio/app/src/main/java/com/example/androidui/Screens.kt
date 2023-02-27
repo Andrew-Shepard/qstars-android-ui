@@ -3,6 +3,9 @@ package com.example.androidui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -129,6 +132,8 @@ fun AssetCreationScreen() {
         InputFieldData("Asset Name"),
         InputFieldData("Asset Type", 150, dropDown = true),
         InputFieldData("Status", 150, dropDown = true),
+        InputFieldData("+ Parent", button = true),
+        InputFieldData("+ Child", button = true),
         InputFieldData("Location"),
         InputFieldData("Purchase Date", 175),
         InputFieldData("Description", height = 80)
@@ -148,14 +153,27 @@ fun AssetCreationScreen() {
 
     val dropDownLists: List<List<String>> = listOf(assetTypeDropDown, assetStatusDropDown)
 
-    Box(modifier = Modifier.fillMaxSize().padding(10.dp)){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(10.dp)){
+
+
         Column{
-            Box(modifier = Modifier.fillMaxWidth())
-            {
-                Text("Create New Asset", Modifier.align(Alignment.TopCenter), fontSize = 30.sp, fontWeight = FontWeight.Medium)
+
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Button(onClick = {}, modifier = Modifier.align(Alignment.TopEnd).width(55.dp)){
+                    Icon(Icons.Filled.Close, "")
+                }
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            AllInputFields(inputFieldList, dropDownLists)
+
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Text("Create New Asset", Modifier.align(Alignment.TopCenter), fontSize = 25.sp, fontWeight = FontWeight.Medium)
+            }
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            AllInputFields(inputFieldList, dropDownLists, "Create Asset")
+
         }
     }
 }

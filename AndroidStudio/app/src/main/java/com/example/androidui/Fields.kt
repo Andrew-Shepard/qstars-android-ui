@@ -45,7 +45,7 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
     ) {
 
         Column() {
-            //If the input field is of type drop down, create drop down
+            //If the input field is of type drop down, create drop down. If input field is of type button, create button.
             if (inputField.dropDown) {
 
                 Text(text = inputField.name)
@@ -82,6 +82,11 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
 
                 }
             }
+            else if (inputField.button) {
+                Button( onClick = {} ){
+                    Text(inputField.name)
+                }
+            }
             //if input field is not of type drop down, create regular input field
             else {
                 Text(text = inputField.name)
@@ -101,12 +106,12 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
 
 //Generate a list of input fields
 @Composable
-fun AllInputFields(inputFieldList: List<InputFieldData>, dropDownList: List<List<String>>) {
+fun AllInputFields(inputFieldList: List<InputFieldData>, dropDownList: List<List<String>>, creationButtonName : String) {
 
     var index = 0 // goes through the lists in the drop down list
     val dropDownListSize = dropDownList.size
 
-    LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp))
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(7.dp))
     {
         items(inputFieldList) { inputField ->
             if (inputField.dropDown) {
@@ -118,6 +123,20 @@ fun AllInputFields(inputFieldList: List<InputFieldData>, dropDownList: List<List
                     InputField(inputField, dropDownList[index - 1])
                 } else {
                     InputField(inputField, dropDownList[index])
+                }
+            }
+        }
+
+        // the creation button
+        item {
+            Spacer(modifier = Modifier.height(10.dp))
+            Column(
+                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Button(onClick = {}) {
+                    Text(creationButtonName)
                 }
             }
         }
