@@ -111,8 +111,7 @@ fun AllInputFields(inputFieldList: List<InputFieldData>, dropDownList: List<List
     var index = 0 // goes through the lists in the drop down list
     val dropDownListSize = dropDownList.size
 
-    LazyColumn(verticalArrangement = Arrangement.spacedBy(7.dp))
-    {
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(7.dp)) {
         items(inputFieldList) { inputField ->
             if (inputField.dropDown) {
                 InputField(inputField, dropDownList[index])

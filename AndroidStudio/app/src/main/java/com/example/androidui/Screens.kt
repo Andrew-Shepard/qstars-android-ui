@@ -2,6 +2,7 @@ package com.example.androidui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -24,7 +25,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.Navigation
 
 @Composable
 fun MainScreen()
@@ -125,6 +125,7 @@ fun MaintenenceLogScreen(){
     }
 }
 
+
 @Composable
 fun AssetCreationScreen() {
     val inputFieldList: List<InputFieldData> = listOf(
@@ -180,6 +181,69 @@ fun AssetCreationScreen() {
 
 
 @Composable
+fun FlightLogCreationScreen() {
+
+    val inputFieldList: List<InputFieldData> = listOf(
+        InputFieldData("Mission ID"),
+        InputFieldData("Pilot ID"),
+        InputFieldData("Pilot Name"),
+        InputFieldData("Success", dropDown = true, width = 175),
+        InputFieldData("+ Start Time", button = true),
+        InputFieldData("+ End Time", button = true),
+        InputFieldData("Total Time", width = 175),
+        InputFieldData("Observer ID"),
+        InputFieldData("Observer Name"),
+        InputFieldData("Test Mission", dropDown = true, width = 175),
+        InputFieldData("Drone Serial #"),
+        InputFieldData("# of Landings", width = 100),
+        InputFieldData("# of Cycles", width = 100),
+        InputFieldData("Summary", height = 80),
+    )
+
+    val successeDropDown = listOf(
+        "Success",
+        "Failure"
+    )
+    val testMissionDropDown = listOf(
+        "Yes",
+        "No"
+    )
+
+    val dropDownLists: List<List<String>> = listOf(successeDropDown, testMissionDropDown)
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(10.dp)) {
+
+        Column {
+
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Button(onClick = {}, modifier = Modifier.align(Alignment.TopEnd).width(55.dp)) {
+                    Icon(Icons.Filled.Close, "")
+                }
+            }
+
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    "Create New Flight Log",
+                    Modifier.align(Alignment.TopCenter),
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            AllInputFields(inputFieldList, dropDownLists, "Create Flight Log")
+
+        }
+    }
+}
+
+
+
+
+@Composable
 fun Navigation(navController: NavHostController)
 {
     NavHost(navController, startDestination = DrawerItems.Home.route)
@@ -206,4 +270,5 @@ fun Navigation(navController: NavHostController)
         }
     }
 }
+
 
