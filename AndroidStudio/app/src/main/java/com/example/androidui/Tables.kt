@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 
 
+//function fo ran individual tablecell
 @Composable
 fun RowScope.TableCell(text: String, weight: Float)
 {

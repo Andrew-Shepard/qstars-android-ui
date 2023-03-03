@@ -81,9 +81,8 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
                     }
 
                 }
-            }
-            else if (inputField.button) {
-                Button( onClick = {} ){
+            } else if (inputField.button) {
+                Button(onClick = {}) {
                     Text(inputField.name)
                 }
             }
@@ -106,7 +105,11 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
 
 //Generate a list of input fields
 @Composable
-fun AllInputFields(inputFieldList: List<InputFieldData>, dropDownList: List<List<String>>, creationButtonName : String) {
+fun AllInputFields(
+    inputFieldList: List<InputFieldData>,
+    dropDownList: List<List<String>>,
+    creationButtonName: String
+) {
 
     var index = 0 // goes through the lists in the drop down list
     val dropDownListSize = dropDownList.size
@@ -130,7 +133,9 @@ fun AllInputFields(inputFieldList: List<InputFieldData>, dropDownList: List<List
         item {
             Spacer(modifier = Modifier.height(10.dp))
             Column(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
