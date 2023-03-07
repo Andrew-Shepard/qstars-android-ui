@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import androidx.navigation.NavController
 
 
 //function fo ran individual tablecell
@@ -29,7 +30,6 @@ fun RowScope.TableCell(text: String, weight: Float)
     Text(
         text = text,
         Modifier
-            //.border(1.dp, Color.Black)
             .weight(weight)
             .padding(4.dp)
     )
@@ -38,7 +38,16 @@ fun RowScope.TableCell(text: String, weight: Float)
 //sticky headers is an experimental feature
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Table(tableTitle: String, column1Title: String, column2Title: String, column3Title: String, column4Title: String, width: Int, height: Int) {
+fun Table(
+    tableTitle: String,
+    column1Title: String,
+    column2Title: String,
+    column3Title: String,
+    column4Title: String,
+    width: Int, height: Int,
+    navController: NavController
+) {
+
     val tableData = (1..100).mapIndexed { index, i -> index to "Item $index" }
     val column1Weight = .3f
     val column2Weight = .3f
@@ -78,8 +87,7 @@ fun Table(tableTitle: String, column1Title: String, column2Title: String, column
                     .fillMaxWidth()
                     .clickable
                     {
-                        //insert code here
-
+                        navController.navigate(NavExp.TableStuff.route)
                     }
                 )
                 {

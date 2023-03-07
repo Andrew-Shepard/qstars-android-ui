@@ -2,25 +2,18 @@ package com.example.androidui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,11 +21,11 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun MainScreen() {
-    //remember if the drawer is closed or not
+    // remember if the drawer is closed or not
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-    //be able to open/close the drawer
+    // be able to open/close the drawer
     val scope = rememberCoroutineScope()
-    //navigate the views/Screens when drawer item pressed
+    // navigate the views/Screens when drawer item pressed
     val navController = rememberNavController()
 
     Scaffold(
@@ -54,8 +47,9 @@ fun MainScreen() {
     }
 }
 
+
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,15 +57,32 @@ fun HomeScreen() {
     )
     {
         SearchBar()
+
         Spacer(modifier = Modifier.height(8.dp))
-        Table("Assets Checked Out", "Serial #", "Name", "Asset Type", "Status", 400, 200)
-        //Spacer(modifier = Modifier.height(10.dp))
-        Table("Flight Logs In Progress", "Mission ID", "Pilot ID", "Date", "Success", 400, 200)
+
+        Table("Assets Checked Out",
+            "Serial #",
+            "Name",
+            "Asset Type",
+            "Status",
+            400,
+            200,
+            navController)
+
+        Table("Flight Logs In Progress",
+            "Mission ID",
+            "Pilot ID",
+            "Date",
+            "Success",
+            400,
+            200,
+            navController)
+
     }
 }
 
 @Composable
-fun AssetsScreen() {
+fun AssetsScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
@@ -80,9 +91,26 @@ fun AssetsScreen() {
     )
     {
         SearchBar()
+
         Spacer(modifier = Modifier.height(8.dp))
-        Table("Assets", "Serial #", "Name", "Asset Type", "Status", 375, 400)
-        Table("Recently Viewed", "Serial #", "Name", "Asset Type", "Status", 375, 150)
+
+        Table("Assets",
+            "Serial #",
+            "Name",
+            "Asset Type",
+            "Status",
+            375,
+            400,
+            navController)
+
+        Table("Recently Viewed",
+            "Serial #",
+            "Name",
+            "Asset Type",
+            "Status",
+            375,
+            150,
+            navController)
 
     }
 }
@@ -96,8 +124,11 @@ fun FlightLogsScreen() {
             .background(Color.White)
     )
     {
+
         SearchBar()
+
         Spacer(modifier = Modifier.height(8.dp))
+
     }
 }
 
@@ -110,13 +141,16 @@ fun CheckInOutScreen() {
             .background(Color.White)
     )
     {
+
         SearchBar()
+
         Spacer(modifier = Modifier.height(8.dp))
+
     }
 }
 
 @Composable
-fun MaintenenceLogScreen() {
+fun MaintenanceLogScreen() {
 
     Column(
         modifier = Modifier
@@ -125,13 +159,16 @@ fun MaintenenceLogScreen() {
     )
     {
         SearchBar()
+
         Spacer(modifier = Modifier.height(8.dp))
     }
+
 }
 
 
 @Composable
 fun AssetCreationScreen() {
+
     val inputFieldList: List<InputFieldData> = listOf(
         InputFieldData("Asset Serial Number"),
         InputFieldData("Asset Name"),
@@ -163,7 +200,6 @@ fun AssetCreationScreen() {
             .fillMaxSize()
             .padding(10.dp)
     ) {
-
 
         Column {
 
@@ -419,11 +455,11 @@ fun Navigation(navController: NavHostController) {
     {
         composable(DrawerItems.Home.route)
         {
-            HomeScreen()
+            HomeScreen(navController)
         }
         composable(DrawerItems.Assets.route)
         {
-            AssetsScreen()
+            AssetsScreen(navController)
         }
         composable(DrawerItems.FlightLogs.route)
         {
@@ -435,9 +471,14 @@ fun Navigation(navController: NavHostController) {
         }
         composable(DrawerItems.MaintenenceLogs.route)
         {
-            MaintenenceLogScreen()
+            MaintenanceLogScreen()
         }
+        composable(NavExp.TableStuff.route){
+            TableDetails()
+        }
+
     }
 }
+
 
 
