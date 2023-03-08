@@ -7,10 +7,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
@@ -54,6 +52,8 @@ fun Table(
     val column3Weight = .2f
     val column4Weight = .2f
 
+    var popupControl by remember { mutableStateOf(false)}
+
     Column()
     {
         val context = LocalContext.current
@@ -87,7 +87,15 @@ fun Table(
                     .fillMaxWidth()
                     .clickable
                     {
-                        navController.navigate(NavExp.TableStuff.route)
+                        popupControl = true
+                        if (popupControl){
+                            if (tableTitle == "Assets" || tableTitle == "Assets Checked Out"){
+                                navController.navigate(ScreenRoutes.AssetDetails.route)
+                            }
+                            else if (tableTitle == "Flight Logs In Progress"){
+                                navController.navigate(ScreenRoutes.FlightLogDetails.route)
+                            }
+                        }
                     }
                 )
                 {

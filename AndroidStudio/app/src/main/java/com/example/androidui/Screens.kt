@@ -2,6 +2,8 @@ package com.example.androidui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -13,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -450,31 +453,120 @@ fun MaintenanceLogCreationScreen() {
 
 
 @Composable
+fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavController){
+
+    Popup(
+        alignment = Alignment.Center,
+    ){
+        Box(modifier = Modifier
+            .offset(y=100.dp)
+            .padding(20.dp)
+            .fillMaxWidth()
+            .height(550.dp)
+            .background(color = Color.Magenta)
+        ) {
+
+            Column{
+                Box(modifier = Modifier.fillMaxWidth()){
+                    //Close Button
+                    Button(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .width(50.dp)
+                            .offset(x = -10.dp)
+                    ) {
+                        Icon(Icons.Filled.Close, "")
+                    }
+
+                    //Title
+                    Text(
+                        text = popupTitle,
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .offset(y = 10.dp),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)){
+                    items(fieldList){ field ->
+                        Box(modifier = Modifier
+                            .width(120.dp)
+                            .height(40.dp)
+                            .offset(x=10.dp)){
+                            Text(field)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
 fun Navigation(navController: NavHostController) {
+
     NavHost(navController, startDestination = DrawerItems.Home.route)
     {
-        composable(DrawerItems.Home.route)
-        {
+        composable(DrawerItems.Home.route) {
             HomeScreen(navController)
         }
-        composable(DrawerItems.Assets.route)
-        {
+
+        composable(DrawerItems.Assets.route) {
             AssetsScreen(navController)
         }
-        composable(DrawerItems.FlightLogs.route)
-        {
+
+        composable(DrawerItems.FlightLogs.route) {
             FlightLogsScreen()
         }
-        composable(DrawerItems.CheckInOut.route)
-        {
+
+        composable(DrawerItems.CheckInOut.route) {
             CheckInOutScreen()
         }
-        composable(DrawerItems.MaintenenceLogs.route)
-        {
+
+        composable(DrawerItems.MaintenanceLogs.route) {
             MaintenanceLogScreen()
         }
-        composable(NavExp.TableStuff.route){
-            TableDetails()
+
+        composable(ScreenRoutes.AssetDetails.route){
+            var AssetInformationRows = listOf(
+                "Serial #",
+                "Name",
+                "Asset Type",
+                "Status",
+                "Parents",
+                "Children",
+                "Date Purchased",
+                "Total Hours of Usage",
+                "Last Maintenance Date",
+                "Last Employee Check Out",
+                "Current Location",
+                "Description"
+            )
+
+            PopUp("Asset Information", AssetInformationRows, navController)
+        }
+
+        composable(ScreenRoutes.FlightLogDetails.route){
+            var FlightLogInformationRows = listOf(
+                "Mission ID",
+                "Pilot ID",
+                "Pilot Name",
+                "Success",
+                "Total Time",
+                "Observer ID",
+                "Observer Name",
+                "Test Mission",
+                "Drone Serial #",
+                "# of Landings",
+                "# of Cycles",
+                "Summary"
+            )
+
+            PopUp("Flight Log Information", FlightLogInformationRows, navController)
         }
 
     }
