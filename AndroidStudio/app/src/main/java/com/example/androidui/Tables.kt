@@ -99,6 +99,12 @@ fun Table(
                             else if (tableId == "flight_log"){
                                 navController.navigate(ScreenRoutes.FlightLogDetails.withArgs(dataRemember))
                             }
+                            else if (tableId == "check_in_out"){
+                                navController.navigate(ScreenRoutes.CheckInOutDetails.withArgs(dataRemember))
+                            }
+                            else if (tableId == "maintenance_log"){
+                                navController.navigate(ScreenRoutes.MaintenanceLogDetails.withArgs(dataRemember))
+                            }
                         }
                     }
                 )

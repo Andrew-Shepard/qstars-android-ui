@@ -191,15 +191,14 @@ fun CheckInOutScreen(navController: NavController) {
             "Check Out Date",
             "Success",
             375,
-            400,
+            550,
             navController)
-
 
     }
 }
 
 @Composable
-fun MaintenanceLogScreen() {
+fun MaintenanceLogScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
@@ -210,6 +209,17 @@ fun MaintenanceLogScreen() {
         SearchBar()
 
         Spacer(modifier = Modifier.height(8.dp))
+
+        Table(
+            "maintenance_log",
+            "Maintenance Logs",
+            "M-ID",
+            "Asset ID",
+            "Date",
+            "Type",
+            550,
+            400,
+            navController)
     }
 
 }
@@ -512,7 +522,7 @@ fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavControl
         ) {
 
             Column{
-                Box(modifier = Modifier.fillMaxWidth()){
+                Box(modifier = Modifier.fillMaxWidth().offset(x=10.dp)){
                     //Close Button
                     Button(
                         onClick = { navController.popBackStack() },
@@ -528,8 +538,8 @@ fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavControl
                     Text(
                         text = popupTitle,
                         modifier = Modifier
-                            .align(Alignment.TopCenter)
-                            .offset(y = 10.dp),
+                            .align(Alignment.TopStart)
+                            .offset(y=10.dp),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Medium
                     )
@@ -579,7 +589,7 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(DrawerItems.MaintenanceLogs.route) {
-            MaintenanceLogScreen()
+            MaintenanceLogScreen(navController)
         }
 
         composable(
@@ -644,6 +654,61 @@ fun Navigation(navController: NavHostController) {
                 lambdaParameter.arguments?.getString("data")
             )
         }
+
+        composable(
+            route = ScreenRoutes.CheckInOutDetails.route + "/{data}",
+            arguments = listOf(
+                navArgument("data"){
+                    type = NavType.StringType
+                }
+            )
+        ){ lambdaParameter ->
+
+            var CheckInOutInformationRows = listOf(
+                "ID",
+                "Asset ID",
+                "Employee ID",
+                "Employee Name",
+                "Last Check In Date",
+                "Last Check Out Date",
+                "Current Location",
+                "Description",
+            )
+
+            PopUp(
+                "Check In/Out Information",
+                CheckInOutInformationRows,
+                navController,
+                lambdaParameter.arguments?.getString("data")
+            )
+        }
+
+        composable(
+            route = ScreenRoutes.MaintenanceLogDetails.route + "/{data}",
+            arguments = listOf(
+                navArgument("data"){
+                    type = NavType.StringType
+                }
+            )
+        ){ lambdaParameter ->
+
+            var MaintenanceLogInformationRows = listOf(
+                "M-ID",
+                "Asset ID",
+                "Employee ID",
+                "Employee Name",
+                "Date",
+                "Maintenance Type",
+            )
+
+            PopUp(
+                "Maintenance Log Information",
+                MaintenanceLogInformationRows,
+                navController,
+                lambdaParameter.arguments?.getString("data")
+            )
+        }
+
 
     }
 }
