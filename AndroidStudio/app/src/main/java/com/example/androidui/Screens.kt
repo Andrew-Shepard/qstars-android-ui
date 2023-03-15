@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 
@@ -37,7 +38,7 @@ fun MainScreen() {
 
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = { TopBar(scope = scope, scaffoldState = scaffoldState) },
+        topBar = { TopBar(scope = scope, scaffoldState = scaffoldState, navController) },
         drawerBackgroundColor = Color.LightGray,
         drawerContent = {
             Drawer(
@@ -63,8 +64,6 @@ fun HomeScreen(navController: NavController) {
             .background(Color.White)
     )
     {
-        SearchBar()
-
         Spacer(modifier = Modifier.height(8.dp))
 
         Table(
@@ -514,7 +513,7 @@ fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavControl
         alignment = Alignment.Center,
     ){
         Box(modifier = Modifier
-            .offset(y=100.dp)
+            .offset(y = 100.dp)
             .padding(20.dp)
             .fillMaxWidth()
             .height(550.dp)
@@ -522,7 +521,9 @@ fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavControl
         ) {
 
             Column{
-                Box(modifier = Modifier.fillMaxWidth().offset(x=10.dp)){
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(x = 10.dp)){
                     //Close Button
                     Button(
                         onClick = { navController.popBackStack() },
@@ -539,7 +540,7 @@ fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavControl
                         text = popupTitle,
                         modifier = Modifier
                             .align(Alignment.TopStart)
-                            .offset(y=10.dp),
+                            .offset(y = 10.dp),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Medium
                     )
@@ -552,7 +553,7 @@ fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavControl
                             Box(modifier = Modifier
                                 .width(120.dp)
                                 .height(40.dp)
-                                .offset(x=10.dp)) {
+                                .offset(x = 10.dp)) {
                                 Text(field)
                             }
                             Text("$data")
@@ -590,6 +591,22 @@ fun Navigation(navController: NavHostController) {
 
         composable(DrawerItems.MaintenanceLogs.route) {
             MaintenanceLogScreen(navController)
+        }
+
+        composable(ScreenRoutes.AssetCreation.route){
+            AssetCreationScreen()
+        }
+
+        composable(ScreenRoutes.FlightLogCreation.route){
+            FlightLogCreationScreen()
+        }
+
+        composable(ScreenRoutes.CheckInOutCreation.route){
+            CheckInCreationScreen()
+        }
+
+        composable(ScreenRoutes.MaintenanceLogCreation.route){
+            MaintenanceLogCreationScreen()
         }
 
         composable(
