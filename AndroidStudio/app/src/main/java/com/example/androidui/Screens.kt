@@ -3,6 +3,7 @@ package com.example.androidui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection.Companion.In
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,9 +20,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 
 @Composable
 fun MainScreen() {
@@ -63,7 +67,9 @@ fun HomeScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Table("Assets Checked Out",
+        Table(
+            "asset",
+            "Assets Checked Out",
             "Serial #",
             "Name",
             "Asset Type",
@@ -72,7 +78,9 @@ fun HomeScreen(navController: NavController) {
             200,
             navController)
 
-        Table("Flight Logs In Progress",
+        Table(
+            "flight_log",
+            "Flight Logs In Progress",
             "Mission ID",
             "Pilot ID",
             "Date",
@@ -97,7 +105,9 @@ fun AssetsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Table("Assets",
+        Table(
+            "asset",
+            "Assets",
             "Serial #",
             "Name",
             "Asset Type",
@@ -106,7 +116,9 @@ fun AssetsScreen(navController: NavController) {
             400,
             navController)
 
-        Table("Recently Viewed",
+        Table(
+            "asset",
+            "Recently Viewed",
             "Serial #",
             "Name",
             "Asset Type",
@@ -119,7 +131,7 @@ fun AssetsScreen(navController: NavController) {
 }
 
 @Composable
-fun FlightLogsScreen() {
+fun FlightLogsScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
@@ -131,12 +143,34 @@ fun FlightLogsScreen() {
         SearchBar()
 
         Spacer(modifier = Modifier.height(8.dp))
+
+        Table(
+            "flight_log",
+            "Flight Logs",
+            "Mission ID",
+            "Pilot ID",
+            "Date",
+            "Success",
+            375,
+            400,
+            navController)
+
+        Table(
+            "flight_log",
+            "Recently Viewed",
+            "Mission ID",
+            "Pilot ID",
+            "Date",
+            "Success",
+            375,
+            150,
+            navController)
 
     }
 }
 
 @Composable
-fun CheckInOutScreen() {
+fun CheckInOutScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
@@ -148,6 +182,18 @@ fun CheckInOutScreen() {
         SearchBar()
 
         Spacer(modifier = Modifier.height(8.dp))
+
+        Table(
+            "check_in_out",
+            "Checked In/Checked Out",
+            "ID",
+            "Last Check In Date",
+            "Check Out Date",
+            "Success",
+            375,
+            400,
+            navController)
+
 
     }
 }
@@ -423,7 +469,6 @@ fun MaintenanceLogCreationScreen() {
             .padding(10.dp)
     ) {
 
-
         Column {
 
             Box(modifier = Modifier.fillMaxWidth()) {
@@ -453,7 +498,7 @@ fun MaintenanceLogCreationScreen() {
 
 
 @Composable
-fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavController){
+fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavController, data: String?){
 
     Popup(
         alignment = Alignment.Center,
@@ -463,7 +508,7 @@ fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavControl
             .padding(20.dp)
             .fillMaxWidth()
             .height(550.dp)
-            .background(color = Color.Magenta)
+            .background(color = Color.LightGray)
         ) {
 
             Column{
@@ -488,18 +533,24 @@ fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavControl
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Medium
                     )
+
                 }
 
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)){
                     items(fieldList){ field ->
-                        Box(modifier = Modifier
-                            .width(120.dp)
-                            .height(40.dp)
-                            .offset(x=10.dp)){
-                            Text(field)
+                        Row(horizontalArrangement = Arrangement.spacedBy(65.dp)){
+                            Box(modifier = Modifier
+                                .width(120.dp)
+                                .height(40.dp)
+                                .offset(x=10.dp)) {
+                                Text(field)
+                            }
+                            Text("$data")
                         }
+
                     }
                 }
+
             }
         }
     }
@@ -520,18 +571,25 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(DrawerItems.FlightLogs.route) {
-            FlightLogsScreen()
+            FlightLogsScreen(navController)
         }
 
         composable(DrawerItems.CheckInOut.route) {
-            CheckInOutScreen()
+            CheckInOutScreen(navController)
         }
 
         composable(DrawerItems.MaintenanceLogs.route) {
             MaintenanceLogScreen()
         }
 
-        composable(ScreenRoutes.AssetDetails.route){
+        composable(
+            route = ScreenRoutes.AssetDetails.route + "/{data}",
+            arguments = listOf(
+                navArgument("data"){
+                    type = NavType.StringType
+                }
+            )
+        ) { lambdaParameter ->
             var AssetInformationRows = listOf(
                 "Serial #",
                 "Name",
@@ -547,10 +605,23 @@ fun Navigation(navController: NavHostController) {
                 "Description"
             )
 
-            PopUp("Asset Information", AssetInformationRows, navController)
+            PopUp(
+                "Asset Information",
+                AssetInformationRows,
+                navController,
+                lambdaParameter.arguments?.getString("data")
+            )
         }
 
-        composable(ScreenRoutes.FlightLogDetails.route){
+        composable(
+            route = ScreenRoutes.FlightLogDetails.route + "/{data}",
+            arguments = listOf(
+                navArgument("data"){
+                    type = NavType.StringType
+                }
+            )
+        ){ lambdaParameter ->
+
             var FlightLogInformationRows = listOf(
                 "Mission ID",
                 "Pilot ID",
@@ -566,7 +637,12 @@ fun Navigation(navController: NavHostController) {
                 "Summary"
             )
 
-            PopUp("Flight Log Information", FlightLogInformationRows, navController)
+            PopUp(
+                "Flight Log Information",
+                FlightLogInformationRows,
+                navController,
+                lambdaParameter.arguments?.getString("data")
+            )
         }
 
     }

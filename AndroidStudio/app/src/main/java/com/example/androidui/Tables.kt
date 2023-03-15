@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 
-
 //function fo ran individual tablecell
 @Composable
 fun RowScope.TableCell(text: String, weight: Float)
@@ -37,6 +36,7 @@ fun RowScope.TableCell(text: String, weight: Float)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Table(
+    tableId: String,
     tableTitle: String,
     column1Title: String,
     column2Title: String,
@@ -52,7 +52,9 @@ fun Table(
     val column3Weight = .2f
     val column4Weight = .2f
 
-    var popupControl by remember { mutableStateOf(false)}
+    var popupControl by remember { mutableStateOf(false) }
+
+    var dataRemember by remember { mutableStateOf("") }
 
     Column()
     {
@@ -87,13 +89,15 @@ fun Table(
                     .fillMaxWidth()
                     .clickable
                     {
+                        dataRemember = id.toString()
+
                         popupControl = true
                         if (popupControl){
-                            if (tableTitle == "Assets" || tableTitle == "Assets Checked Out"){
-                                navController.navigate(ScreenRoutes.AssetDetails.route)
+                            if (tableId == "asset"){
+                                navController.navigate(ScreenRoutes.AssetDetails.withArgs(dataRemember))
                             }
-                            else if (tableTitle == "Flight Logs In Progress"){
-                                navController.navigate(ScreenRoutes.FlightLogDetails.route)
+                            else if (tableId == "flight_log"){
+                                navController.navigate(ScreenRoutes.FlightLogDetails.withArgs(dataRemember))
                             }
                         }
                     }
