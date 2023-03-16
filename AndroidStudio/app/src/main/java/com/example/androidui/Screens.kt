@@ -225,13 +225,13 @@ fun MaintenanceLogScreen(navController: NavController) {
 
 
 @Composable
-fun AssetCreationScreen() {
+fun AssetCreationScreen(navController: NavController) {
 
     val inputFieldList: List<InputFieldData> = listOf(
         InputFieldData("Asset Serial Number"),
         InputFieldData("Asset Name"),
-        InputFieldData("Asset Type", 150, dropDown = true),
-        InputFieldData("Status", 150, dropDown = true),
+        InputFieldData("Asset Type", 200, dropDown = true),
+        InputFieldData("Status", 250, dropDown = true),
         InputFieldData("+ Parent", button = true),
         InputFieldData("+ Child", button = true),
         InputFieldData("Location"),
@@ -253,42 +253,48 @@ fun AssetCreationScreen() {
 
     val dropDownLists: List<List<String>> = listOf(assetTypeDropDown, assetStatusDropDown)
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
-    ) {
+    Popup(
+        alignment = Alignment.Center
+    ){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
 
-        Column {
+            Column {
 
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Button(onClick = {}, modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .width(55.dp)) {
-                    Icon(Icons.Filled.Close, "")
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Button(onClick = { navController.popBackStack() }, modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        //.offset(x=-10.dp, y=10.dp)
+                        .padding(10.dp)
+                        .width(55.dp)) {
+                        Icon(Icons.Filled.Close, "")
+                    }
                 }
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Create New Asset",
+                        Modifier.align(Alignment.TopCenter),
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(15.dp))
+
+                AllInputFields(inputFieldList, dropDownLists, "Create Asset")
+
             }
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    "Create New Asset",
-                    Modifier.align(Alignment.TopCenter),
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
-            Spacer(modifier = Modifier.height(15.dp))
-
-            AllInputFields(inputFieldList, dropDownLists, "Create Asset")
-
         }
     }
 }
 
 
 @Composable
-fun FlightLogCreationScreen() {
+fun FlightLogCreationScreen(navController: NavController) {
 
     val inputFieldList: List<InputFieldData> = listOf(
         InputFieldData("Mission ID"),
@@ -318,43 +324,48 @@ fun FlightLogCreationScreen() {
 
     val dropDownLists: List<List<String>> = listOf(successeDropDown, testMissionDropDown)
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
-    ) {
+    Popup(
+        alignment = Alignment.Center
+    ){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
 
-        Column {
+            Column {
 
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Button(onClick = {}, modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .width(55.dp)) {
-                    Icon(Icons.Filled.Close, "")
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Button(onClick = { navController.popBackStack() }, modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(10.dp)
+                        .width(55.dp)) {
+                        Icon(Icons.Filled.Close, "")
+                    }
                 }
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Create New Flight Log",
+                        Modifier.align(Alignment.TopCenter),
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(15.dp))
+
+
+                AllInputFields(inputFieldList, dropDownLists, "Create Flight Log")
+
             }
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    "Create New Flight Log",
-                    Modifier.align(Alignment.TopCenter),
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
-            Spacer(modifier = Modifier.height(15.dp))
-
-
-            AllInputFields(inputFieldList, dropDownLists, "Create Flight Log")
-
         }
     }
 }
 
 
 @Composable
-fun CheckInCreationScreen() {
+fun CheckInCreationScreen(navController: NavController) {
     val inputFieldList: List<InputFieldData> = listOf(
         InputFieldData("Asset Serial Number"),
         InputFieldData("Employee ID"),
@@ -366,37 +377,41 @@ fun CheckInCreationScreen() {
 
     val dropDownLists: List<List<String>> = listOf(emptyDropDown)
 
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
+    Popup(
+        alignment = Alignment.Center
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
+            Column {
 
-
-        Column {
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Button(onClick = {}, modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .width(55.dp)) {
-                    Icon(Icons.Filled.Close, "")
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = { navController.popBackStack() }, modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(10.dp)
+                            .width(55.dp)
+                    ) {
+                        Icon(Icons.Filled.Close, "")
+                    }
                 }
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Check In Asset",
+                        Modifier.align(Alignment.TopCenter),
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(15.dp))
+
+                AllInputFields(inputFieldList, dropDownLists, "Check In")
+
             }
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    "Check In Asset",
-                    Modifier.align(Alignment.TopCenter),
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
-            Spacer(modifier = Modifier.height(15.dp))
-
-            AllInputFields(inputFieldList, dropDownLists, "Check In")
-
         }
     }
 }
@@ -452,14 +467,14 @@ fun CheckOutCreationScreen() {
 
 
 @Composable
-fun MaintenanceLogCreationScreen() {
+fun MaintenanceLogCreationScreen(navController: NavController) {
     val inputFieldList: List<InputFieldData> = listOf(
         InputFieldData("Maintenance ID"),
         InputFieldData("Asset Serial #"),
         InputFieldData("Employee ID"),
         InputFieldData("Employee Name"),
         InputFieldData("Date", width = 80),
-        InputFieldData("Maintenance Type", width = 150, dropDown = true),
+        InputFieldData("Maintenance Type", dropDown = true),
         InputFieldData("Additional Details", height = 80)
     )
 
@@ -472,35 +487,40 @@ fun MaintenanceLogCreationScreen() {
     val dropDownLists: List<List<String>> = listOf(maintenanceTypeDropDown)
 
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
+    Popup(
+        alignment = Alignment.Center
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
 
-        Column {
+            Column {
 
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Button(onClick = {}, modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .width(55.dp)) {
-                    Icon(Icons.Filled.Close, "")
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Button(onClick = {navController.popBackStack()}, modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(10.dp)
+                        .width(55.dp)) {
+                        Icon(Icons.Filled.Close, "")
+                    }
                 }
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Create New Maintenance Log",
+                        Modifier.align(Alignment.TopCenter),
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(15.dp))
+
+                AllInputFields(inputFieldList, dropDownLists, "Create Asset")
+
             }
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    "Create New Maintenance Log",
-                    Modifier.align(Alignment.TopCenter),
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
-            Spacer(modifier = Modifier.height(15.dp))
-
-            AllInputFields(inputFieldList, dropDownLists, "Create Asset")
-
         }
     }
 }
@@ -594,19 +614,19 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(ScreenRoutes.AssetCreation.route){
-            AssetCreationScreen()
+            AssetCreationScreen(navController)
         }
 
         composable(ScreenRoutes.FlightLogCreation.route){
-            FlightLogCreationScreen()
+            FlightLogCreationScreen(navController)
         }
 
         composable(ScreenRoutes.CheckInOutCreation.route){
-            CheckInCreationScreen()
+            CheckInCreationScreen(navController)
         }
 
         composable(ScreenRoutes.MaintenanceLogCreation.route){
-            MaintenanceLogCreationScreen()
+            MaintenanceLogCreationScreen(navController)
         }
 
         composable(
