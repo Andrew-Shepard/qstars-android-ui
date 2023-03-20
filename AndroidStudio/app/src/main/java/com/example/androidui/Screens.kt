@@ -3,7 +3,6 @@ package com.example.androidui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -12,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection.Companion.In
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,7 +21,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 
@@ -227,6 +224,7 @@ fun MaintenanceLogScreen(navController: NavController) {
 @Composable
 fun AssetCreationScreen(navController: NavController) {
 
+    // Asset Creation Fields
     val inputFieldList: List<InputFieldData> = listOf(
         InputFieldData("Asset Serial Number"),
         InputFieldData("Asset Name"),
@@ -239,20 +237,25 @@ fun AssetCreationScreen(navController: NavController) {
         InputFieldData("Description", height = 80)
     )
 
+    // Drop-down values for Asset Type
     val assetTypeDropDown = listOf(
         "Drone",
         "Motor",
         "Battery",
         "Other"
     )
+
+    // Drop-down values for Asset Type
     val assetStatusDropDown = listOf(
         "Active",
         "In Maintenance",
         "Out of Commission"
     )
 
+    // Make a list of the drop-down values
     val dropDownLists: List<List<String>> = listOf(assetTypeDropDown, assetStatusDropDown)
 
+    // Asset Creation Popup
     Popup(
         alignment = Alignment.Center
     ){
@@ -264,16 +267,17 @@ fun AssetCreationScreen(navController: NavController) {
 
             Column {
 
+                // Close Button of Asset Creation Screen
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Button(onClick = { navController.popBackStack() }, modifier = Modifier
                         .align(Alignment.TopEnd)
-                        //.offset(x=-10.dp, y=10.dp)
                         .padding(10.dp)
                         .width(55.dp)) {
                         Icon(Icons.Filled.Close, "")
                     }
                 }
 
+                // Title of Asset Creation Screen
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Text(
                         "Create New Asset",
@@ -285,6 +289,7 @@ fun AssetCreationScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(15.dp))
 
+                // Creates all fields and drop-down fields
                 AllInputFields(inputFieldList, dropDownLists, "Create Asset")
 
             }
@@ -335,6 +340,7 @@ fun FlightLogCreationScreen(navController: NavController) {
 
             Column {
 
+                // Close button
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Button(onClick = { navController.popBackStack() }, modifier = Modifier
                         .align(Alignment.TopEnd)
@@ -344,6 +350,7 @@ fun FlightLogCreationScreen(navController: NavController) {
                     }
                 }
 
+                // Title
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Text(
                         "Create New Flight Log",
@@ -355,7 +362,7 @@ fun FlightLogCreationScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-
+                // All input fields and drop-downs for flight log creation
                 AllInputFields(inputFieldList, dropDownLists, "Create Flight Log")
 
             }
@@ -387,6 +394,7 @@ fun CheckInCreationScreen(navController: NavController) {
         ) {
             Column {
 
+                // Close Button
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Button(
                         onClick = { navController.popBackStack() }, modifier = Modifier
@@ -398,6 +406,7 @@ fun CheckInCreationScreen(navController: NavController) {
                     }
                 }
 
+                // Title
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Text(
                         "Check In Asset",
@@ -440,6 +449,7 @@ fun CheckOutCreationScreen() {
 
         Column {
 
+            // Close Button
             Box(modifier = Modifier.fillMaxWidth()) {
                 Button(onClick = {}, modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -448,6 +458,7 @@ fun CheckOutCreationScreen() {
                 }
             }
 
+            // Title
             Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     "Check Out Asset",
@@ -498,6 +509,7 @@ fun MaintenanceLogCreationScreen(navController: NavController) {
 
             Column {
 
+                // Close Button
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Button(onClick = {navController.popBackStack()}, modifier = Modifier
                         .align(Alignment.TopEnd)
@@ -507,6 +519,7 @@ fun MaintenanceLogCreationScreen(navController: NavController) {
                     }
                 }
 
+                // Title
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Text(
                         "Create New Maintenance Log",
@@ -527,7 +540,7 @@ fun MaintenanceLogCreationScreen(navController: NavController) {
 
 
 @Composable
-fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavController, data: String?){
+fun DetailsPopUp(popupTitle: String, fieldList: List<String>, navController: NavController, data: String?){
 
     Popup(
         alignment = Alignment.Center,
@@ -544,6 +557,7 @@ fun PopUp(popupTitle: String, fieldList: List<String>, navController: NavControl
                 Box(modifier = Modifier
                     .fillMaxWidth()
                     .offset(x = 10.dp)){
+
                     //Close Button
                     Button(
                         onClick = { navController.popBackStack() },
@@ -652,7 +666,7 @@ fun Navigation(navController: NavHostController) {
                 "Description"
             )
 
-            PopUp(
+            DetailsPopUp(
                 "Asset Information",
                 AssetInformationRows,
                 navController,
@@ -684,7 +698,7 @@ fun Navigation(navController: NavHostController) {
                 "Summary"
             )
 
-            PopUp(
+            DetailsPopUp(
                 "Flight Log Information",
                 FlightLogInformationRows,
                 navController,
@@ -712,7 +726,7 @@ fun Navigation(navController: NavHostController) {
                 "Description",
             )
 
-            PopUp(
+            DetailsPopUp(
                 "Check In/Out Information",
                 CheckInOutInformationRows,
                 navController,
@@ -738,7 +752,7 @@ fun Navigation(navController: NavHostController) {
                 "Maintenance Type",
             )
 
-            PopUp(
+            DetailsPopUp(
                 "Maintenance Log Information",
                 MaintenanceLogInformationRows,
                 navController,
