@@ -31,6 +31,8 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
     var mSelectedText by remember { mutableStateOf("") }
     var mTextFieldSize by remember { mutableStateOf(Size.Zero) }
 
+    var text by remember { mutableStateOf((""))}
+
     // Up Icon when expanded and down icon when collapsed
     val icon = if (mExpanded)
         Icons.Filled.KeyboardArrowUp
@@ -90,8 +92,8 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
             else {
                 Text(text = inputField.name)
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = text,
+                    onValueChange = { text = it },
                     modifier = Modifier
                         .width(inputField.width.dp)
                         .height(inputField.height.dp)

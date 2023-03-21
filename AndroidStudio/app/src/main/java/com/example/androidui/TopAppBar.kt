@@ -1,5 +1,8 @@
 package com.example.androidui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -10,6 +13,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -27,90 +32,72 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun TopBar(scope: CoroutineScope,
            scaffoldState: ScaffoldState,
-           navController: NavHostController = rememberNavController()
-)
-{
+           navController: NavHostController = rememberNavController()) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
     val currentRoute = navBackStackEntry?.destination?.route
 
-    if (currentRoute != "home"){
-        TopAppBar(
-            title = { Text(text = "Overhead Intelligence", fontSize = 18.sp) },
-            navigationIcon =
+    TopAppBar(
+        title = { Text(text = "Overhead Intelligence", fontSize = 18.sp) },
+        navigationIcon =
+        {
+            IconButton(onClick = { scope.launch { scaffoldState.drawerState.open() } })
             {
-                IconButton(onClick = {scope.launch{scaffoldState.drawerState.open()} })
-                {
-                    Icon(Icons.Filled.Menu, "")
-                }
-            },
-            actions = {
+                Icon(Icons.Filled.Menu, "")
+            }
+        },
+        actions = {
 
+            if (currentRoute != "home") {
                 IconButton(
                     onClick = {
-                        if(currentRoute == "assets"){
-                            navController.navigate(ScreenRoutes.AssetCreation.route)
+
+                        when (currentRoute) {
+                            "assets" -> {
+                                navController.navigate(ScreenRoutes.AssetCreation.route)
+                            }
+
+                            "flight_logs" -> {
+                                navController.navigate(ScreenRoutes.FlightLogCreation.route)
+                            }
+
+                            "check_in_out" -> {
+                                navController.navigate(ScreenRoutes.CheckInOutCreation.route)
+                            }
+
+                            "maintenance_log" -> {
+                                navController.navigate(ScreenRoutes.MaintenanceLogCreation.route)
+                            }
                         }
-                        else if (currentRoute == "flight_logs"){
-                            navController.navigate(ScreenRoutes.FlightLogCreation.route)
-                        }
-                        else if (currentRoute == "check_in_out"){
-                            navController.navigate(ScreenRoutes.CheckInOutCreation.route)
-                        }
-                        else if (currentRoute == "maintenance_log"){
-                            navController.navigate(ScreenRoutes.MaintenanceLogCreation.route)
-                        }
+
                     }
-                ){
-                    Icon(Icons.Filled.Add, contentDescription = "Add Icon", modifier = Modifier.size(50.dp))
+                ) {
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = "Add Icon",
+                        modifier = Modifier.size(50.dp)
+                    )
                 }
+            }
 
-                Spacer(Modifier.width(10.dp))
+            Spacer(Modifier.width(10.dp))
 
-                Image(
-                    painter = painterResource(id = R.drawable.roger_profilepic),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(vertical = 10.dp)
-                        .clip(CircleShape)
-                        .clickable {
-                        }
-                )
-            },
-            backgroundColor = Color.LightGray,
-            contentColor = Color.Black,
-        )
-    }
-    else{
-        TopAppBar(
-            title = { Text(text = "Overhead Intelligence", fontSize = 18.sp) },
-            navigationIcon =
-            {
-                IconButton(onClick = {scope.launch{scaffoldState.drawerState.open()} })
-                {
-                    Icon(Icons.Filled.Menu, "")
-                }
-            },
-            actions = {
+            Image(
+                painter = painterResource(id = R.drawable.roger_profilepic),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(vertical = 10.dp)
+                    .clip(CircleShape)
+                    .clickable {
+                    }
+            )
 
-                Spacer(Modifier.width(10.dp))
+        },
+        backgroundColor = Color.LightGray,
+        contentColor = Color.Black,
+    )
 
-                Image(
-                    painter = painterResource(id = R.drawable.roger_profilepic),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(vertical = 10.dp)
-                        .clip(CircleShape)
-                        .clickable {
-                        }
-                )
-            },
-            backgroundColor = Color.LightGray,
-            contentColor = Color.Black,
-        )
-    }
 }

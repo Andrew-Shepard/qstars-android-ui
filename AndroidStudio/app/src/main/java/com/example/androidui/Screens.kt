@@ -8,13 +8,16 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -255,46 +258,14 @@ fun AssetCreationScreen(navController: NavController) {
     // Make a list of the drop-down values
     val dropDownLists: List<List<String>> = listOf(assetTypeDropDown, assetStatusDropDown)
 
-    // Asset Creation Popup
-    Popup(
-        alignment = Alignment.Center
-    ){
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
+    // Asset Creation Screen
+    CustomDialog(
+        dialogTitle = "Create New Asset",
+        inputFieldList = inputFieldList,
+        dropDownList = dropDownLists,
+        buttonName = "Create",
+        navController = navController)
 
-            Column {
-
-                // Close Button of Asset Creation Screen
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Button(onClick = { navController.popBackStack() }, modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(10.dp)
-                        .width(55.dp)) {
-                        Icon(Icons.Filled.Close, "")
-                    }
-                }
-
-                // Title of Asset Creation Screen
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        "Create New Asset",
-                        Modifier.align(Alignment.TopCenter),
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(15.dp))
-
-                // Creates all fields and drop-down fields
-                AllInputFields(inputFieldList, dropDownLists, "Create Asset")
-
-            }
-        }
-    }
 }
 
 
@@ -329,45 +300,14 @@ fun FlightLogCreationScreen(navController: NavController) {
 
     val dropDownLists: List<List<String>> = listOf(successeDropDown, testMissionDropDown)
 
-    Popup(
-        alignment = Alignment.Center
-    ){
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
+    CustomDialog(
+        dialogTitle = "Create New Flight Log",
+        inputFieldList = inputFieldList,
+        dropDownList = dropDownLists,
+        buttonName = "Create",
+        navController = navController
+    )
 
-            Column {
-
-                // Close button
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Button(onClick = { navController.popBackStack() }, modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(10.dp)
-                        .width(55.dp)) {
-                        Icon(Icons.Filled.Close, "")
-                    }
-                }
-
-                // Title
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        "Create New Flight Log",
-                        Modifier.align(Alignment.TopCenter),
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(15.dp))
-
-                // All input fields and drop-downs for flight log creation
-                AllInputFields(inputFieldList, dropDownLists, "Create Flight Log")
-
-            }
-        }
-    }
 }
 
 
@@ -380,49 +320,15 @@ fun CheckInCreationScreen(navController: NavController) {
         InputFieldData("Description", height = 80)
     )
 
-    val emptyDropDown = listOf("")
+    val dropDownLists: List<List<String>> = listOf(listOf(""))
 
-    val dropDownLists: List<List<String>> = listOf(emptyDropDown)
-
-    Popup(
-        alignment = Alignment.Center
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
-            Column {
-
-                // Close Button
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Button(
-                        onClick = { navController.popBackStack() }, modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(10.dp)
-                            .width(55.dp)
-                    ) {
-                        Icon(Icons.Filled.Close, "")
-                    }
-                }
-
-                // Title
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        "Check In Asset",
-                        Modifier.align(Alignment.TopCenter),
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(15.dp))
-
-                AllInputFields(inputFieldList, dropDownLists, "Check In")
-
-            }
-        }
-    }
+    CustomDialog(
+        dialogTitle = "New Check In",
+        inputFieldList = inputFieldList ,
+        dropDownList = dropDownLists,
+        buttonName = "Check In",
+        navController = navController
+    )
 }
 
 
@@ -497,45 +403,13 @@ fun MaintenanceLogCreationScreen(navController: NavController) {
 
     val dropDownLists: List<List<String>> = listOf(maintenanceTypeDropDown)
 
-
-    Popup(
-        alignment = Alignment.Center
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
-
-            Column {
-
-                // Close Button
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Button(onClick = {navController.popBackStack()}, modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(10.dp)
-                        .width(55.dp)) {
-                        Icon(Icons.Filled.Close, "")
-                    }
-                }
-
-                // Title
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        "Create New Maintenance Log",
-                        Modifier.align(Alignment.TopCenter),
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(15.dp))
-
-                AllInputFields(inputFieldList, dropDownLists, "Create Asset")
-
-            }
-        }
-    }
+    CustomDialog(
+        dialogTitle = "New Maintenance Log",
+        inputFieldList = inputFieldList,
+        dropDownList = dropDownLists,
+        buttonName = "Create",
+        navController = navController
+    )
 }
 
 
