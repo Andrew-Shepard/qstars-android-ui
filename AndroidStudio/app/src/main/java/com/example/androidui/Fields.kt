@@ -21,10 +21,11 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.geometry.Size
+import androidx.navigation.NavController
 
 // Create a regular input field or a drop down input field
 @Composable
-fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
+fun InputField(inputField: InputFieldData, dropDownItems: List<String>, navController: NavController) {
 
     // UNSURE WHAT THIS DOES!!!!
     var mExpanded by remember { mutableStateOf(false) }
@@ -84,7 +85,12 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
 
                 }
             } else if (inputField.button) {
-                Button(onClick = {}) {
+                Button(onClick = {
+                    if (inputField.name == "+ Parent" || inputField.name == "+ Child"){
+                        navController.navigate(ScreenRoutes.ParentSelection.route)
+                    }
+
+                }) {
                     Text(inputField.name)
                 }
             }
@@ -110,7 +116,8 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>) {
 fun AllInputFields(
     inputFieldList: List<InputFieldData>,
     dropDownList: List<List<String>>,
-    creationButtonName: String
+    creationButtonName: String,
+    navController: NavController
 ) {
 
     var index = 0 // goes through the lists in the drop down list
@@ -119,14 +126,14 @@ fun AllInputFields(
     LazyColumn(verticalArrangement = Arrangement.spacedBy(7.dp)) {
         items(inputFieldList) { inputField ->
             if (inputField.dropDown) {
-                InputField(inputField, dropDownList[index])
+                InputField(inputField, dropDownList[index], navController)
                 index++
             } else {
                 //Makes sure that the index doesn't go over the size of the list
                 if (index >= dropDownListSize) {
-                    InputField(inputField, dropDownList[index - 1])
+                    InputField(inputField, dropDownList[index - 1], navController)
                 } else {
-                    InputField(inputField, dropDownList[index])
+                    InputField(inputField, dropDownList[index], navController)
                 }
             }
         }
@@ -141,7 +148,7 @@ fun AllInputFields(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(onClick = {}) {
+                Button(onClick = {navController.popBackStack()}) {
                     Text(creationButtonName)
                 }
             }

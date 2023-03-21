@@ -7,17 +7,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -376,7 +375,7 @@ fun CheckOutCreationScreen() {
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            AllInputFields(inputFieldList, dropDownLists, "Check Out")
+            //AllInputFields(inputFieldList, dropDownLists, "Check Out")
 
         }
     }
@@ -634,9 +633,83 @@ fun Navigation(navController: NavHostController) {
             )
         }
 
+        composable(route = ScreenRoutes.ParentSelection.route){
+            ParentSelectionScreen(navController = navController)
+        }
 
     }
+
 }
+
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun ParentSelectionScreen(navController: NavController){
+
+    val openDialog = remember{ mutableStateOf(true) }
+
+    Dialog(
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        onDismissRequest = { openDialog.value = false}){
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
+
+            Column {
+
+                // Close Button of Asset Creation Screen
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Button(onClick = { navController.popBackStack() }, modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(10.dp)
+                        .width(55.dp)) {
+                        Icon(Icons.Filled.Close, "")
+                    }
+                    Text(
+                        "Choose Parents",
+                        Modifier
+                            .align(Alignment.TopCenter)
+                            .offset(y = 20.dp),
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(15.dp))
+
+                SearchBar()
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Table(
+                    "asset",
+                    "Assets",
+                    "Serial #",
+                    "Name",
+                    "Asset Type",
+                    "Status",
+                    375,
+                    500,
+                    navController
+                )
+
+                Box(modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center){
+                    Button(onClick = {}){
+                        Text("Add Parent Asset")
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+
+
 
 
 

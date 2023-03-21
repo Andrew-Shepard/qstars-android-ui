@@ -11,6 +11,9 @@ sealed class ScreenRoutes(var route: String){
     object CheckInOutCreation: ScreenRoutes("check_in_out_creation")
     object MaintenanceLogCreation: ScreenRoutes("maintenance_creation")
 
+    object ParentSelection: ScreenRoutes("parent")
+    object ChildSelection: ScreenRoutes("child")
+
     fun withArgs(vararg args: String): String{
         return buildString {
             append(route)

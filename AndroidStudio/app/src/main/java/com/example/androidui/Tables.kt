@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Text
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -20,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 
-//function fo ran individual tablecell
+//function for an individual tablecell
 @Composable
 fun RowScope.TableCell(text: String, weight: Float)
 {
@@ -56,9 +58,9 @@ fun Table(
 
     var dataRemember by remember { mutableStateOf("") }
 
+
     Column()
     {
-        val context = LocalContext.current
         Text(
             text = tableTitle,
             fontSize = 25.sp,
@@ -67,6 +69,7 @@ fun Table(
                 .offset(x = 15.dp)
                 .offset(y = 10.dp)
         )
+
         LazyColumn(
             Modifier
                 .size(width = width.dp, height = height.dp)
@@ -87,25 +90,42 @@ fun Table(
                 val (id, text) = it
                 Row(modifier = Modifier
                     .fillMaxWidth()
-                    .clickable
+                    .pointerInput(Unit)
                     {
-                        dataRemember = id.toString()
+                        detectTapGestures(
+                            onDoubleTap = {
+                                dataRemember = id.toString()
 
-                        popupControl = true
-                        if (popupControl){
-                            if (tableId == "asset"){
-                                navController.navigate(ScreenRoutes.AssetDetails.withArgs(dataRemember))
+                                popupControl = true
+                                if (popupControl) {
+                                    if (tableId == "asset") {
+                                        navController.navigate(
+                                            ScreenRoutes.AssetDetails.withArgs(
+                                                dataRemember
+                                            )
+                                        )
+                                    } else if (tableId == "flight_log") {
+                                        navController.navigate(
+                                            ScreenRoutes.FlightLogDetails.withArgs(
+                                                dataRemember
+                                            )
+                                        )
+                                    } else if (tableId == "check_in_out") {
+                                        navController.navigate(
+                                            ScreenRoutes.CheckInOutDetails.withArgs(
+                                                dataRemember
+                                            )
+                                        )
+                                    } else if (tableId == "maintenance_log") {
+                                        navController.navigate(
+                                            ScreenRoutes.MaintenanceLogDetails.withArgs(
+                                                dataRemember
+                                            )
+                                        )
+                                    }
+                                }
                             }
-                            else if (tableId == "flight_log"){
-                                navController.navigate(ScreenRoutes.FlightLogDetails.withArgs(dataRemember))
-                            }
-                            else if (tableId == "check_in_out"){
-                                navController.navigate(ScreenRoutes.CheckInOutDetails.withArgs(dataRemember))
-                            }
-                            else if (tableId == "maintenance_log"){
-                                navController.navigate(ScreenRoutes.MaintenanceLogDetails.withArgs(dataRemember))
-                            }
-                        }
+                        )
                     }
                 )
                 {

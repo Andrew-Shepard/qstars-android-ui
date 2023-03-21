@@ -67,7 +67,7 @@ fun CustomDialog(
                 Spacer(modifier = Modifier.height(15.dp))
 
                 // Creates all fields and drop-down fields
-                AllInputFields(inputFieldList, dropDownList, buttonName)
+                AllInputFields(inputFieldList, dropDownList, buttonName, navController)
 
                 }
 
