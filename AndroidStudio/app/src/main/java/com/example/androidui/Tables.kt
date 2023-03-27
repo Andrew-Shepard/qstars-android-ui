@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 
-//function for an individual tablecell
+//an individual tablecell
 @Composable
 fun RowScope.TableCell(text: String, weight: Float)
 {
@@ -34,7 +34,8 @@ fun RowScope.TableCell(text: String, weight: Float)
     )
 }
 
-//sticky headers is an experimental feature
+// sticky headers is an experimental feature
+// creates a custom table
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Table(
@@ -45,27 +46,18 @@ fun Table(
     column3Title: String,
     column4Title: String,
     width: Int, height: Int,
-    navController: NavController
+    navController: NavController,
+    tableData: List<List<String>>
 ) {
 
-    val asset1 = listOf("1", "Motor1", "In Maintenance", "Gone")
-    val asset2 = listOf("2", "Drone", "Field", "Gone")
-
-    val assets = listOf(asset1, asset2)
-
-    //val tableData = (1..100).mapIndexed { index, i -> index to "Item $index" }
     val column1Weight = .3f
     val column2Weight = .3f
     val column3Weight = .2f
     val column4Weight = .2f
 
-    var popupControl by remember { mutableStateOf(false) }
-
-    var dataRemember by remember { mutableStateOf("") }
-
-
     Column()
     {
+        // Table title
         Text(
             text = tableTitle,
             fontSize = 25.sp,
@@ -81,6 +73,7 @@ fun Table(
                 .padding(15.dp)
                 .border(2.dp, Color.Gray))
         {
+            //Table Sticky Header
             stickyHeader {
                 Row(Modifier.background(Color.Gray))
                 {
@@ -91,54 +84,65 @@ fun Table(
                 }
             }
 
-            items(assets) { asset ->
-                //val (id, text) = it
-                val assetID = asset[0]
+            // goes through all the table data row by row
+            items(tableData) { row ->
+
+                // stores ID of row
+                val rowID = row[0]
+
                 Row(modifier = Modifier
                     .fillMaxWidth()
                     .pointerInput(Unit)
                     {
                         detectTapGestures(
-                            onDoubleTap = {
-                                //dataRemember = id.toString()
+                            onTap = {
 
-                                popupControl = true
-                                if (popupControl) {
-                                    if (tableId == "asset") {
+                                // uses appropriate navigation based off table type
+                                // also passes rowID to information popup
+                                when (tableId) {
+                                    "asset" -> {
                                         navController.navigate(
                                             ScreenRoutes.AssetDetails.withArgs(
-                                                assetID
-                                            )
-                                        )
-                                    } else if (tableId == "flight_log") {
-                                        navController.navigate(
-                                            ScreenRoutes.FlightLogDetails.withArgs(
-                                                dataRemember
-                                            )
-                                        )
-                                    } else if (tableId == "check_in_out") {
-                                        navController.navigate(
-                                            ScreenRoutes.CheckInOutDetails.withArgs(
-                                                dataRemember
-                                            )
-                                        )
-                                    } else if (tableId == "maintenance_log") {
-                                        navController.navigate(
-                                            ScreenRoutes.MaintenanceLogDetails.withArgs(
-                                                dataRemember
+                                                rowID
                                             )
                                         )
                                     }
+
+                                    "flight_log" -> {
+                                        navController.navigate(
+                                            ScreenRoutes.FlightLogDetails.withArgs(
+                                                rowID
+                                            )
+                                        )
+                                    }
+
+                                    "check_in_out" -> {
+                                        navController.navigate(
+                                            ScreenRoutes.CheckInOutDetails.withArgs(
+                                                rowID
+                                            )
+                                        )
+                                    }
+
+                                    "maintenance_log" -> {
+                                        navController.navigate(
+                                            ScreenRoutes.MaintenanceLogDetails.withArgs(
+                                                rowID
+                                            )
+                                        )
+                                    }
+
+
                                 }
                             }
                         )
                     }
                 )
                 {
-                    TableCell(text = asset[0], weight = column1Weight)
-                    TableCell(text = asset[1], weight = column2Weight)
-                    TableCell(text = asset[2], weight = column3Weight)
-                    TableCell(text = asset[3], weight = column4Weight)
+                    TableCell(text = row[0], weight = column1Weight)
+                    TableCell(text = row[1], weight = column2Weight)
+                    TableCell(text = row[2], weight = column3Weight)
+                    TableCell(text = row[3], weight = column4Weight)
 
                 }
             }
