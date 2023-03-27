@@ -48,7 +48,12 @@ fun Table(
     navController: NavController
 ) {
 
-    val tableData = (1..100).mapIndexed { index, i -> index to "Item $index" }
+    val asset1 = listOf("1", "Motor1", "In Maintenance", "Gone")
+    val asset2 = listOf("2", "Drone", "Field", "Gone")
+
+    val assets = listOf(asset1, asset2)
+
+    //val tableData = (1..100).mapIndexed { index, i -> index to "Item $index" }
     val column1Weight = .3f
     val column2Weight = .3f
     val column3Weight = .2f
@@ -86,22 +91,23 @@ fun Table(
                 }
             }
 
-            items(tableData) {
-                val (id, text) = it
+            items(assets) { asset ->
+                //val (id, text) = it
+                val assetID = asset[0]
                 Row(modifier = Modifier
                     .fillMaxWidth()
                     .pointerInput(Unit)
                     {
                         detectTapGestures(
                             onDoubleTap = {
-                                dataRemember = id.toString()
+                                //dataRemember = id.toString()
 
                                 popupControl = true
                                 if (popupControl) {
                                     if (tableId == "asset") {
                                         navController.navigate(
                                             ScreenRoutes.AssetDetails.withArgs(
-                                                dataRemember
+                                                assetID
                                             )
                                         )
                                     } else if (tableId == "flight_log") {
@@ -129,10 +135,10 @@ fun Table(
                     }
                 )
                 {
-                    TableCell(text = id.toString(), weight = column1Weight)
-                    TableCell(text = text, weight = column2Weight)
-                    TableCell(text = text, weight = column3Weight)
-                    TableCell(text = text, weight = column4Weight)
+                    TableCell(text = asset[0], weight = column1Weight)
+                    TableCell(text = asset[1], weight = column2Weight)
+                    TableCell(text = asset[2], weight = column3Weight)
+                    TableCell(text = asset[3], weight = column4Weight)
 
                 }
             }

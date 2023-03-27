@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -49,7 +50,7 @@ fun MainScreen() {
         backgroundColor = Color.White
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
-            Navigation(navController = navController)
+           Navigation(navController = navController)
         }
     }
 }
@@ -413,11 +414,13 @@ fun MaintenanceLogCreationScreen(navController: NavController) {
 
 
 @Composable
-fun DetailsPopUp(popupTitle: String, fieldList: List<String>, navController: NavController, data: String?){
+fun DetailsPopUp(popupTitle: String, fieldList: List<String>, navController: NavController, data: String?, listOfAssets: List<List<String>>){
+
 
     Popup(
         alignment = Alignment.Center,
     ){
+
         Box(modifier = Modifier
             .offset(y = 100.dp)
             .padding(20.dp)
@@ -455,7 +458,8 @@ fun DetailsPopUp(popupTitle: String, fieldList: List<String>, navController: Nav
                 }
 
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)){
-                    items(fieldList){ field ->
+
+                    itemsIndexed(fieldList){ i, field ->
                         Row(horizontalArrangement = Arrangement.spacedBy(65.dp)){
                             Box(modifier = Modifier
                                 .width(120.dp)
@@ -463,7 +467,15 @@ fun DetailsPopUp(popupTitle: String, fieldList: List<String>, navController: Nav
                                 .offset(x = 10.dp)) {
                                 Text(field)
                             }
-                            Text("$data")
+                            //for all assets
+                            for ( asset in listOfAssets){
+
+                                //if asset id == id passed
+                                if (asset[0] == data){
+                                    Text(asset[i])
+                                }
+
+                            }
                         }
 
                     }
@@ -517,9 +529,9 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(
-            route = ScreenRoutes.AssetDetails.route + "/{data}",
+            route = ScreenRoutes.AssetDetails.route + "/{assetID}",
             arguments = listOf(
-                navArgument("data"){
+                navArgument("assetID"){
                     type = NavType.StringType
                 }
             )
@@ -539,11 +551,17 @@ fun Navigation(navController: NavHostController) {
                 "Description"
             )
 
+            val asset1 = listOf("1", "Motor1", "In Maintenance", "Gone", "","","","","","","","")
+            val asset2 = listOf("2", "Drone", "Field", "Gone")
+
+            val assets = listOf(asset1, asset2)
+
             DetailsPopUp(
                 "Asset Information",
                 AssetInformationRows,
                 navController,
-                lambdaParameter.arguments?.getString("data")
+                lambdaParameter.arguments?.getString("assetID"),
+                assets
             )
         }
 
@@ -571,12 +589,15 @@ fun Navigation(navController: NavHostController) {
                 "Summary"
             )
 
+            /*
             DetailsPopUp(
                 "Flight Log Information",
                 FlightLogInformationRows,
                 navController,
                 lambdaParameter.arguments?.getString("data")
             )
+
+             */
         }
 
         composable(
@@ -598,13 +619,15 @@ fun Navigation(navController: NavHostController) {
                 "Current Location",
                 "Description",
             )
-
+            /*
             DetailsPopUp(
                 "Check In/Out Information",
                 CheckInOutInformationRows,
                 navController,
                 lambdaParameter.arguments?.getString("data")
             )
+
+             */
         }
 
         composable(
@@ -625,12 +648,15 @@ fun Navigation(navController: NavHostController) {
                 "Maintenance Type",
             )
 
+            /*
             DetailsPopUp(
                 "Maintenance Log Information",
                 MaintenanceLogInformationRows,
                 navController,
                 lambdaParameter.arguments?.getString("data")
             )
+
+             */
         }
 
         composable(route = ScreenRoutes.ParentSelection.route){
