@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -11,7 +12,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +30,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.compose.foundation.Image
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MainScreen() {
@@ -410,7 +419,137 @@ fun MaintenanceLogCreationScreen(navController: NavController) {
         navController = navController
     )
 }
+@Composable
+fun ProfileScreen(){
+    Column(){
+        Box(modifier = Modifier
+            .background(Color.Blue) //Why does the IDE hate the hex for the color blue!!!
+            .fillMaxWidth()
+            .height(244.dp)
+        ){
+                Text(
+                    text = "Roger",
+                    color = Color.White,
+                    style = TextStyle(
+                        fontSize = 20.sp),
+                    modifier = Modifier
+                        .width(width = 200.dp)
+                        .height(height = 32.dp)
+                )
+        }
+        Row(modifier = Modifier
+            .padding(top = 30.dp)
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.user_profile_icon),
+                contentDescription = "Profile Name",
+                colorFilter = ColorFilter.tint(Color(0xff3e3e3e)),
+                modifier = Modifier
+                    .padding(start=30.dp)
+                    .padding(end=30.dp)
+                    .height(40.dp)
+                    .width(40.dp)
+            )
+            Text(
+                text = "Roger",
+                color = Color.Black,
+                style = TextStyle(
+                    fontSize = 16.sp),
+                modifier = Modifier
+                    .padding(top=10.dp)
+                    .width(width = 200.dp)
+                    .height(height = 32.dp)
+            )
+        }
 
+        Row(modifier = Modifier
+            .padding(top = 30.dp)
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.envelope_icon),
+                contentDescription = "Email",
+                colorFilter = ColorFilter.tint(Color(0xff3e3e3e)),
+                modifier = Modifier
+                    .padding(start=30.dp)
+                    .padding(end = 30.dp)
+                    .height(40.dp)
+                    .width(40.dp)
+            )
+            Text(
+                text = "roger@overheadintel.com",
+                color = Color.Black,
+                style = TextStyle(
+                    fontSize = 16.sp),
+                modifier = Modifier
+                    .width(width = 200.dp)
+                    .height(height = 32.dp)
+            )
+        }
+
+        Row(modifier = Modifier
+            .padding(top = 30.dp)
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.settings_gear_icon),
+                contentDescription = "Settings",
+                colorFilter = ColorFilter.tint(Color(0xff3e3e3e)),
+                modifier = Modifier
+                    .padding(start=30.dp)
+                    .padding(end=30.dp)
+                    .height(40.dp)
+                    .width(40.dp)
+            )
+            Text(
+                text = "Settings",
+                color = Color.Black,
+                style = TextStyle(
+                    fontSize = 16.sp),
+                modifier = Modifier
+                    .width(width = 200.dp)
+                    .height(height = 32.dp)
+            )
+        }
+
+        Row(modifier = Modifier
+            .padding(top = 30.dp)
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.logout_line_icon),
+                contentDescription = "Logout",
+                colorFilter = ColorFilter.tint(Color(0xff3e3e3e)),
+                modifier = Modifier
+                    .padding(start=30.dp)
+                    .padding(end=30.dp)
+                    .height(40.dp)
+                    .width(40.dp)
+            )
+            Text(
+                text = "Logout",
+                color = Color.Black,
+                style = TextStyle(
+                    fontSize = 16.sp),
+                modifier = Modifier
+                    .width(width = 200.dp)
+                    .height(height = 32.dp)
+            )
+        }
+    }
+
+}
+
+@Composable
+fun LoginScreen(){
+    Column(){
+        Image(
+            painter = painterResource(id = R.drawable.dronepic),
+            contentDescription = "Background",
+            colorFilter = ColorFilter.tint(Color(0xff3e3e3e)),
+            modifier = Modifier
+        )
+
+    }
+
+}
 
 @Composable
 fun DetailsPopUp(popupTitle: String, fieldList: List<String>, navController: NavController, data: String?){
