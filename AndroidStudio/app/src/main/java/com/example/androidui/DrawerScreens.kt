@@ -20,6 +20,8 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 
+
+
 @Composable
 fun HomeScreen(navController: NavController) {
     Column(
@@ -28,6 +30,13 @@ fun HomeScreen(navController: NavController) {
             .background(Color.White)
     )
     {
+        val mockData1 = listOf("123", "Motor5", "Motor", "Checked Out", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+        val mockData2 = listOf("345", "Drone1", "Drone", "Checked In", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+
+
+        val allData = listOf(mockData1, mockData2)
+
+
         Spacer(modifier = Modifier.height(8.dp))
 
         Table(
@@ -39,7 +48,8 @@ fun HomeScreen(navController: NavController) {
             "Status",
             400,
             200,
-            navController)
+            navController,
+        allData)
 
         Table(
             "flight_log",
@@ -50,13 +60,16 @@ fun HomeScreen(navController: NavController) {
             "Success",
             400,
             200,
-            navController)
+            navController,
+        allData)
 
     }
 }
 
+
 @Composable
 fun AssetsScreen(navController: NavController) {
+
 
     Column(
         modifier = Modifier
@@ -64,6 +77,11 @@ fun AssetsScreen(navController: NavController) {
             .background(Color.White)
     )
     {
+        val mockData1 = listOf("123", "Motor5", "Motor", "Checked Out", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+        val mockData2 = listOf("345", "Drone1", "Drone", "Checked In", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+
+        val allData = listOf(mockData1, mockData2)
+
         SearchBar()
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -77,7 +95,8 @@ fun AssetsScreen(navController: NavController) {
             "Status",
             375,
             400,
-            navController)
+            navController,
+        allData)
 
         Table(
             "asset",
@@ -88,13 +107,18 @@ fun AssetsScreen(navController: NavController) {
             "Status",
             375,
             150,
-            navController)
+            navController,
+        allData)
 
     }
 }
 
 @Composable
 fun FlightLogsScreen(navController: NavController) {
+    val mockData1 = listOf("123", "Motor5", "Motor", "Checked Out", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+    val mockData2 = listOf("345", "Drone1", "Drone", "Checked In", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+
+    val allData = listOf(mockData1, mockData2)
 
     Column(
         modifier = Modifier
@@ -116,7 +140,8 @@ fun FlightLogsScreen(navController: NavController) {
             "Success",
             375,
             400,
-            navController)
+            navController,
+        allData)
 
         Table(
             "flight_log",
@@ -127,13 +152,18 @@ fun FlightLogsScreen(navController: NavController) {
             "Success",
             375,
             150,
-            navController)
+            navController,
+        allData)
 
     }
 }
 
 @Composable
 fun CheckInOutScreen(navController: NavController) {
+    val mockData1 = listOf("123", "Motor5", "Motor", "Checked Out", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+    val mockData2 = listOf("345", "Drone1", "Drone", "Checked In", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+
+    val allData = listOf(mockData1, mockData2)
 
     Column(
         modifier = Modifier
@@ -155,13 +185,18 @@ fun CheckInOutScreen(navController: NavController) {
             "Success",
             375,
             550,
-            navController)
+            navController, allData)
 
     }
 }
 
 @Composable
 fun MaintenanceLogScreen(navController: NavController) {
+
+    val mockData1 = listOf("123", "Motor5", "Motor", "Checked Out", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+    val mockData2 = listOf("345", "Drone1", "Drone", "Checked In", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+
+    val allData = listOf(mockData1, mockData2)
 
     Column(
         modifier = Modifier
@@ -182,7 +217,7 @@ fun MaintenanceLogScreen(navController: NavController) {
             "Type",
             550,
             400,
-            navController)
+            navController, allData)
     }
 
 }
@@ -193,6 +228,11 @@ fun MaintenanceLogScreen(navController: NavController) {
 fun ParentSelectionScreen(navController: NavController){
 
     val openDialog = remember{ mutableStateOf(true) }
+
+    val mockData1 = listOf("123", "Motor5", "Motor", "Checked Out", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+    val mockData2 = listOf("345", "Drone1", "Drone", "Checked In", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+
+    val allData = listOf(mockData1, mockData2)
 
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -239,7 +279,7 @@ fun ParentSelectionScreen(navController: NavController){
                     "Status",
                     375,
                     500,
-                    navController
+                    navController, allData
                 )
 
                 Box(modifier = Modifier.fillMaxWidth(),

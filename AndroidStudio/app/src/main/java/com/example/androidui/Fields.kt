@@ -55,7 +55,7 @@ fun InputField(inputField: InputFieldData, dropDownItems: List<String>, navContr
 
                 OutlinedTextField(
                     value = mSelectedText,
-                    onValueChange = { mSelectedText = it },
+                    onValueChange = { mSelectedText },
                     modifier = Modifier
                         .width(inputField.width.dp)
                         .height(inputField.height.dp)

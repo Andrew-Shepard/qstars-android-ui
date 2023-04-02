@@ -12,7 +12,7 @@ fun Navigation(navController: NavHostController) {
 
     NavHost(navController, startDestination = DrawerItems.Home.route)
     {
-        composable(DrawerItems.Home.route) {
+        composable(DrawerItems.Home.route){
             HomeScreen(navController)
         }
 
@@ -71,17 +71,17 @@ fun Navigation(navController: NavHostController) {
                 "Description"
             )
 
-            val asset1 = listOf("1", "Motor1", "In Maintenance", "Gone", "","","","","","","","")
-            val asset2 = listOf("2", "Drone", "Field", "Gone")
+            val mockData1 = listOf("123", "Motor5", "Motor", "Checked Out", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
+            val mockData2 = listOf("345", "Drone1", "Drone", "Checked In", "", "", "", "", "", "", "", "", "","", "","", "", "", "")
 
-            val assets = listOf(asset1, asset2)
+            val allData = listOf(mockData1, mockData2)
 
             DetailsPopUp(
                 "Asset Information",
                 AssetInformationRows,
                 navController,
                 lambdaParameter.arguments?.getString("assetID"),
-                assets
+                allData
             )
         }
 
