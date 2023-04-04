@@ -3,19 +3,48 @@ package com.example.androidui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 
 @Composable
-fun AssetFormScreen(formViewModel: FormViewModel = viewModel()){
+fun AssetFormScreen(
+    navController: NavController,
+    formViewModel: FormViewModel,
+    assetTableViewModel: AssetTableViewModel
+){
 
     Column{
+
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = { navController.popBackStack() }, modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(10.dp)
+                .width(55.dp)) {
+                Icon(Icons.Filled.Close, "")
+            }
+            Text(
+                "Create New Asset",
+                Modifier
+                    .align(Alignment.TopCenter)
+                    .offset(y=20.dp),
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Medium
+            )
+        }
+
+        //Spacer(modifier = Modifier.height(15.dp))
 
         LazyColumn(
             modifier = Modifier.padding(10.dp),
@@ -87,6 +116,7 @@ fun AssetFormScreen(formViewModel: FormViewModel = viewModel()){
                     formViewModel.parentClickCount++
 
                     //navigate to parent screen
+                    navController.navigate("parent-table")
 
                 }) {
                     Text("+ Parent")
@@ -94,10 +124,10 @@ fun AssetFormScreen(formViewModel: FormViewModel = viewModel()){
             }
 
             // Prints parents
-            items(formViewModel.parentClickCount){ click ->
-
-                Text(formViewModel.parents[click])
-
+            if (!formViewModel.test){
+                items(formViewModel.parents){ parent ->
+                    Text(parent)
+                }
             }
 
             //Child Button
@@ -155,26 +185,45 @@ fun AssetFormScreen(formViewModel: FormViewModel = viewModel()){
                 ) {
 
                     //checks whether any of the required fields are empty
-                    if (
-                        formViewModel.assetID.isNotEmpty() &&
-                        formViewModel.assetName.isNotEmpty() &&
-                        formViewModel.assetType.isNotEmpty() &&
-                        formViewModel.assetStatus.isNotEmpty() &&
-                        formViewModel.datePurchased.isNotEmpty() &&
-                        formViewModel.currentLocation.isNotEmpty()
-                    ){
-                        requiredFieldsFilled = true
-                    }
-                    else{
-                        requiredFieldsFilled = false
-                    }
+                    requiredFieldsFilled = formViewModel.assetID.isNotEmpty() &&
+                            formViewModel.assetName.isNotEmpty() &&
+                            formViewModel.assetType.isNotEmpty() &&
+                            formViewModel.assetStatus.isNotEmpty() &&
+                            formViewModel.datePurchased.isNotEmpty() &&
+                            formViewModel.currentLocation.isNotEmpty()
 
 
                     Button( modifier = Modifier.align(CenterHorizontally),
                         enabled = requiredFieldsFilled,
                         onClick = {
-                            //navigate to previous screen
+
                             //pass all values to create new asset
+                            assetTableViewModel.newAsset(
+                                assetID = formViewModel.assetID,
+                                assetName = formViewModel.assetName,
+                                assetType = formViewModel.assetType,
+                                assetStatus =  formViewModel.assetStatus,
+                                parents = formViewModel.parents,
+                                children = formViewModel.children,
+                                datePurchased = formViewModel.datePurchased,
+                                currentLocation = formViewModel.currentLocation,
+                                description = formViewModel.description
+                            )
+
+                            //clear textfields
+                            formViewModel.assetID = ""
+                            formViewModel.assetName = ""
+                            formViewModel.assetType= ""
+                            formViewModel.assetStatus = ""
+                            formViewModel.datePurchased = ""
+                            formViewModel.currentLocation= ""
+                            formViewModel.description = ""
+                            formViewModel.settingThing()
+
+                            //navigate to previous screen
+                            navController.popBackStack()
+
+
                         }) {
                         Text("Create Asset")
                     }

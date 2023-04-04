@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 
+/*
 @Composable
 fun MainScreen() {
     // remember if the drawer is closed or not
@@ -39,3 +40,5 @@ fun MainScreen() {
         }
     }
 }
+
+ */

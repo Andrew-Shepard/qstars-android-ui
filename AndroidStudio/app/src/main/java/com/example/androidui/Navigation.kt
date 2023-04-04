@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 
+/*
 @Composable
 fun Navigation(navController: NavHostController) {
 
@@ -186,3 +187,5 @@ fun Navigation(navController: NavHostController) {
     }
 
 }
+
+ */

@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 
 // sticky headers is an experimental feature
@@ -27,13 +29,16 @@ fun AssetTable(
     width: Int,
     height: Int,
     navController: NavController,
-    assetTableViewModel: AssetTableViewModel = viewModel()
+    assetTableViewModel: AssetTableViewModel
 ) {
 
     val column1Weight = .3f
     val column2Weight = .3f
     val column3Weight = .2f
     val column4Weight = .2f
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     Column()
     {
@@ -78,7 +83,11 @@ fun AssetTable(
                         detectTapGestures(
                             onTap = {
                                 //when asset clicked, show asset deatils popup
-                                navController.navigate(ScreenRoutes.AssetDetails.withArgs(assetID))
+                                if (currentRoute == "parent-table"){
+                                    navController.navigate("asset-form")
+                                }
+                                    //navController.navigate(ScreenRoutes.AssetDetails.withArgs(assetID))
+                                    navController.navigate("details-popup" + "/$assetID")
                             }
                         )
                     }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Size
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.NonDisposableHandle.parent
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -32,6 +33,12 @@ class FormViewModel : ViewModel() {
     var parentClickCount by mutableStateOf(0)
     var childrenClickCount by mutableStateOf(0)
 
+    var test by mutableStateOf(false)
+
+    fun settingThing(){
+        test = !test
+    }
+
     // sets assetID to new asset ID
     fun onAssetIDChange(newID: String){
         assetID = newID
@@ -52,6 +59,10 @@ class FormViewModel : ViewModel() {
 
     fun addParent(newParent: String){
         parents.add(newParent)
+    }
+
+    fun clearParents(i: Int){
+        parents.drop(i)
     }
 
     fun locationChange(newLocation: String){
