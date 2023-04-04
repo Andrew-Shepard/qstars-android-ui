@@ -30,19 +30,11 @@ class FormViewModel : ViewModel() {
     var dropDownExpanded by mutableStateOf(false)
     var textFieldSize by mutableStateOf(Size.Zero)
 
-    var parentClickCount by mutableStateOf(0)
-    var childrenClickCount by mutableStateOf(0)
-
-    var test by mutableStateOf(false)
-
-    fun settingThing(){
-        test = !test
-    }
-
     // sets assetID to new asset ID
     fun onAssetIDChange(newID: String){
         assetID = newID
     }
+
 
     // sets asset name to new asset name
     fun onAssetNameChange(newName: String){
@@ -59,10 +51,6 @@ class FormViewModel : ViewModel() {
 
     fun addParent(newParent: String){
         parents.add(newParent)
-    }
-
-    fun clearParents(i: Int){
-        parents.drop(i)
     }
 
     fun locationChange(newLocation: String){

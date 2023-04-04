@@ -24,8 +24,12 @@ fun mockNavigation(
 
     NavHost(
         navController,
-        startDestination = "asset-form"
+        startDestination = "start"
     ){
+        composable("start"){
+            testScreen(navController = navController)
+        }
+
         // nvaigate to asset form
         composable(
             "asset-form"

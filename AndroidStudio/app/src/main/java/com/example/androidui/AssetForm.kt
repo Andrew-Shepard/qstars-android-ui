@@ -24,9 +24,9 @@ fun AssetFormScreen(
     formViewModel: FormViewModel,
     assetTableViewModel: AssetTableViewModel
 ){
-
     Column{
 
+        //Title and Close Button
         Box(modifier = Modifier.fillMaxWidth()) {
             Button(onClick = { navController.popBackStack() }, modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -44,14 +44,11 @@ fun AssetFormScreen(
             )
         }
 
-        //Spacer(modifier = Modifier.height(15.dp))
-
+        // All Fields
         LazyColumn(
             modifier = Modifier.padding(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
-
-            var requiredFieldsFilled = true
 
             //Serial Number
             item {
@@ -112,9 +109,6 @@ fun AssetFormScreen(
             // Parent Button
             item {
                 Button(onClick = {
-                    //update clickCount
-                    formViewModel.parentClickCount++
-
                     //navigate to parent screen
                     navController.navigate("parent-table")
 
@@ -124,15 +118,25 @@ fun AssetFormScreen(
             }
 
             // Prints parents
-            if (!formViewModel.test){
-                items(formViewModel.parents){ parent ->
-                    Text(parent)
-                }
+            items(formViewModel.parents){ parent ->
+                Text(parent)
             }
 
             //Child Button
             item {
+                Button(onClick = {
 
+                    //navigate to parent screen
+                    navController.navigate("child-table")
+
+                }) {
+                    Text("+ Child")
+                }
+            }
+
+            // Prints children
+            items(formViewModel.children){ child ->
+                Text(child)
             }
 
             // Location
@@ -185,7 +189,7 @@ fun AssetFormScreen(
                 ) {
 
                     //checks whether any of the required fields are empty
-                    requiredFieldsFilled = formViewModel.assetID.isNotEmpty() &&
+                    var requiredFieldsFilled = formViewModel.assetID.isNotEmpty() &&
                             formViewModel.assetName.isNotEmpty() &&
                             formViewModel.assetType.isNotEmpty() &&
                             formViewModel.assetStatus.isNotEmpty() &&
@@ -218,10 +222,11 @@ fun AssetFormScreen(
                             formViewModel.datePurchased = ""
                             formViewModel.currentLocation= ""
                             formViewModel.description = ""
-                            formViewModel.settingThing()
+                            formViewModel.parents = arrayListOf()
+                            formViewModel.children = arrayListOf()
 
-                            //navigate to previous screen
-                            navController.popBackStack()
+                            //navigate to asset screen
+                            navController.navigate("start")
 
 
                         }) {

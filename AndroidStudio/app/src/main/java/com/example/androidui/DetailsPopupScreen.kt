@@ -160,7 +160,7 @@ fun DetailsPopUp(
                         modifier = Modifier.fillMaxWidth()
                     ){
                         Button(onClick = {
-                            assetFormViewlModel.addParent(assetName)
+                            assetFormViewlModel.parents.add(assetName)
                             navController.navigate("asset-form") },
                             modifier = Modifier.align(Alignment.BottomCenter)) {
                             Text("Add Parent")
