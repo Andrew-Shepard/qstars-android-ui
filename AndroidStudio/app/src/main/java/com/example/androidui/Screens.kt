@@ -31,8 +31,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -427,15 +430,34 @@ fun ProfileScreen(){
             .fillMaxWidth()
             .height(244.dp)
         ){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+
+            ) {
                 Text(
                     text = "Roger",
+                    textAlign = TextAlign.Center,
                     color = Color.White,
                     style = TextStyle(
-                        fontSize = 20.sp),
+                        fontSize = 20.sp
+                    ),
                     modifier = Modifier
                         .width(width = 200.dp)
                         .height(height = 32.dp)
                 )
+                Image(
+                    painter = painterResource(id = R.drawable.roger_profilepic),
+                    contentDescription = "Profile Picture",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                        .clip(CircleShape)
+                        .size(150.dp)
+                )
+            }
         }
         Row(modifier = Modifier
             .padding(top = 30.dp)
@@ -539,17 +561,95 @@ fun ProfileScreen(){
 
 @Composable
 fun LoginScreen(){
-    Column(){
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
         Image(
             painter = painterResource(id = R.drawable.dronepic),
             contentDescription = "Background",
-            colorFilter = ColorFilter.tint(Color(0xff3e3e3e)),
             modifier = Modifier
+                .fillMaxWidth()
         )
 
+        Text(text = "Login", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text(text = "Username") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text(text = "Password") },
+            //visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(32.dp))
+        /*
+        //Requires Login Function To Work
+        Button(onClick = { onLoginClick(username, password) }, modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Login")
+        }
+        */
     }
 
 }
+
+
+// Disect this and add bits of this to the real Login
+/*fun TestLoginScreen(onLoginClick: (username: String, password: String) -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Login", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text(text = "Username") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text(text = "Password") },
+            //visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Button(onClick = { onLoginClick(username, password) }, modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Login")
+        }
+    }
+}
+*/
 
 @Composable
 fun DetailsPopUp(popupTitle: String, fieldList: List<String>, navController: NavController, data: String?){
