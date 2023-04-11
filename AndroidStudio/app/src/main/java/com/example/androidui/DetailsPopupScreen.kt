@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -24,6 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 // this function makes the parents and children display themselves in a column
 @Composable
@@ -294,7 +296,7 @@ fun FlightLogDetailsPopUp(
 
 
 @Composable
-fun CheckInOutLogDetailsPopUp(
+fun CheckOutLogDetailsPopUp(
     popupTitle: String,
     fieldList: List<String>,
     navController: NavController,
@@ -382,6 +384,118 @@ fun CheckInOutLogDetailsPopUp(
         }
     }
 }
+
+
+@Composable
+fun CheckInLogDetailsPopUp(
+    popupTitle: String,
+    fieldList: List<String>,
+    navController: NavController,
+    data: String?,
+    listOfCheckInOut: List<CheckInOutLog>,
+
+){
+    var height: Int = 480
+
+    val sdf = SimpleDateFormat("MM-dd-yyyy")
+    val currentDate = sdf.format(Date())
+
+    Popup(
+        alignment = Alignment.TopCenter
+    ){
+        Box(modifier = Modifier
+            .offset(y = 25.dp)
+            .padding(20.dp)
+            .width(600.dp)
+            .height(600.dp)
+            .border(width = 2.dp, color = Color.LightGray, shape = RectangleShape)
+            .background(color = Color.White)
+        ) {
+
+            Column{
+                Box(modifier = Modifier
+                    .background(Color.LightGray)
+                    .fillMaxWidth()
+                    .offset(x = 10.dp)
+                ){
+
+                    //Close Button
+                    Button(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .width(50.dp)
+                            .offset(x = -15.dp)
+                    ) {
+                        Icon(Icons.Filled.Close, "")
+                    }
+
+                    //Title
+                    Text(
+                        text = popupTitle,
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .offset(y = 10.dp),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+                Box(modifier = Modifier.height(height.dp)){
+                    LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)){
+
+                        itemsIndexed(fieldList){ i, field ->
+
+                            Row(horizontalArrangement = Arrangement.spacedBy(65.dp)){
+
+                                // name of field
+                                Box(modifier = Modifier
+                                    .width(120.dp)
+                                    .height(40.dp)
+                                    .offset(x = 10.dp)) {
+                                    Text(field)
+                                }
+
+                                //value of field
+                                for (log in listOfCheckInOut){
+                                    if (log.ID == data){
+                                        when (i){
+                                            0 -> Text(log.ID)
+                                            1 -> Text(log.assetID)
+                                            2 -> Text(log.employeeID)
+                                            3 -> Text(log.employeeName)
+                                            4 -> Text(log.checkOutDate)
+                                            5 -> Text(log.checkInDate)
+                                            6 -> Text(log.currentLocation)
+                                            7 -> Text(log.description)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                Spacer(Modifier.height(10.dp))
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    Button(onClick = {
+                        for (log in listOfCheckInOut) {
+                            if (log.ID == data) {
+                                log.checkInDate = currentDate
+                                navController.popBackStack()
+                            }
+                        }
+
+                    },
+                        modifier = Modifier.align(Alignment.BottomCenter)) {
+                        Text("Check In Asset")
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 fun MaintenanceLogDetailsPopUp(

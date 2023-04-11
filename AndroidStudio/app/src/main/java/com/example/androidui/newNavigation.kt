@@ -183,8 +183,35 @@ fun newNavigation(
                 "Description",
             )
 
-            CheckInOutLogDetailsPopUp(
+            CheckOutLogDetailsPopUp(
                 popupTitle = "Check Out",
+                fieldList = CheckInOutInformationRows,
+                navController = navController,
+                data = lambdaParameter.arguments?.getString("logID"),
+                listOfCheckInOut = checkInOutTableViewModel.allCheckInOutLogs
+            )
+        }
+
+        composable(
+            "checkin-details-popup" + "/{logID}",
+            arguments = listOf(
+                navArgument("logID"){
+                    type = NavType.StringType
+                })
+        ){ lambdaParameter ->
+            var CheckInOutInformationRows = listOf(
+                "ID",
+                "Asset ID",
+                "Employee ID",
+                "Employee Name",
+                "Check Out Date",
+                "Check In Date",
+                "Current Location",
+                "Description",
+            )
+
+            CheckInLogDetailsPopUp(
+                popupTitle = "Check In Asset",
                 fieldList = CheckInOutInformationRows,
                 navController = navController,
                 data = lambdaParameter.arguments?.getString("logID"),

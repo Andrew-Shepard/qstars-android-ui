@@ -119,11 +119,22 @@ fun CheckInOut(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        CheckInOutTable(
+        CheckInTable(
             width = 375,
-            height = 550,
+            height = 250,
             navController = navController,
             checkInOutTableViewModel = checkInOutTableViewModel)
+
+        SearchBar()
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        CheckOutTable(
+            width = 375,
+            height = 250,
+            navController = navController,
+            checkInOutTableViewModel = checkInOutTableViewModel)
+
 
     }
 

@@ -38,7 +38,10 @@ class CheckInOutLog {
 
 class CheckInOutTableViewModel: ViewModel() {
 
-    var allCheckInOutLogs : ArrayList<CheckInOutLog> = arrayListOf()
+    var allCheckInOutLogs : ArrayList<CheckInOutLog> = arrayListOf(
+        CheckInOutLog("1","23","e4","John Doe","02-04-2002","","warehouse","for mission"),
+        CheckInOutLog("2","22","e4","John Doe","02-04-2002","03-03-2002","warehouse","for mission")
+    )
 
 
     fun newCheckInOutLog(
