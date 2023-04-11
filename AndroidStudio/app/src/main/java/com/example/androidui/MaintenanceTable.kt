@@ -15,20 +15,16 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
-
-// sticky headers is an experimental feature
-// creates a custom table
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AssetTable(
+fun MaintenanceLogTable(
     width: Int,
     height: Int,
     navController: NavController,
-    assetTableViewModel: AssetTableViewModel
+    maintenanceLogTableViewModel: MaintenanceTableViewModel
 ) {
 
     val column1Weight = .3f
@@ -39,17 +35,11 @@ fun AssetTable(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    var parentButton by remember{mutableStateOf(false)}
-    var childButton by remember{mutableStateOf(false)}
-
-    parentButton = currentRoute == "parent-table"
-    childButton = currentRoute == "child-table"
-
     Column()
     {
         // Table title
         Text(
-            text = "Assets",
+            text = "Maintenance Logs",
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -68,18 +58,18 @@ fun AssetTable(
             stickyHeader {
                 Row(Modifier.background(Color.Gray))
                 {
-                    TableCell(text = "Asset ID", weight = column1Weight)
-                    TableCell(text = "Name", weight = column2Weight)
-                    TableCell(text = "Asset Type", weight = column3Weight)
-                    TableCell(text = "Status", weight = column4Weight)
+                    TableCell(text = "ID", weight = column1Weight)
+                    TableCell(text = "Asset ID", weight = column2Weight)
+                    TableCell(text = "Date of Maintenance", weight = column3Weight)
+                    TableCell(text = "Type of Maintenance", weight = column4Weight)
                 }
             }
 
             // The table data
-            items(assetTableViewModel.allAssets) { asset ->
+            items(maintenanceLogTableViewModel.allMaintenanceLogs) { log ->
 
                 // stores ID of row to pass it
-                val assetID = asset.assetID
+                val ID = log.ID
 
                 Row(modifier = Modifier
                     .fillMaxWidth()
@@ -88,15 +78,15 @@ fun AssetTable(
                         detectTapGestures(
                             onTap = {
                                 //when asset clicked, show asset details popup
-                                navController.navigate("details-popup" + "/$assetID" + "/$parentButton" + "/$childButton")
+                                navController.navigate("maintenance-log-details-popup" + "/$ID")
                             }
                         )
                     }
                 ) {
-                    TableCell(text = asset.assetID, weight = column1Weight)
-                    TableCell(text = asset.assetName, weight = column2Weight)
-                    TableCell(text = asset.assetType, weight = column3Weight)
-                    TableCell(text = asset.assetStatus, weight = column4Weight)
+                    TableCell(text = log.ID, weight = column1Weight)
+                    TableCell(text = log.assetID, weight = column2Weight)
+                    TableCell(text = log.dateOfMaintenance, weight = column3Weight)
+                    TableCell(text = log.typeOfMaintenane, weight = column4Weight)
 
                 }
             }

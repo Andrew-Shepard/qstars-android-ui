@@ -128,7 +128,7 @@ fun AssetFormScreen(
 
                     //navigate to parent screen
                     navController.navigate("child-table")
-
+7
                 }) {
                     Text("+ Child")
                 }
@@ -226,7 +226,7 @@ fun AssetFormScreen(
                             formViewModel.children = arrayListOf()
 
                             //navigate to asset screen
-                            navController.navigate("start")
+                            navController.navigate("assets")
 
 
                         }) {

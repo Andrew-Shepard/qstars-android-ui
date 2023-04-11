@@ -15,41 +15,32 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 
-// sticky headers is an experimental feature
-// creates a custom table
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AssetTable(
+fun CheckInOutTable(
     width: Int,
     height: Int,
     navController: NavController,
-    assetTableViewModel: AssetTableViewModel
+    checkInOutTableViewModel: CheckInOutTableViewModel
 ) {
 
-    val column1Weight = .3f
-    val column2Weight = .3f
-    val column3Weight = .2f
-    val column4Weight = .2f
+    val column1Weight = .2f
+    val column2Weight = .25f
+    val column3Weight = .25f
+    val column4Weight = .3f
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-
-    var parentButton by remember{mutableStateOf(false)}
-    var childButton by remember{mutableStateOf(false)}
-
-    parentButton = currentRoute == "parent-table"
-    childButton = currentRoute == "child-table"
 
     Column()
     {
         // Table title
         Text(
-            text = "Assets",
+            text = "Check In Out Logs",
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -68,18 +59,18 @@ fun AssetTable(
             stickyHeader {
                 Row(Modifier.background(Color.Gray))
                 {
-                    TableCell(text = "Asset ID", weight = column1Weight)
-                    TableCell(text = "Name", weight = column2Weight)
-                    TableCell(text = "Asset Type", weight = column3Weight)
-                    TableCell(text = "Status", weight = column4Weight)
+                    TableCell(text = "ID", weight = column1Weight)
+                    TableCell(text = "Asset ID", weight = column2Weight)
+                    TableCell(text = "Check Out Date", weight = column3Weight)
+                    TableCell(text = "Check In Date", weight = column4Weight)
                 }
             }
 
             // The table data
-            items(assetTableViewModel.allAssets) { asset ->
+            items(checkInOutTableViewModel.allCheckInOutLogs) { log ->
 
                 // stores ID of row to pass it
-                val assetID = asset.assetID
+                val logID = log.ID
 
                 Row(modifier = Modifier
                     .fillMaxWidth()
@@ -88,15 +79,15 @@ fun AssetTable(
                         detectTapGestures(
                             onTap = {
                                 //when asset clicked, show asset details popup
-                                navController.navigate("details-popup" + "/$assetID" + "/$parentButton" + "/$childButton")
+                                navController.navigate("checkinout-details-popup" + "/$logID")
                             }
                         )
                     }
                 ) {
-                    TableCell(text = asset.assetID, weight = column1Weight)
-                    TableCell(text = asset.assetName, weight = column2Weight)
-                    TableCell(text = asset.assetType, weight = column3Weight)
-                    TableCell(text = asset.assetStatus, weight = column4Weight)
+                    TableCell(text = log.ID, weight = column1Weight)
+                    TableCell(text = log.assetID, weight = column2Weight)
+                    TableCell(text = log.checkOutDate, weight = column3Weight)
+                    TableCell(text = log.checkInDate, weight = column4Weight)
 
                 }
             }

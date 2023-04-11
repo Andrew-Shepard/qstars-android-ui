@@ -26,10 +26,6 @@ class FormViewModel : ViewModel() {
     var currentLocation by mutableStateOf("")
     var description by mutableStateOf("")
 
-    // variables for the drop box text fields
-    var dropDownExpanded by mutableStateOf(false)
-    var textFieldSize by mutableStateOf(Size.Zero)
-
     // sets assetID to new asset ID
     fun onAssetIDChange(newID: String){
         assetID = newID

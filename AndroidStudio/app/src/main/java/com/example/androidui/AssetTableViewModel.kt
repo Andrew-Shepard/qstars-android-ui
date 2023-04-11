@@ -86,5 +86,22 @@ class AssetTableViewModel : ViewModel() {
                 description
             )
         )
+
+        allAssets.remove(
+            Asset(
+                assetID,
+                assetName,
+                assetType,
+                assetStatus,
+                parents,
+                children,
+                datePurchased,
+                totalHoursUsed,
+                lastMaintenanceDate,
+                lastCheckOut,
+                currentLocation,
+                description
+            )
+        )
     }
 }

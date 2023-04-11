@@ -15,6 +15,7 @@ import androidx.navigation.navArgument
 // TRYING TO SEE HOW NAVIGATION WORKS
 // BETWEEN ASSET FORM -> PARENT SCREEN -> ASSET DETAILS
 
+/*
 @Composable
 fun mockNavigation(
     navController: NavHostController = rememberNavController(),
@@ -91,3 +92,4 @@ fun mockNavigation(
     }
 
 }
+*/

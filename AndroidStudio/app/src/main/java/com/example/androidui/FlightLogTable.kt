@@ -8,29 +8,25 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
-
-// sticky headers is an experimental feature
-// creates a custom table
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AssetTable(
+fun FlightLogTable(
     width: Int,
     height: Int,
     navController: NavController,
-    assetTableViewModel: AssetTableViewModel
-) {
-
+    flightLogTableViewModel: FlightLogTableViewModel
+){
     val column1Weight = .3f
     val column2Weight = .3f
     val column3Weight = .2f
@@ -39,17 +35,10 @@ fun AssetTable(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    var parentButton by remember{mutableStateOf(false)}
-    var childButton by remember{mutableStateOf(false)}
-
-    parentButton = currentRoute == "parent-table"
-    childButton = currentRoute == "child-table"
-
-    Column()
-    {
+    Column{
         // Table title
         Text(
-            text = "Assets",
+            text = "Flight Logs",
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -57,7 +46,6 @@ fun AssetTable(
                 .offset(y = 10.dp)
         )
 
-        //Contents of table
         LazyColumn(
             Modifier
                 .size(width = width.dp, height = height.dp)
@@ -68,18 +56,18 @@ fun AssetTable(
             stickyHeader {
                 Row(Modifier.background(Color.Gray))
                 {
-                    TableCell(text = "Asset ID", weight = column1Weight)
-                    TableCell(text = "Name", weight = column2Weight)
-                    TableCell(text = "Asset Type", weight = column3Weight)
-                    TableCell(text = "Status", weight = column4Weight)
+                    TableCell(text = "Flight Log ID", weight = column1Weight)
+                    TableCell(text = "Pilot ID", weight = column2Weight)
+                    TableCell(text = "Date", weight = column3Weight)
+                    TableCell(text = "Success", weight = column4Weight)
                 }
             }
 
-            // The table data
-            items(assetTableViewModel.allAssets) { asset ->
+            //The table data
+            items(flightLogTableViewModel.allFlightLogs) { flightLog ->
 
                 // stores ID of row to pass it
-                val assetID = asset.assetID
+                val flightLogID = flightLog.flightLogID
 
                 Row(modifier = Modifier
                     .fillMaxWidth()
@@ -87,16 +75,17 @@ fun AssetTable(
                     {
                         detectTapGestures(
                             onTap = {
-                                //when asset clicked, show asset details popup
-                                navController.navigate("details-popup" + "/$assetID" + "/$parentButton" + "/$childButton")
+                                //when flight log clicked, show flight log details popup
+                                //navController.navigate("flight-logs-detail-popup" + "/$flightLogID")
+                                navController.navigate("flight-logs-popup" + "/$flightLogID")
                             }
                         )
                     }
                 ) {
-                    TableCell(text = asset.assetID, weight = column1Weight)
-                    TableCell(text = asset.assetName, weight = column2Weight)
-                    TableCell(text = asset.assetType, weight = column3Weight)
-                    TableCell(text = asset.assetStatus, weight = column4Weight)
+                    TableCell(text = flightLog.flightLogID, weight = column1Weight)
+                    TableCell(text = flightLog.pilotID, weight = column2Weight)
+                    TableCell(text = flightLog.dateOfLog, weight = column3Weight)
+                    TableCell(text = flightLog.success, weight = column4Weight)
 
                 }
             }

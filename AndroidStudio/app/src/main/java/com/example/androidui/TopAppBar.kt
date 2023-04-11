@@ -54,19 +54,19 @@ fun TopBar(scope: CoroutineScope,
 
                         when (currentRoute) {
                             "assets" -> {
-                                navController.navigate(ScreenRoutes.AssetCreation.route)
+                                navController.navigate("asset-form")
                             }
 
-                            "flight_logs" -> {
-                                navController.navigate(ScreenRoutes.FlightLogCreation.route)
+                            "flight-logs" -> {
+                                navController.navigate("flight-logs-form")
                             }
 
-                            "check_in_out" -> {
-                                navController.navigate(ScreenRoutes.CheckInOutCreation.route)
+                            "check-in-out-logs" -> {
+                                navController.navigate("check-in-out-form")
                             }
 
-                            "maintenance_log" -> {
-                                navController.navigate(ScreenRoutes.MaintenanceLogCreation.route)
+                            "maintenance-logs" -> {
+                                navController.navigate("maintenance-log-form")
                             }
                         }
 
