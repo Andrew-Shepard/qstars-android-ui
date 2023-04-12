@@ -21,7 +21,7 @@ import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 
 
-
+/*
 @Composable
 fun HomeScreen(navController: NavController) {
     Column(
@@ -293,6 +293,8 @@ fun ParentSelectionScreen(navController: NavController){
         }
     }
 }
+
+ */
 
 
 

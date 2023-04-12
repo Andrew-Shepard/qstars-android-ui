@@ -28,7 +28,8 @@ fun AssetTable(
     width: Int,
     height: Int,
     navController: NavController,
-    assetTableViewModel: AssetTableViewModel
+    assetTableViewModel: AssetTableViewModel,
+    searchViewModel: SearchViewModel
 ) {
 
     val column1Weight = .3f
@@ -41,9 +42,12 @@ fun AssetTable(
 
     var parentButton by remember{mutableStateOf(false)}
     var childButton by remember{mutableStateOf(false)}
+    var addAssetButton by remember{mutableStateOf(false)}
 
     parentButton = currentRoute == "parent-table"
     childButton = currentRoute == "child-table"
+
+    addAssetButton = currentRoute == "add-asset-table"
 
     Column()
     {
@@ -81,23 +85,46 @@ fun AssetTable(
                 // stores ID of row to pass it
                 val assetID = asset.assetID
 
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .pointerInput(Unit)
-                    {
-                        detectTapGestures(
-                            onTap = {
-                                //when asset clicked, show asset details popup
-                                navController.navigate("details-popup" + "/$assetID" + "/$parentButton" + "/$childButton")
-                            }
-                        )
-                    }
-                ) {
-                    TableCell(text = asset.assetID, weight = column1Weight)
-                    TableCell(text = asset.assetName, weight = column2Weight)
-                    TableCell(text = asset.assetType, weight = column3Weight)
-                    TableCell(text = asset.assetStatus, weight = column4Weight)
+                if (searchViewModel.userSearch == asset.assetID){
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .pointerInput(Unit)
+                        {
+                            detectTapGestures(
+                                onTap = {
+                                    //when asset clicked, show asset details popup
+                                    navController.navigate("details-popup" + "/$assetID" + "/$parentButton" + "/$childButton" + "/$addAssetButton")
+                                }
+                            )
+                        }
+                    ) {
+                        TableCell(text = asset.assetID, weight = column1Weight)
+                        TableCell(text = asset.assetName, weight = column2Weight)
+                        TableCell(text = asset.assetType, weight = column3Weight)
+                        TableCell(text = asset.assetStatus, weight = column4Weight)
 
+                    }
+                }
+
+                if (searchViewModel.userSearch == ""){
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .pointerInput(Unit)
+                        {
+                            detectTapGestures(
+                                onTap = {
+                                    //when asset clicked, show asset details popup
+                                    navController.navigate("details-popup" + "/$assetID" + "/$parentButton" + "/$childButton" + "/$addAssetButton")
+                                }
+                            )
+                        }
+                    ) {
+                        TableCell(text = asset.assetID, weight = column1Weight)
+                        TableCell(text = asset.assetName, weight = column2Weight)
+                        TableCell(text = asset.assetType, weight = column3Weight)
+                        TableCell(text = asset.assetStatus, weight = column4Weight)
+
+                    }
                 }
             }
         }

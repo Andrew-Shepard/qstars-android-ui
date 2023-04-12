@@ -17,7 +17,8 @@ fun newNavigation(
     checkInOutTableViewModel: CheckInOutTableViewModel = viewModel(),
     checkInOutFormViewModel: CheckInOutFormViewModel = viewModel(),
     maintenanceLogTableViewModel: MaintenanceTableViewModel = viewModel(),
-    maintenanceFormViewModel: MaintenanceLogFormViewModel = viewModel()
+    maintenanceFormViewModel: MaintenanceLogFormViewModel = viewModel(),
+    searchViewModel: SearchViewModel = viewModel()
 ){
     NavHost(
         navController = navController,
@@ -28,7 +29,8 @@ fun newNavigation(
             Home(
                 navController = navController,
                 assetTableViewModel = assetTableViewModel,
-                flightLogTableViewModel
+                flightLogTableViewModel,
+                searchViewModel
             )
         }
 
@@ -36,7 +38,8 @@ fun newNavigation(
         composable("assets"){
             Assets(
                 navController = navController,
-                assetTableViewModel
+                assetTableViewModel,
+                searchViewModel
             )
         }
 
@@ -67,7 +70,7 @@ fun newNavigation(
 
         // asset details popup
         composable(
-            "details-popup" + "/{assetID}" + "/{parentButton}" + "/{childButton}",
+            "details-popup" + "/{assetID}" + "/{parentButton}" + "/{childButton}" + "/{addAssetButton}",
             arguments = listOf(
                 navArgument("assetID"){
                     type = NavType.StringType
@@ -76,6 +79,9 @@ fun newNavigation(
                     type = NavType.BoolType
                 },
                 navArgument("childButton"){
+                    type = NavType.BoolType
+                },
+                navArgument("addAssetButton"){
                     type = NavType.BoolType
                 }
             )
@@ -104,8 +110,10 @@ fun newNavigation(
                 assetTableViewModel.allAssets,
                 assetFormViewModel = assetFormViewModel,
                 assetTableViewModel,
+                checkInOutFormViewModel,
                 lambdaParameter.arguments?.getBoolean("parentButton"),
-                lambdaParameter.arguments?.getBoolean("childButton")
+                lambdaParameter.arguments?.getBoolean("childButton"),
+                lambdaParameter.arguments?.getBoolean("addAssetButton")
             )
         }
 
@@ -224,6 +232,14 @@ fun newNavigation(
                 navController = navController,
                 checkInOutFormViewModel = checkInOutFormViewModel,
                 checkInOutTableViewModel = checkInOutTableViewModel
+            )
+        }
+
+        composable("add-asset-table"){
+            AddAssetScreen(
+                navController = navController,
+                assetTableViewModel,
+                searchViewModel
             )
         }
 

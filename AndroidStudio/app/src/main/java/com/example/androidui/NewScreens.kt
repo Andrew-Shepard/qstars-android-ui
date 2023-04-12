@@ -15,7 +15,8 @@ import androidx.navigation.NavController
 fun Home(
     navController: NavController,
     assetTableViewModel: AssetTableViewModel,
-    flightLogTableViewModel: FlightLogTableViewModel
+    flightLogTableViewModel: FlightLogTableViewModel,
+    searchViewModel: SearchViewModel
 ){
     Column(
         modifier = Modifier
@@ -35,7 +36,8 @@ fun Home(
                 width = 375,
                 height = 225,
                 navController = navController,
-                assetTableViewModel = assetTableViewModel
+                assetTableViewModel = assetTableViewModel,
+                searchViewModel = searchViewModel
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -56,7 +58,8 @@ fun Home(
 @Composable
 fun Assets(
     navController: NavController,
-    assetTableViewModel: AssetTableViewModel
+    assetTableViewModel: AssetTableViewModel,
+    searchViewModel: SearchViewModel
 ){
 
     Column(
@@ -65,7 +68,7 @@ fun Assets(
             .background(Color.White)
     ){
 
-        SearchBar()
+        SearchBar(searchViewModel)
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -73,7 +76,8 @@ fun Assets(
             width = 375,
             height = 250,
             navController = navController,
-            assetTableViewModel = assetTableViewModel
+            assetTableViewModel = assetTableViewModel,
+            searchViewModel = searchViewModel
         )
     }
 }
@@ -89,7 +93,7 @@ fun FlightLogs(
             .background(Color.White)
     ){
 
-        SearchBar()
+        //SearchBar()
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -115,7 +119,7 @@ fun CheckInOut(
             .background(Color.White)
     ){
 
-        SearchBar()
+        //SearchBar()
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -125,7 +129,7 @@ fun CheckInOut(
             navController = navController,
             checkInOutTableViewModel = checkInOutTableViewModel)
 
-        SearchBar()
+        //SearchBar()
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -152,7 +156,7 @@ fun MaintenanceLog(
             .background(Color.White)
     ){
 
-        SearchBar()
+        //SearchBar()
 
         Spacer(modifier = Modifier.height(8.dp))
 

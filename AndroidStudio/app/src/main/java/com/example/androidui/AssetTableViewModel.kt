@@ -53,7 +53,9 @@ class Asset {
 class AssetTableViewModel : ViewModel() {
     var allAssets: ArrayList<Asset> = arrayListOf(
         Asset("123", "Motor5", "Motor", "Checked Out", arrayListOf("parent1", "parent2", "parent3", "parent4", "parent5"), arrayListOf("child1", "child2"), "", "", "", "", "", ""),
-        Asset("345", "Motor5", "Motor", "Checked Out", arrayListOf(""), arrayListOf(""), "", "", "", "", "", "")
+        Asset("345", "Motor6", "Motor", "Checked Out", arrayListOf(""), arrayListOf(""), "", "", "", "", "", ""),
+        Asset("335", "Motor7", "Motor", "Checked Out", arrayListOf(""), arrayListOf(""), "", "", "", "", "", "")
+
     )
 
     fun newAsset(

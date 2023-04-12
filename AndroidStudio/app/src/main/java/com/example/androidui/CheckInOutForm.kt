@@ -71,11 +71,15 @@ fun CheckInFormScreen(
             }
 
             item {
-                Text(text = "Asset ID")
-                AppTextField(
-                    text = checkInOutFormViewModel.assetID,
-                    onChange = { checkInOutFormViewModel.onAssetIDChange(it) },
-                    placeholder = "Asset ID")
+                Button(onClick = {
+                    navController.navigate("add-asset-table")
+                }) {
+                    Text(text = "+ Asset")
+                }
+            }
+
+            item {
+                Text(checkInOutFormViewModel.assetID)
             }
 
             item {

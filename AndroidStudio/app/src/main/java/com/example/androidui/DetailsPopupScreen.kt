@@ -44,27 +44,34 @@ fun AssetDetailsPopUp(
     fieldList: List<String>,
     navController: NavController,
     data: String?,
-    listOfAssets: List<Asset>,
+    listOfAssets: ArrayList<Asset>,
     assetFormViewModel: FormViewModel,
     assetTableViewModel: AssetTableViewModel,
+    checkInOutFormViewModel: CheckInOutFormViewModel,
     addParentButton: Boolean? = false,
-    addChildButton: Boolean? = false
+    addChildButton: Boolean? = false,
+    addAssetButton: Boolean? = false
 ){
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     var height: Int
 
+    var assetID: String = ""
     var assetName: String = ""
+
+    var deleteButtonVisibility: Boolean = true
 
     Popup(
         alignment = Alignment.TopCenter
     ){
-        if (addChildButton == true || addParentButton == true){
+        if (addChildButton == true || addParentButton == true || addAssetButton == true){
             height = 480
+            deleteButtonVisibility = false
         }
         else{
             height = 520
+            deleteButtonVisibility = true
         }
 
         Box(modifier = Modifier
@@ -82,22 +89,31 @@ fun AssetDetailsPopUp(
                     .fillMaxWidth()
                     .offset(x = 10.dp)
                 ){
-                    Button(
-                        onClick = {
-                            for (asset in listOfAssets) {
-                                //if asset id == id passed
-                                if (asset.assetID == data) {
-                                    assetTableViewModel.allAssets.remove(asset)
+
+                    // Delete Button
+                    if (deleteButtonVisibility){
+                        Button(
+                            onClick = {
+                                var sizeOfAssetList: Int = listOfAssets.size - 1
+                                var i: Int = 0
+                                while (i in 0..sizeOfAssetList){
+                                    if (listOfAssets[i].assetID == data){
+                                        listOfAssets.remove(listOfAssets[i])
+                                        sizeOfAssetList -= 1
+                                        break
+                                    }
+                                    i++
                                 }
-                            }
-                            navController.popBackStack()
-                        },
-                        modifier = Modifier
-                            .align(Alignment.TopCenter)
-                            .width(50.dp)
-                            .offset(x = 25.dp)
-                    ) {
-                        Icon(Icons.Filled.Delete, "")
+
+                                navController.popBackStack()
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .width(50.dp)
+                                .offset(x = 25.dp)
+                        ) {
+                            Icon(Icons.Filled.Delete, "")
+                        }
                     }
 
 
@@ -142,6 +158,7 @@ fun AssetDetailsPopUp(
                                     //if asset id == id passed
                                     if (asset.assetID == data){
                                         assetName = asset.assetName
+                                        assetID = asset.assetID
                                         when (i){
                                             0 -> Text(asset.assetID)
                                             1 -> Text(asset.assetName)
@@ -188,6 +205,20 @@ fun AssetDetailsPopUp(
                             navController.navigate("asset-form") },
                             modifier = Modifier.align(Alignment.BottomCenter)) {
                             Text("Add Parent")
+                        }
+                    }
+                }
+
+                if (addAssetButton == true){
+                    Spacer(Modifier.height(10.dp))
+                    Box(
+                        modifier = Modifier.fillMaxWidth()
+                    ){
+                        Button(onClick = {
+                            checkInOutFormViewModel.assetID = assetID
+                            navController.navigate("check-in-out-form") },
+                            modifier = Modifier.align(Alignment.BottomCenter)) {
+                            Text("Add Asset")
                         }
                     }
                 }
