@@ -18,7 +18,8 @@ fun newNavigation(
     checkInOutFormViewModel: CheckInOutFormViewModel = viewModel(),
     maintenanceLogTableViewModel: MaintenanceTableViewModel = viewModel(),
     maintenanceFormViewModel: MaintenanceLogFormViewModel = viewModel(),
-    searchViewModel: SearchViewModel = viewModel()
+    assetSearchViewModel: AssetSearchViewModel = viewModel(),
+    flightLogSearchViewModel: FlightLogSearchViewModel = viewModel()
 ){
     NavHost(
         navController = navController,
@@ -29,8 +30,9 @@ fun newNavigation(
             Home(
                 navController = navController,
                 assetTableViewModel = assetTableViewModel,
-                flightLogTableViewModel,
-                searchViewModel
+                flightLogTableViewModel = flightLogTableViewModel,
+                assetSearchViewModel = assetSearchViewModel,
+                flightLogSearchViewModel = flightLogSearchViewModel
             )
         }
 
@@ -39,12 +41,12 @@ fun newNavigation(
             Assets(
                 navController = navController,
                 assetTableViewModel,
-                searchViewModel
+                assetSearchViewModel
             )
         }
 
         composable("asset-filters"){
-            AssetFilterPopup(navController = navController, searchViewModel = searchViewModel)
+            AssetFilterPopup(navController = navController, assetSearchViewModel = assetSearchViewModel)
         }
 
         //asset form screen
@@ -124,9 +126,16 @@ fun newNavigation(
         composable("flight-logs"){
             FlightLogs(
                 navController = navController,
+                flightLogSearchViewModel = flightLogSearchViewModel,
                 flightLogTableViewModel = flightLogTableViewModel
             )
         }
+
+        // flight log filters
+        composable("flight-log-filters"){
+            FlightLogFilterPopup(navController = navController, flightLogSearchViewModel = flightLogSearchViewModel)
+        }
+
 
         // flight logs popup
         composable(
@@ -242,7 +251,7 @@ fun newNavigation(
             AddAssetScreen(
                 navController = navController,
                 assetTableViewModel,
-                searchViewModel
+                assetSearchViewModel
             )
         }
 

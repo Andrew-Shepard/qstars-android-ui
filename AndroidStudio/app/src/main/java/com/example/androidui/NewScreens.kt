@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Filter
-import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +18,8 @@ fun Home(
     navController: NavController,
     assetTableViewModel: AssetTableViewModel,
     flightLogTableViewModel: FlightLogTableViewModel,
-    searchViewModel: SearchViewModel
+    assetSearchViewModel: AssetSearchViewModel,
+    flightLogSearchViewModel: FlightLogSearchViewModel
 ){
     Column(
         modifier = Modifier
@@ -41,7 +40,7 @@ fun Home(
                 height = 225,
                 navController = navController,
                 assetTableViewModel = assetTableViewModel,
-                searchViewModel = searchViewModel
+                assetSearchViewModel = assetSearchViewModel
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -50,7 +49,8 @@ fun Home(
                 width = 375,
                 height = 225,
                 navController = navController,
-                flightLogTableViewModel = flightLogTableViewModel
+                flightLogTableViewModel = flightLogTableViewModel,
+                flightLogSearchViewModel = flightLogSearchViewModel
             )
         }
 
@@ -63,7 +63,7 @@ fun Home(
 fun Assets(
     navController: NavController,
     assetTableViewModel: AssetTableViewModel,
-    searchViewModel: SearchViewModel
+    assetSearchViewModel: AssetSearchViewModel
 ){
 
     Column(
@@ -77,7 +77,7 @@ fun Assets(
             contentAlignment = Alignment.TopStart
         ){
             Row{
-                SearchBar(searchViewModel)
+                AssetSearchBar(assetSearchViewModel)
                 IconButton(
                     modifier = Modifier.offset(x=20.dp, y = 15.dp),
                     onClick = {
@@ -93,10 +93,10 @@ fun Assets(
 
         AssetTable(
             width = 375,
-            height = 250,
+            height = 600,
             navController = navController,
             assetTableViewModel = assetTableViewModel,
-            searchViewModel = searchViewModel
+            assetSearchViewModel = assetSearchViewModel
         )
     }
 }
@@ -104,6 +104,7 @@ fun Assets(
 @Composable
 fun FlightLogs(
     navController: NavController,
+    flightLogSearchViewModel: FlightLogSearchViewModel,
     flightLogTableViewModel: FlightLogTableViewModel
 ){
     Column(
@@ -112,7 +113,17 @@ fun FlightLogs(
             .background(Color.White)
     ){
 
-        //SearchBar()
+        Row{
+            FlightLogSearchBar(flightLogSearchViewModel = flightLogSearchViewModel)
+            IconButton(
+                modifier = Modifier.offset(x=20.dp, y = 15.dp),
+                onClick = {
+                    navController.navigate("flight-log-filters")
+                }
+            ) {
+                Icon(Icons.Outlined.FilterAlt, "", modifier = Modifier.size(50.dp), tint = Color.DarkGray)
+            }
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -120,7 +131,8 @@ fun FlightLogs(
             width = 375,
             height = 550,
             navController = navController,
-            flightLogTableViewModel = flightLogTableViewModel
+            flightLogTableViewModel = flightLogTableViewModel,
+            flightLogSearchViewModel = flightLogSearchViewModel
         )
 
     }

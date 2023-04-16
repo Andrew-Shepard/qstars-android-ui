@@ -15,7 +15,7 @@ import androidx.navigation.NavController
 fun AddAssetScreen(
     navController: NavController,
     assetTableViewModel: AssetTableViewModel,
-    searchViewModel: SearchViewModel
+    assetSearchViewModel: AssetSearchViewModel
 ){
 
     Column{
@@ -38,7 +38,7 @@ fun AddAssetScreen(
             height = 600,
             navController = navController,
             assetTableViewModel,
-            searchViewModel = searchViewModel
+            assetSearchViewModel = assetSearchViewModel
         )
     }
 }

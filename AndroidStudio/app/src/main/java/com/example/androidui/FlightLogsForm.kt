@@ -112,8 +112,8 @@ fun FlightLogFormScreen(
                 Text(text = "Success")
 
                 val flightLogSuccessDropDown = listOf(
-                    "true",
-                    "false"
+                    "Yes",
+                    "No"
                 )
 
                 AppTextFieldDropDown(
@@ -144,8 +144,8 @@ fun FlightLogFormScreen(
                 Text(text = "Test Mission")
 
                 val flightTestMissionDropDown = listOf(
-                    "true",
-                    "false"
+                    "Yes",
+                    "No"
                 )
 
                 AppTextFieldDropDown(

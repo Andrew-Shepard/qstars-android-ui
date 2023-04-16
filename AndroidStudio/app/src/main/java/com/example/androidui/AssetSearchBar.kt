@@ -22,16 +22,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SearchViewModel : ViewModel(){
+class AssetSearchViewModel : ViewModel(){
     var userSearch by mutableStateOf("")
     var nameSearch by mutableStateOf("")
     var assetTypeSearch by mutableStateOf("")
     var assetStatusSearch by mutableStateOf("")
     var lastMaintenanceDate by mutableStateOf("")
     var purchaseDate by mutableStateOf("")
-
-    var listOfSearchFields: ArrayList<String> = arrayListOf(userSearch, nameSearch, assetTypeSearch, assetStatusSearch, lastMaintenanceDate, purchaseDate)
-
 
     fun onSearchChange(newSearch: String){
         userSearch = newSearch
@@ -121,19 +118,38 @@ class SearchViewModel : ViewModel(){
 
 
 @Composable
-fun SearchBar(
-    searchViewModel: SearchViewModel
+fun AssetSearchBar(
+    assetSearchViewModel: AssetSearchViewModel
 )
 {
     Column(Modifier.offset(15.dp,15.dp))
     {
         OutlinedTextField(
-            value = searchViewModel.userSearch,
-            onValueChange = { searchViewModel.onSearchChange(it)},
+            value = assetSearchViewModel.userSearch,
+            onValueChange = { assetSearchViewModel.onSearchChange(it)},
             modifier = Modifier
                 .width(250.dp)
                 .height(50.dp),
             placeholder = { Text(text = "Search by Asset ID", style = TextStyle(fontSize = 18.sp, color = Color.LightGray)) }
+        )
+    }
+}
+
+
+@Composable
+fun FlightLogSearchBar(
+    flightLogSearchViewModel: FlightLogSearchViewModel
+)
+{
+    Column(Modifier.offset(15.dp,15.dp))
+    {
+        OutlinedTextField(
+            value = flightLogSearchViewModel.flightLogID,
+            onValueChange = { flightLogSearchViewModel.onFlightLogIDChange(it)},
+            modifier = Modifier
+                .width(250.dp)
+                .height(50.dp),
+            placeholder = { Text(text = "Search by Flight Log ID", style = TextStyle(fontSize = 18.sp, color = Color.LightGray)) }
         )
     }
 }

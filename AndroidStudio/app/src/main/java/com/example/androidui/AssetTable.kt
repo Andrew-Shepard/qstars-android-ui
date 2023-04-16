@@ -1,6 +1,5 @@
 package com.example.androidui
 
-import android.util.FloatMath
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,13 +15,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
-
+// Prints out the rows of the table and navigates to asset details popup on click
 @Composable
-fun TableComponent(
+fun AssetTableComponent(
     navController: NavController,
     assetID: String,
     parentButton: Boolean,
@@ -64,7 +62,7 @@ fun AssetTable(
     height: Int,
     navController: NavController,
     assetTableViewModel: AssetTableViewModel,
-    searchViewModel: SearchViewModel
+    assetSearchViewModel: AssetSearchViewModel
 ) {
 
     val column1Weight = .3f
@@ -79,10 +77,6 @@ fun AssetTable(
     var childButton by remember{mutableStateOf(false)}
     var addAssetButton by remember{mutableStateOf(false)}
 
-    var listOfSearchFields by remember {
-        mutableStateOf(false)
-    }
-
     parentButton = currentRoute == "parent-table"
     childButton = currentRoute == "child-table"
 
@@ -90,13 +84,14 @@ fun AssetTable(
 
     var filterFieldsEmpty: Boolean = true
 
-    filterFieldsEmpty = searchViewModel.userSearch.isEmpty() &&
-            searchViewModel.nameSearch.isEmpty() &&
-            searchViewModel.assetTypeSearch.isEmpty() &&
-            searchViewModel.assetStatusSearch.isEmpty() &&
-            searchViewModel.lastMaintenanceDate.isEmpty() &&
-            searchViewModel.purchaseDate.isEmpty()
+    filterFieldsEmpty = assetSearchViewModel.userSearch.isEmpty() &&
+            assetSearchViewModel.nameSearch.isEmpty() &&
+            assetSearchViewModel.assetTypeSearch.isEmpty() &&
+            assetSearchViewModel.assetStatusSearch.isEmpty() &&
+            assetSearchViewModel.lastMaintenanceDate.isEmpty() &&
+            assetSearchViewModel.purchaseDate.isEmpty()
 
+    //variables that will check whether the user field input matches an asset
     var assetIDMatch:Boolean
     var nameMatch: Boolean
     var typeMatch: Boolean
@@ -139,24 +134,24 @@ fun AssetTable(
             // The table data
             items(assetTableViewModel.allAssets) { asset ->
 
-                assetIDMatch = searchViewModel.userSearch == asset.assetID
-                nameMatch = searchViewModel.nameSearch == asset.assetName
-                typeMatch = searchViewModel.assetTypeSearch == asset.assetType
-                statusMatch = searchViewModel.assetStatusSearch == asset.assetStatus
-                lastMaintenanceDateMatch = searchViewModel.lastMaintenanceDate == asset.lastMaintenanceDate
-                purchaseDateMatch = searchViewModel.purchaseDate == asset.datePurchased
+                assetIDMatch = assetSearchViewModel.userSearch == asset.assetID
+                nameMatch = assetSearchViewModel.nameSearch == asset.assetName
+                typeMatch = assetSearchViewModel.assetTypeSearch == asset.assetType
+                statusMatch = assetSearchViewModel.assetStatusSearch == asset.assetStatus
+                lastMaintenanceDateMatch = assetSearchViewModel.lastMaintenanceDate == asset.lastMaintenanceDate
+                purchaseDateMatch = assetSearchViewModel.purchaseDate == asset.datePurchased
 
                 // stores ID of row to pass it
                 val assetID = asset.assetID
 
                 if (assetIDMatch){
 
-                    if (searchViewModel.nameSearch.isEmpty() &&
-                            searchViewModel.assetTypeSearch.isEmpty() &&
-                            searchViewModel.assetStatusSearch.isEmpty() &&
-                            searchViewModel.lastMaintenanceDate.isEmpty() &&
-                            searchViewModel.purchaseDate.isEmpty()){
-                        TableComponent(
+                    if (assetSearchViewModel.nameSearch.isEmpty() &&
+                            assetSearchViewModel.assetTypeSearch.isEmpty() &&
+                            assetSearchViewModel.assetStatusSearch.isEmpty() &&
+                            assetSearchViewModel.lastMaintenanceDate.isEmpty() &&
+                            assetSearchViewModel.purchaseDate.isEmpty()){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -171,9 +166,9 @@ fun AssetTable(
                     }
 
 
-                    if(searchViewModel.nameSearch.isNotEmpty() && nameMatch
+                    if(assetSearchViewModel.nameSearch.isNotEmpty() && nameMatch
                     ){
-                        TableComponent(
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -188,8 +183,8 @@ fun AssetTable(
                     }
 
 
-                    if (searchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -203,8 +198,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -218,8 +213,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -233,8 +228,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
-                        TableComponent(
+                    if (assetSearchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -253,11 +248,11 @@ fun AssetTable(
                 if (nameMatch){
 
                     if (
-                        searchViewModel.assetTypeSearch.isEmpty() &&
-                        searchViewModel.assetStatusSearch.isEmpty() &&
-                        searchViewModel.lastMaintenanceDate.isEmpty() &&
-                        searchViewModel.purchaseDate.isEmpty()){
-                        TableComponent(
+                        assetSearchViewModel.assetTypeSearch.isEmpty() &&
+                        assetSearchViewModel.assetStatusSearch.isEmpty() &&
+                        assetSearchViewModel.lastMaintenanceDate.isEmpty() &&
+                        assetSearchViewModel.purchaseDate.isEmpty()){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -271,8 +266,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -286,8 +281,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -301,8 +296,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -316,8 +311,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
-                        TableComponent(
+                    if (assetSearchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -334,11 +329,11 @@ fun AssetTable(
 
                 if (statusMatch){
 
-                    if (searchViewModel.nameSearch.isEmpty() &&
-                        searchViewModel.assetTypeSearch.isEmpty() &&
-                        searchViewModel.lastMaintenanceDate.isEmpty() &&
-                        searchViewModel.purchaseDate.isEmpty()){
-                        TableComponent(
+                    if (assetSearchViewModel.nameSearch.isEmpty() &&
+                        assetSearchViewModel.assetTypeSearch.isEmpty() &&
+                        assetSearchViewModel.lastMaintenanceDate.isEmpty() &&
+                        assetSearchViewModel.purchaseDate.isEmpty()){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -353,9 +348,9 @@ fun AssetTable(
                     }
 
 
-                    if(searchViewModel.nameSearch.isNotEmpty() && nameMatch
+                    if(assetSearchViewModel.nameSearch.isNotEmpty() && nameMatch
                     ){
-                        TableComponent(
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -370,8 +365,8 @@ fun AssetTable(
                     }
 
 
-                    if (searchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -385,8 +380,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -400,8 +395,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
-                        TableComponent(
+                    if (assetSearchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -417,13 +412,13 @@ fun AssetTable(
 
                 }
 
-                if (lastMaintenanceDateMatch && searchViewModel.lastMaintenanceDate.isNotEmpty()){
+                if (lastMaintenanceDateMatch && assetSearchViewModel.lastMaintenanceDate.isNotEmpty()){
 
-                    if (searchViewModel.nameSearch.isEmpty() &&
-                        searchViewModel.assetTypeSearch.isEmpty() &&
-                        searchViewModel.assetStatusSearch.isEmpty() &&
-                        searchViewModel.purchaseDate.isEmpty()){
-                        TableComponent(
+                    if (assetSearchViewModel.nameSearch.isEmpty() &&
+                        assetSearchViewModel.assetTypeSearch.isEmpty() &&
+                        assetSearchViewModel.assetStatusSearch.isEmpty() &&
+                        assetSearchViewModel.purchaseDate.isEmpty()){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -438,9 +433,9 @@ fun AssetTable(
                     }
 
 
-                    if(searchViewModel.nameSearch.isNotEmpty() && nameMatch
+                    if(assetSearchViewModel.nameSearch.isNotEmpty() && nameMatch
                     ){
-                        TableComponent(
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -455,8 +450,8 @@ fun AssetTable(
                     }
 
 
-                    if (searchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -470,8 +465,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -485,8 +480,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
-                        TableComponent(
+                    if (assetSearchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -505,11 +500,11 @@ fun AssetTable(
 
                 if (purchaseDateMatch){
 
-                    if (searchViewModel.nameSearch.isEmpty() &&
-                        searchViewModel.assetTypeSearch.isEmpty() &&
-                        searchViewModel.assetStatusSearch.isEmpty() &&
-                        searchViewModel.lastMaintenanceDate.isEmpty()){
-                        TableComponent(
+                    if (assetSearchViewModel.nameSearch.isEmpty() &&
+                        assetSearchViewModel.assetTypeSearch.isEmpty() &&
+                        assetSearchViewModel.assetStatusSearch.isEmpty() &&
+                        assetSearchViewModel.lastMaintenanceDate.isEmpty()){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -524,9 +519,9 @@ fun AssetTable(
                     }
 
 
-                    if(searchViewModel.nameSearch.isNotEmpty() && nameMatch
+                    if(assetSearchViewModel.nameSearch.isNotEmpty() && nameMatch
                     ){
-                        TableComponent(
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -541,8 +536,8 @@ fun AssetTable(
                     }
 
 
-                    if (searchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -556,8 +551,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
-                        TableComponent(
+                    if (assetSearchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -571,8 +566,8 @@ fun AssetTable(
                         )
                     }
 
-                    if (searchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch) {
-                        TableComponent(
+                    if (assetSearchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch) {
+                        AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
                             parentButton = parentButton,
@@ -586,221 +581,9 @@ fun AssetTable(
                         )
                     }
                 }
-
-
-                /*
-                if (nameMatch){
-
-                    if (searchViewModel.nameSearch.isEmpty() &&
-                        searchViewModel.assetTypeSearch.isEmpty() &&
-                        searchViewModel.assetStatusSearch.isEmpty() &&
-                        searchViewModel.lastMaintenanceDate.isEmpty() &&
-                        searchViewModel.purchaseDate.isEmpty()){
-                        TableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight ,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-
-                    if(searchViewModel.nameSearch.isNotEmpty() && nameMatch
-                    ){
-                        TableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight ,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-
-                    if (searchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
-                        TableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight ,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-                    if (searchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
-                        TableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight ,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-                    if (searchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
-                        TableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight ,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-                    if (searchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
-                        TableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-                }
-
-                 */
-
-
-                /*
-                if (searchViewModel.nameSearch == asset.assetName && (
-                            searchViewModel.userSearch == asset.assetID ||
-                                    searchViewModel.assetTypeSearch == asset.assetType ||
-                                    searchViewModel.assetStatusSearch == asset.assetStatus ||
-                                    searchViewModel.lastMaintenanceDate == asset.lastMaintenanceDate ||
-                                    searchViewModel.purchaseDate == asset.datePurchased
-                            )){
-                    TableComponent(
-                        navController = navController,
-                        assetID = assetID,
-                        parentButton = parentButton,
-                        childButton = childButton,
-                        addAssetButton = addAssetButton,
-                        asset = asset,
-                        column1Weight = column1Weight ,
-                        column2Weight = column2Weight,
-                        column3Weight = column3Weight,
-                        column4Weight = column4Weight
-                    )
-                }
-
-                if (searchViewModel.assetTypeSearch == asset.assetType && (
-                            searchViewModel.nameSearch == asset.assetName ||
-                                    searchViewModel.userSearch == asset.assetID ||
-                                    searchViewModel.assetStatusSearch == asset.assetStatus ||
-                                    searchViewModel.lastMaintenanceDate == asset.lastMaintenanceDate ||
-                                    searchViewModel.purchaseDate == asset.datePurchased
-                            )){
-                    TableComponent(
-                        navController = navController,
-                        assetID = assetID,
-                        parentButton = parentButton,
-                        childButton = childButton,
-                        addAssetButton = addAssetButton,
-                        asset = asset,
-                        column1Weight = column1Weight ,
-                        column2Weight = column2Weight,
-                        column3Weight = column3Weight,
-                        column4Weight = column4Weight
-                    )
-                }
-
-                if (searchViewModel.assetStatusSearch == asset.assetStatus && (
-                            searchViewModel.nameSearch == asset.assetName ||
-                                    searchViewModel.assetTypeSearch == asset.assetType ||
-                                    searchViewModel.userSearch == asset.assetID ||
-                                    searchViewModel.lastMaintenanceDate == asset.lastMaintenanceDate ||
-                                    searchViewModel.purchaseDate == asset.datePurchased
-                            )) {
-                    TableComponent(
-                        navController = navController,
-                        assetID = assetID,
-                        parentButton = parentButton,
-                        childButton = childButton,
-                        addAssetButton = addAssetButton,
-                        asset = asset,
-                        column1Weight = column1Weight,
-                        column2Weight = column2Weight,
-                        column3Weight = column3Weight,
-                        column4Weight = column4Weight
-                    )
-                }
-
-                /*
-                if (searchViewModel.lastMaintenanceDate == asset.lastMaintenanceDate){
-                    TableComponent(
-                        navController = navController,
-                        assetID = assetID,
-                        parentButton = parentButton,
-                        childButton = childButton,
-                        addAssetButton = addAssetButton,
-                        asset = asset,
-                        column1Weight = column1Weight,
-                        column2Weight = column2Weight,
-                        column3Weight = column3Weight,
-                        column4Weight = column4Weight
-                    )
-                }
-
-                 */
-
-                if (searchViewModel.purchaseDate == asset.datePurchased && (
-                            searchViewModel.nameSearch == asset.assetName ||
-                                    searchViewModel.assetTypeSearch == asset.assetType ||
-                                    searchViewModel.assetStatusSearch == asset.assetStatus ||
-                                    searchViewModel.lastMaintenanceDate == asset.lastMaintenanceDate ||
-                                    searchViewModel.userSearch == asset.assetID
-                            )){
-                    TableComponent(
-                        navController = navController,
-                        assetID = assetID,
-                        parentButton = parentButton,
-                        childButton = childButton,
-                        addAssetButton = addAssetButton,
-                        asset = asset,
-                        column1Weight = column1Weight,
-                        column2Weight = column2Weight,
-                        column3Weight = column3Weight,
-                        column4Weight = column4Weight
-                    )
-                }
-
-                 */
-
 
                 if (filterFieldsEmpty){
-                    TableComponent(
+                    AssetTableComponent(
                         navController = navController,
                         assetID = assetID,
                         parentButton = parentButton,
