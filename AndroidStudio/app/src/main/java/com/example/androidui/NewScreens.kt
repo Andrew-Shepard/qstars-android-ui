@@ -1,11 +1,15 @@
 package com.example.androidui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Filter
+import androidx.compose.material.icons.filled.FilterAlt
+import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -68,7 +72,22 @@ fun Assets(
             .background(Color.White)
     ){
 
-        SearchBar(searchViewModel)
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.TopStart
+        ){
+            Row{
+                SearchBar(searchViewModel)
+                IconButton(
+                    modifier = Modifier.offset(x=20.dp, y = 15.dp),
+                    onClick = {
+                        navController.navigate("asset-filters")
+                    }
+                ) {
+                    Icon(Icons.Outlined.FilterAlt, "", modifier = Modifier.size(50.dp), tint = Color.DarkGray)
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 

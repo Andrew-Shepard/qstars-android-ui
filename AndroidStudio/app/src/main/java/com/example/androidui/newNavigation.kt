@@ -43,6 +43,10 @@ fun newNavigation(
             )
         }
 
+        composable("asset-filters"){
+            AssetFilterPopup(navController = navController, searchViewModel = searchViewModel)
+        }
+
         //asset form screen
         composable(
             "asset-form"
@@ -66,7 +70,6 @@ fun newNavigation(
             AddChildScreen(navController = navController,
                 assetTableViewModel = assetTableViewModel )
         }
-
 
         // asset details popup
         composable(
