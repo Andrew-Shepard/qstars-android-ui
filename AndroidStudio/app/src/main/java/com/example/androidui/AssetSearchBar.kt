@@ -153,3 +153,38 @@ fun FlightLogSearchBar(
         )
     }
 }
+
+
+@Composable
+fun CheckInSearchBar(
+    checkInSearchViewModel: CheckInSearchViewModel
+){
+    Column(Modifier.offset(15.dp,15.dp))
+    {
+        OutlinedTextField(
+            value = checkInSearchViewModel.checkInOutID,
+            onValueChange = { checkInSearchViewModel.onCheckInOutIDChange(it)},
+            modifier = Modifier
+                .width(250.dp)
+                .height(50.dp),
+            placeholder = { Text(text = "Search by ID", style = TextStyle(fontSize = 18.sp, color = Color.LightGray)) }
+        )
+    }
+}
+
+@Composable
+fun CheckOutSearchBar(
+    checkOutSearchViewModel: CheckOutSearchViewModel
+){
+    Column(Modifier.offset(15.dp,15.dp))
+    {
+        OutlinedTextField(
+            value = checkOutSearchViewModel.checkInOutID,
+            onValueChange = { checkOutSearchViewModel.onCheckInOutIDChange(it)},
+            modifier = Modifier
+                .width(250.dp)
+                .height(50.dp),
+            placeholder = { Text(text = "Search by ID", style = TextStyle(fontSize = 18.sp, color = Color.LightGray)) }
+        )
+    }
+}

@@ -19,7 +19,9 @@ fun newNavigation(
     maintenanceLogTableViewModel: MaintenanceTableViewModel = viewModel(),
     maintenanceFormViewModel: MaintenanceLogFormViewModel = viewModel(),
     assetSearchViewModel: AssetSearchViewModel = viewModel(),
-    flightLogSearchViewModel: FlightLogSearchViewModel = viewModel()
+    flightLogSearchViewModel: FlightLogSearchViewModel = viewModel(),
+    checkInSearchViewModel: CheckInSearchViewModel = viewModel(),
+    checkOutSearchViewModel: CheckOutSearchViewModel = viewModel()
 ){
     NavHost(
         navController = navController,
@@ -182,7 +184,19 @@ fun newNavigation(
         composable("check-in-out-logs"){
             CheckInOut(
                 navController = navController,
-                checkInOutTableViewModel = checkInOutTableViewModel)
+                checkInOutTableViewModel = checkInOutTableViewModel,
+                checkInSearchViewModel = checkInSearchViewModel,
+                checkOutSearchViewModel = checkOutSearchViewModel
+            )
+        }
+
+
+        composable("check-in-filters"){
+            CheckInFilterPopup(navController, checkInSearchViewModel)
+        }
+
+        composable("check-out-filters"){
+            CheckOutFilterPopup(navController = navController, checkOutSearchViewModel = checkOutSearchViewModel)
         }
 
         composable(

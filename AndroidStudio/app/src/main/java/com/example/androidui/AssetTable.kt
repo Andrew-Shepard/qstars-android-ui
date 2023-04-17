@@ -73,18 +73,27 @@ fun AssetTable(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    var parentButton by remember{mutableStateOf(false)}
-    var childButton by remember{mutableStateOf(false)}
-    var addAssetButton by remember{mutableStateOf(false)}
+    var parentButton: Boolean = false
+    var childButton: Boolean = false
+    var addAssetButton: Boolean = false
 
-    parentButton = currentRoute == "parent-table"
-    childButton = currentRoute == "child-table"
 
-    addAssetButton = currentRoute == "add-asset-table"
+    when (navController.previousBackStackEntry?.destination?.route){
+        "parent-table" -> parentButton = true
 
-    var filterFieldsEmpty: Boolean = true
+        "child-table" -> childButton = true
 
-    filterFieldsEmpty = assetSearchViewModel.userSearch.isEmpty() &&
+        "add-asset-table" -> addAssetButton = true
+
+        else -> {
+            parentButton = false
+            childButton = false
+            addAssetButton = false
+        }
+    }
+
+
+    var filterFieldsEmpty = assetSearchViewModel.userSearch.isEmpty() &&
             assetSearchViewModel.nameSearch.isEmpty() &&
             assetSearchViewModel.assetTypeSearch.isEmpty() &&
             assetSearchViewModel.assetStatusSearch.isEmpty() &&
@@ -103,6 +112,7 @@ fun AssetTable(
 
     Column()
     {
+
         // Table title
         Text(
             text = "Assets",
@@ -583,18 +593,25 @@ fun AssetTable(
                 }
 
                 if (filterFieldsEmpty){
-                    AssetTableComponent(
-                        navController = navController,
-                        assetID = assetID,
-                        parentButton = parentButton,
-                        childButton = childButton,
-                        addAssetButton = addAssetButton,
-                        asset = asset,
-                        column1Weight = column1Weight ,
-                        column2Weight = column2Weight,
-                        column3Weight = column3Weight,
-                        column4Weight = column4Weight
-                    )
+
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .pointerInput(Unit)
+                        {
+                            detectTapGestures(
+                                onTap = {
+                                    //when asset clicked, show asset details popup
+                                    navController.navigate("details-popup" + "/$assetID" + "/$parentButton" + "/$childButton" + "/$addAssetButton")
+                                }
+                            )
+                        }
+                    ) {
+                        TableCell(text = asset.assetID, weight = column1Weight)
+                        TableCell(text = asset.assetName, weight = column2Weight)
+                        TableCell(text = asset.assetType, weight = column3Weight)
+                        TableCell(text = asset.assetStatus, weight = column4Weight)
+
+                    }
                 }
             }
         }

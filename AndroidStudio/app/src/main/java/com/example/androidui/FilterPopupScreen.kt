@@ -363,3 +363,264 @@ fun FlightLogFilterPopup(
         }
     }
 }
+
+@Composable
+fun CheckInFilterPopup(
+    navController: NavController,
+    checkInSearchViewModel: CheckInSearchViewModel
+){
+    Dialog(onDismissRequest = {  }) {
+        Box(
+            modifier = Modifier
+                .offset(y = 50.dp)
+                .padding(20.dp)
+                .border(width = 2.dp, color = Color.LightGray, shape = RectangleShape)
+                .background(color = Color.White)
+        ) {
+
+            val context = LocalContext.current
+
+            Column {
+                Box(
+                    modifier = Modifier
+                        .background(Color.LightGray)
+                        .fillMaxWidth()
+                        .offset(x = 10.dp)
+                ) {
+
+                    Button(
+                        onClick = {
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .width(50.dp)
+                            .offset(x = -15.dp)
+                    ) {
+                        Icon(Icons.Filled.Close, "")
+                    }
+
+                    //Title
+                    Text(
+                        text = "Apply Filters",
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .offset(y = 10.dp),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Box(modifier = Modifier.offset(x = 15.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+
+                        //Check Out Date Filter
+                        Box {
+                            Column {
+                                Text(text = "Check Out Date")
+                                AppTextField(
+                                    modifier = Modifier.clickable {
+                                        checkInSearchViewModel.showDatePickerDialog(context)
+                                    },
+                                    text = checkInSearchViewModel.checkOutDate,
+                                    onChange = { checkInSearchViewModel.checkOutDate = it },
+                                    placeholder = "MM-DD-YYYY",
+                                    width = 250,
+                                    isEnabled = false
+                                )
+                            }
+                        }
+
+                        //Asset ID Filter
+                        Box {
+                            Column {
+                                Text(text = "Asset ID")
+                                AppTextField(
+                                    text = checkInSearchViewModel.assetSerialNum,
+                                    onChange = { checkInSearchViewModel.onAssetSerialNumChange(it) },
+                                    placeholder = "Pilot ID",
+                                    width = 250
+                                )
+                            }
+                        }
+
+                        //Employee Name Filter
+                        Box {
+                            Column {
+                                Text(text = "Employee Name")
+                                AppTextField(
+                                    text = checkInSearchViewModel.employeeName,
+                                    onChange = { checkInSearchViewModel.onEmployeeNameChange(it) },
+                                    placeholder = "Employee Name",
+                                    width = 250
+                                )
+                            }
+                        }
+                        //Clear Filter and Apply Filter Buttons
+                        Box(modifier = Modifier
+                            //.offset(x = 10.dp)
+                            .padding(vertical = 15.dp)){
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ){
+                                Button(onClick = {
+                                    checkInSearchViewModel.checkOutDate = ""
+                                    checkInSearchViewModel.assetSerialNum = ""
+                                    checkInSearchViewModel.employeeName = ""
+                                }) {
+                                    Text("Clear Filters")
+                                }
+
+                                Button(onClick = { navController.popBackStack() }) {
+                                    Text("Apply Filters")
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun CheckOutFilterPopup(
+    navController: NavController,
+    checkOutSearchViewModel: CheckOutSearchViewModel
+){
+    Dialog(onDismissRequest = {  }) {
+        Box(
+            modifier = Modifier
+                .offset(y = 50.dp)
+                .padding(20.dp)
+                .border(width = 2.dp, color = Color.LightGray, shape = RectangleShape)
+                .background(color = Color.White)
+        ) {
+
+            val context = LocalContext.current
+
+            Column {
+                Box(
+                    modifier = Modifier
+                        .background(Color.LightGray)
+                        .fillMaxWidth()
+                        .offset(x = 10.dp)
+                ) {
+
+                    Button(
+                        onClick = {
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .width(50.dp)
+                            .offset(x = -15.dp)
+                    ) {
+                        Icon(Icons.Filled.Close, "")
+                    }
+
+                    //Title
+                    Text(
+                        text = "Apply Filters",
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .offset(y = 10.dp),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Box(modifier = Modifier.offset(x = 15.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+
+                        //Check Out Date Filter
+                        Box {
+                            Column {
+                                Text(text = "Check Out Date")
+                                AppTextField(
+                                    modifier = Modifier.clickable {
+                                        checkOutSearchViewModel.showDatePickerDialog1(context)
+                                    },
+                                    text = checkOutSearchViewModel.checkOutDate,
+                                    onChange = { checkOutSearchViewModel.checkOutDate = it },
+                                    placeholder = "MM-DD-YYYY",
+                                    width = 250,
+                                    isEnabled = false
+                                )
+                            }
+                        }
+
+                        //Check In Date  Filter
+                        Box {
+                            Column {
+                                Text(text = "Check In Date")
+                                AppTextField(
+                                    modifier = Modifier.clickable {
+                                        checkOutSearchViewModel.showDatePickerDialog(context)
+                                    },
+                                    text = checkOutSearchViewModel.checkInDate,
+                                    onChange = { checkOutSearchViewModel.checkInDate = it },
+                                    placeholder = "MM-DD-YYYY",
+                                    width = 250,
+                                    isEnabled = false
+                                )
+                            }
+                        }
+
+                        //Asset ID Filter
+                        Box {
+                            Column {
+                                Text(text = "Asset ID")
+                                AppTextField(
+                                    text = checkOutSearchViewModel.assetSerialNum,
+                                    onChange = { checkOutSearchViewModel.onAssetSerialNumChange(it) },
+                                    placeholder = "Asset ID",
+                                    width = 250
+                                )
+                            }
+                        }
+
+                        //Employee Name Filter
+                        Box {
+                            Column {
+                                Text(text = "Employee Name")
+                                AppTextField(
+                                    text = checkOutSearchViewModel.employeeName,
+                                    onChange = { checkOutSearchViewModel.onEmployeeNameChange(it) },
+                                    placeholder = "Employee Name",
+                                    width = 250
+                                )
+                            }
+                        }
+                        //Clear Filter and Apply Filter Buttons
+                        Box(modifier = Modifier
+                            //.offset(x = 10.dp)
+                            .padding(vertical = 15.dp)){
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ){
+                                Button(onClick = {
+                                    checkOutSearchViewModel.checkOutDate = ""
+                                    checkOutSearchViewModel.checkInDate = ""
+                                    checkOutSearchViewModel.assetSerialNum = ""
+                                    checkOutSearchViewModel.employeeName = ""
+                                }) {
+                                    Text("Clear Filters")
+                                }
+
+                                Button(onClick = { navController.popBackStack() }) {
+                                    Text("Apply Filters")
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

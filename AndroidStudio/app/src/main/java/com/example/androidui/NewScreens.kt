@@ -142,7 +142,9 @@ fun FlightLogs(
 @Composable
 fun CheckInOut(
     navController: NavController,
-    checkInOutTableViewModel: CheckInOutTableViewModel
+    checkInOutTableViewModel: CheckInOutTableViewModel,
+    checkInSearchViewModel: CheckInSearchViewModel,
+    checkOutSearchViewModel: CheckOutSearchViewModel
 ){
     Column(
         modifier = Modifier
@@ -150,7 +152,18 @@ fun CheckInOut(
             .background(Color.White)
     ){
 
-        //SearchBar()
+        //Search Bar and Filter Button
+        Row{
+            CheckInSearchBar(checkInSearchViewModel = checkInSearchViewModel)
+            IconButton(
+                modifier = Modifier.offset(x=20.dp, y = 15.dp),
+                onClick = {
+                    navController.navigate("check-in-filters")
+                }
+            ) {
+                Icon(Icons.Outlined.FilterAlt, "", modifier = Modifier.size(50.dp), tint = Color.DarkGray)
+            }
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -158,9 +171,22 @@ fun CheckInOut(
             width = 375,
             height = 250,
             navController = navController,
-            checkInOutTableViewModel = checkInOutTableViewModel)
+            checkInOutTableViewModel = checkInOutTableViewModel,
+            checkInSearchViewModel = checkInSearchViewModel
+        )
 
-        //SearchBar()
+        //Search Bar and Filter Button
+        Row{
+            CheckOutSearchBar(checkOutSearchViewModel = checkOutSearchViewModel)
+            IconButton(
+                modifier = Modifier.offset(x=20.dp, y = 15.dp),
+                onClick = {
+                    navController.navigate("check-out-filters")
+                }
+            ) {
+                Icon(Icons.Outlined.FilterAlt, "", modifier = Modifier.size(50.dp), tint = Color.DarkGray)
+            }
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -168,7 +194,8 @@ fun CheckInOut(
             width = 375,
             height = 250,
             navController = navController,
-            checkInOutTableViewModel = checkInOutTableViewModel)
+            checkInOutTableViewModel = checkInOutTableViewModel,
+        checkOutSearchViewModel = checkOutSearchViewModel)
 
 
     }

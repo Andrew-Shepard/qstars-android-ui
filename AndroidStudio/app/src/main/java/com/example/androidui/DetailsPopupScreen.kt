@@ -48,24 +48,41 @@ fun AssetDetailsPopUp(
     assetFormViewModel: FormViewModel,
     assetTableViewModel: AssetTableViewModel,
     checkInOutFormViewModel: CheckInOutFormViewModel,
-    addParentButton: Boolean? = false,
-    addChildButton: Boolean? = false,
-    addAssetButton: Boolean? = false
+    addParentButton: Boolean?,
+    addChildButton: Boolean?,
+    addAssetButton: Boolean?
 ){
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     var height: Int
 
-    var assetID: String = ""
-    var assetName: String = ""
+    var assetID = ""
+    var assetName = ""
+    var addPButton:Boolean = false
+    var addCButton: Boolean = false
+    var addAButton: Boolean = false
 
     var deleteButtonVisibility: Boolean = true
+    if (navController.previousBackStackEntry?.destination?.route == "parent-table"){
+        addPButton = true
+    }
+    else if (navController.previousBackStackEntry?.destination?.route == "child-table"){
+        addCButton = true
+    }
+    else if (navController.previousBackStackEntry?.destination?.route == "add-asset-table"){
+        addAButton = true
+    }
+    else{
+        addPButton = false
+        addCButton = false
+        addAButton = false
+    }
 
     Popup(
         alignment = Alignment.TopCenter
     ){
-        if (addChildButton == true || addParentButton == true || addAssetButton == true){
+        if (addCButton == true || addPButton == true || addAButton == true){
             height = 480
             deleteButtonVisibility = false
         }
@@ -180,14 +197,16 @@ fun AssetDetailsPopUp(
                     }
                 }
 
-                if (addChildButton == true){
+                if (addCButton == true){
                     Spacer(Modifier.height(10.dp))
                     Box(
                         modifier = Modifier.fillMaxWidth()
                     ){
                         Button(onClick = {
                             assetFormViewModel.children.add(assetName)
-                            navController.navigate("asset-form") },
+                            //navController.navigate("asset-form")
+                            navController.popBackStack()
+                                         },
                             modifier = Modifier.align(Alignment.BottomCenter)) {
                             Text("Add Child")
                         }
@@ -195,28 +214,34 @@ fun AssetDetailsPopUp(
                 }
 
 
-                if (addParentButton == true){
+                if (addPButton == true) {
                     Spacer(Modifier.height(10.dp))
                     Box(
                         modifier = Modifier.fillMaxWidth()
-                    ){
-                        Button(onClick = {
-                            assetFormViewModel.parents.add(assetName)
-                            navController.navigate("asset-form") },
-                            modifier = Modifier.align(Alignment.BottomCenter)) {
+                    ) {
+                        Button(
+                            onClick = {
+                                assetFormViewModel.parents.add(assetName)
+                                //navController.navigate("asset-form")
+                                navController.popBackStack()
+                            },
+                            modifier = Modifier.align(Alignment.BottomCenter)
+                        ) {
                             Text("Add Parent")
                         }
                     }
                 }
 
-                if (addAssetButton == true){
+                if (addAButton == true){
                     Spacer(Modifier.height(10.dp))
                     Box(
                         modifier = Modifier.fillMaxWidth()
                     ){
                         Button(onClick = {
                             checkInOutFormViewModel.assetID = assetID
-                            navController.navigate("check-in-out-form") },
+                            //navController.navigate("check-in-out-form")
+                            navController.popBackStack()
+                            },
                             modifier = Modifier.align(Alignment.BottomCenter)) {
                             Text("Add Asset")
                         }
@@ -505,7 +530,7 @@ fun CheckInLogDetailsPopUp(
                         }
                     }
                 }
-                Spacer(Modifier.height(10.dp))
+                //Spacer(Modifier.height(10.dp))
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ){

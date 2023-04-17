@@ -19,13 +19,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 
+// This table holds the check in out logs
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CheckOutTable(
     width: Int,
     height: Int,
     navController: NavController,
-    checkInOutTableViewModel: CheckInOutTableViewModel
+    checkInOutTableViewModel: CheckInOutTableViewModel,
+    checkOutSearchViewModel: CheckOutSearchViewModel
 ) {
 
     val column1Weight = .2f
@@ -35,6 +37,18 @@ fun CheckOutTable(
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
+    var filterFieldsEmpty = checkOutSearchViewModel.checkInOutID.isEmpty() &&
+            checkOutSearchViewModel.checkOutDate.isEmpty() &&
+            checkOutSearchViewModel.checkInDate.isEmpty() &&
+            checkOutSearchViewModel.assetSerialNum.isEmpty() &&
+            checkOutSearchViewModel.employeeName.isEmpty()
+
+    var checkInOutIDMatch: Boolean
+    var checkOutDateMatch: Boolean
+    var checkInDateMatch: Boolean
+    var assetIDMatch: Boolean
+    var employeeNameMatch: Boolean
 
     Column()
     {
@@ -69,27 +83,428 @@ fun CheckOutTable(
             // The table data
             items(checkInOutTableViewModel.allCheckInOutLogs) { log ->
 
+                checkInOutIDMatch = checkOutSearchViewModel.checkInOutID == log.ID
+                checkOutDateMatch = checkOutSearchViewModel.checkOutDate == log.checkOutDate
+                checkInDateMatch = checkOutSearchViewModel.checkInDate == log.checkInDate
+                assetIDMatch = checkOutSearchViewModel.assetSerialNum == log.assetID
+                employeeNameMatch = checkOutSearchViewModel.employeeName == log.employeeName
+
+
                 // stores ID of row to pass it
                 val logID = log.ID
 
                 if ( log.checkInDate != "") {
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .pointerInput(Unit)
-                        {
-                            detectTapGestures(
-                                onTap = {
-                                    //when asset clicked, show asset details popup
-                                    navController.navigate("checkinout-details-popup" + "/$logID")
+                    if (checkInOutIDMatch) {
+                        if (checkOutSearchViewModel.checkOutDate.isEmpty() &&
+                            checkOutSearchViewModel.checkInDate.isEmpty() &&
+                            checkOutSearchViewModel.assetSerialNum.isEmpty() &&
+                            checkOutSearchViewModel.employeeName.isEmpty()
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
                                 }
-                            )
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+                            }
                         }
-                    ) {
-                        TableCell(text = log.ID, weight = column1Weight)
-                        TableCell(text = log.assetID, weight = column2Weight)
-                        TableCell(text = log.checkOutDate, weight = column3Weight)
-                        TableCell(text = log.checkInDate, weight = column4Weight)
+                    }
 
+
+                    if (checkOutDateMatch) {
+                        if (
+                            checkOutSearchViewModel.checkInDate.isEmpty() &&
+                            checkOutSearchViewModel.assetSerialNum.isEmpty() &&
+                            checkOutSearchViewModel.employeeName.isEmpty()
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (checkInDateMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+
+                        if (assetIDMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (employeeNameMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+                    }
+
+                    if (checkInDateMatch) {
+                        if (
+                            checkOutSearchViewModel.checkOutDate.isEmpty() &&
+                            checkOutSearchViewModel.assetSerialNum.isEmpty() &&
+                            checkOutSearchViewModel.employeeName.isEmpty()
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (checkOutDateMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+
+                        if (assetIDMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (employeeNameMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+                    }
+
+
+
+                    if (assetIDMatch) {
+                        if (
+                            checkOutSearchViewModel.checkOutDate.isEmpty() &&
+                            checkOutSearchViewModel.checkInDate.isEmpty() &&
+                            checkOutSearchViewModel.employeeName.isEmpty()
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (checkOutDateMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+                        if (checkInDateMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+
+                        if (employeeNameMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+                    }
+
+                    if (employeeNameMatch) {
+                        if (
+                            checkOutSearchViewModel.checkOutDate.isEmpty() &&
+                            checkOutSearchViewModel.checkInDate.isEmpty() &&
+                            checkOutSearchViewModel.assetSerialNum.isEmpty()
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (checkOutDateMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (checkInDateMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (assetIDMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkinout-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.checkInDate, weight = column4Weight)
+
+                            }
+                        }
+                    }
+
+
+                    if (filterFieldsEmpty) {
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .pointerInput(Unit)
+                            {
+                                detectTapGestures(
+                                    onTap = {
+                                        //when asset clicked, show asset details popup
+                                        navController.navigate("checkinout-details-popup" + "/$logID")
+                                    }
+                                )
+                            }
+                        ) {
+                            TableCell(text = log.ID, weight = column1Weight)
+                            TableCell(text = log.assetID, weight = column2Weight)
+                            TableCell(text = log.checkOutDate, weight = column3Weight)
+                            TableCell(text = log.checkInDate, weight = column4Weight)
+
+                        }
                     }
                 }
             }
@@ -104,7 +519,8 @@ fun CheckInTable(
     width: Int,
     height: Int,
     navController: NavController,
-    checkInOutTableViewModel: CheckInOutTableViewModel
+    checkInOutTableViewModel : CheckInOutTableViewModel,
+    checkInSearchViewModel: CheckInSearchViewModel
 ) {
 
     val column1Weight = .2f
@@ -114,6 +530,16 @@ fun CheckInTable(
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
+    var filterFieldsEmpty = checkInSearchViewModel.checkInOutID.isEmpty() &&
+            checkInSearchViewModel.checkOutDate.isEmpty() &&
+            checkInSearchViewModel.assetSerialNum.isEmpty() &&
+            checkInSearchViewModel.employeeName.isEmpty()
+
+    var checkInOutIDMatch: Boolean
+    var checkOutDateMatch: Boolean
+    var assetIDMatch: Boolean
+    var employeeNameMatch: Boolean
 
     Column()
     {
@@ -148,32 +574,270 @@ fun CheckInTable(
             // The table data
             items(checkInOutTableViewModel.allCheckInOutLogs) { log ->
 
+                checkInOutIDMatch = checkInSearchViewModel.checkInOutID == log.ID
+                checkOutDateMatch = checkInSearchViewModel.checkOutDate == log.checkOutDate
+                assetIDMatch = checkInSearchViewModel.assetSerialNum == log.assetID
+                employeeNameMatch = checkInSearchViewModel.employeeName == log.employeeName
+
                 // stores ID of row to pass it
                 val logID = log.ID
 
                 // takes all logs do not have a check in date and display them in table
-                if ( log.checkInDate == ""){
+                if ( log.checkInDate == "") {
 
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .pointerInput(Unit)
-                        {
-                            detectTapGestures(
-                                onTap = {
-                                    //when asset clicked, show asset details popup
-                                    navController.navigate("checkin-details-popup" + "/$logID")
+                    if (checkInOutIDMatch) {
+                        if (checkInSearchViewModel.checkOutDate.isEmpty() &&
+                            checkInSearchViewModel.assetSerialNum.isEmpty() &&
+                            checkInSearchViewModel.employeeName.isEmpty()
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
                                 }
-                            )
-                        }
-                    ) {
-                        TableCell(text = log.ID, weight = column1Weight)
-                        TableCell(text = log.assetID, weight = column2Weight)
-                        TableCell(text = log.checkOutDate, weight = column3Weight)
-                        TableCell(text = log.currentLocation, weight = column4Weight)
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
 
+                            }
+                        }
+                    }
+
+
+                    if (checkOutDateMatch) {
+                        if (
+                            checkInSearchViewModel.assetSerialNum.isEmpty() &&
+                            checkInSearchViewModel.employeeName.isEmpty()
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (assetIDMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (employeeNameMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
+
+                            }
+                        }
+                    }
+
+                    if (assetIDMatch) {
+                        if (
+                            checkInSearchViewModel.checkOutDate.isEmpty() &&
+                            checkInSearchViewModel.employeeName.isEmpty()
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (checkOutDateMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (employeeNameMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
+
+                            }
+                        }
+                    }
+
+                    if (employeeNameMatch) {
+                        if (
+                            checkInSearchViewModel.checkOutDate.isEmpty() &&
+                            checkInSearchViewModel.assetSerialNum.isEmpty()
+                        ) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (checkOutDateMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
+
+                            }
+                        }
+
+                        if (assetIDMatch) {
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .pointerInput(Unit)
+                                {
+                                    detectTapGestures(
+                                        onTap = {
+                                            //when asset clicked, show asset details popup
+                                            navController.navigate("checkin-details-popup" + "/$logID")
+                                        }
+                                    )
+                                }
+                            ) {
+                                TableCell(text = log.ID, weight = column1Weight)
+                                TableCell(text = log.assetID, weight = column2Weight)
+                                TableCell(text = log.checkOutDate, weight = column3Weight)
+                                TableCell(text = log.currentLocation, weight = column4Weight)
+
+                            }
+                        }
+                    }
+
+
+                    if (filterFieldsEmpty) {
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .pointerInput(Unit)
+                            {
+                                detectTapGestures(
+                                    onTap = {
+                                        //when asset clicked, show asset details popup
+                                        navController.navigate("checkin-details-popup" + "/$logID")
+                                    }
+                                )
+                            }
+                        ) {
+                            TableCell(text = log.ID, weight = column1Weight)
+                            TableCell(text = log.assetID, weight = column2Weight)
+                            TableCell(text = log.checkOutDate, weight = column3Weight)
+                            TableCell(text = log.currentLocation, weight = column4Weight)
+
+                        }
                     }
                 }
-
             }
         }
     }
