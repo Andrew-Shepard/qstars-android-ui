@@ -188,3 +188,21 @@ fun CheckOutSearchBar(
         )
     }
 }
+
+
+@Composable
+fun MaintenanceSearchBar(
+    maintenanceSearchViewModel: MaintenanceSearchViewModel
+){
+    Column(Modifier.offset(15.dp,15.dp))
+    {
+        OutlinedTextField(
+            value = maintenanceSearchViewModel.ID,
+            onValueChange = { maintenanceSearchViewModel.onIDChange(it) },
+            modifier = Modifier
+                .width(250.dp)
+                .height(50.dp),
+            placeholder = { Text(text = "Search by ID", style = TextStyle(fontSize = 18.sp, color = Color.LightGray)) }
+        )
+    }
+}

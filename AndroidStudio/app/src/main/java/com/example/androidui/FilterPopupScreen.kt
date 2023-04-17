@@ -624,3 +624,150 @@ fun CheckOutFilterPopup(
         }
     }
 }
+
+
+@Composable
+fun MaintenanceFilterPopup(
+    navController: NavController,
+    maintenanceSearchViewModel: MaintenanceSearchViewModel
+){
+    Dialog(onDismissRequest = {  }) {
+        Box(
+            modifier = Modifier
+                .offset(y = 50.dp)
+                .padding(20.dp)
+                .border(width = 2.dp, color = Color.LightGray, shape = RectangleShape)
+                .background(color = Color.White)
+        ) {
+            val context = LocalContext.current
+
+
+            Column {
+                Box(
+                    modifier = Modifier
+                        .background(Color.LightGray)
+                        .fillMaxWidth()
+                        .offset(x = 10.dp)
+                ) {
+
+                    // Close Filter Popup Button
+                    Button(
+                        onClick = {
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .width(50.dp)
+                            .offset(x = -15.dp)
+                    ) {
+                        Icon(Icons.Filled.Close, "")
+                    }
+
+                    //Title
+                    Text(
+                        text = "Apply Filters",
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .offset(y = 10.dp),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Box(modifier = Modifier.offset(x = 15.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+
+                        //Asset ID Filter
+                        Box {
+                            Column {
+                                Text(text = "Asset ID")
+                                AppTextField(
+                                    text = maintenanceSearchViewModel.assetID,
+                                    onChange = {  maintenanceSearchViewModel.onAssetIDChange(it) },
+                                    placeholder = "Asset ID",
+                                    width = 250
+                                )
+                            }
+                        }
+
+                        // Date Filter
+                        Box {
+                            Column {
+                                Text(text = "Date")
+                                AppTextField(
+                                    modifier = Modifier.clickable {
+                                        maintenanceSearchViewModel.showDatePickerDialog(context)
+                                    },
+                                    text = maintenanceSearchViewModel.date,
+                                    placeholder = "MM-DD-YYYY",
+                                    onChange = {
+                                        maintenanceSearchViewModel.date = it
+                                    },
+                                    isEnabled = false,
+                                    width = 250
+                                )
+                            }
+                        }
+
+                        // Maintenance Type Filter
+                        Box {
+                            Column {
+                                val maintenanceTypeDropDown = listOf(
+                                    "Motor Replacement",
+                                    "Battery Replacement",
+                                    "Etc"
+                                )
+                                Text(text = "Asset Type")
+                                AppTextFieldDropDown(
+                                    selectedText = maintenanceSearchViewModel.maintenanceType,
+                                    placeholder = "-Select-",
+                                    onSelectedTextChange = {
+                                        maintenanceSearchViewModel.onMaintenanceTypeChange(it)
+                                    },
+                                    dropDownItems = maintenanceTypeDropDown,
+                                    width = 250
+                                )
+                            }
+                        }
+
+                        //Employee Name Filter
+                        Box{
+                            Column {
+                                Text(text = "Employee Name")
+                                AppTextField(
+                                    text = maintenanceSearchViewModel.employeeName,
+                                    onChange = {  maintenanceSearchViewModel.onEmployeeNameChange(it) },
+                                    placeholder = "Name",
+                                    width = 250
+                                )
+                            }
+                        }
+
+                        //Clear Filter and Apply Filter Buttons
+                        Box(modifier = Modifier
+                            .padding(vertical = 15.dp)){
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ){
+                                Button(onClick = {
+                                    maintenanceSearchViewModel.assetID = ""
+                                    maintenanceSearchViewModel.date = ""
+                                    maintenanceSearchViewModel.maintenanceType = ""
+                                    maintenanceSearchViewModel.employeeName = ""
+                                }) {
+                                    Text("Clear Filters")
+                                }
+
+                                Button(onClick = { navController.popBackStack() }) {
+                                    Text("Apply Filters")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

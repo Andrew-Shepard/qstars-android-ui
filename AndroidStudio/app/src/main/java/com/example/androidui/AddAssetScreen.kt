@@ -25,7 +25,9 @@ fun AddAssetScreen(
         ) {
             //Close Button
             Button(
-                onClick = { navController.popBackStack() },
+                onClick = {
+                    navController.popBackStack()
+                          },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .width(50.dp)

@@ -21,7 +21,8 @@ fun newNavigation(
     assetSearchViewModel: AssetSearchViewModel = viewModel(),
     flightLogSearchViewModel: FlightLogSearchViewModel = viewModel(),
     checkInSearchViewModel: CheckInSearchViewModel = viewModel(),
-    checkOutSearchViewModel: CheckOutSearchViewModel = viewModel()
+    checkOutSearchViewModel: CheckOutSearchViewModel = viewModel(),
+    maintenanceSearchViewModel: MaintenanceSearchViewModel = viewModel()
 ){
     NavHost(
         navController = navController,
@@ -118,6 +119,7 @@ fun newNavigation(
                 assetFormViewModel = assetFormViewModel,
                 assetTableViewModel,
                 checkInOutFormViewModel,
+                maintenanceFormViewModel,
                 lambdaParameter.arguments?.getBoolean("parentButton"),
                 lambdaParameter.arguments?.getBoolean("childButton"),
                 lambdaParameter.arguments?.getBoolean("addAssetButton")
@@ -261,7 +263,15 @@ fun newNavigation(
             )
         }
 
-        composable("add-asset-table"){
+        composable("add-asset-table-checkin"){
+            AddAssetScreen(
+                navController = navController,
+                assetTableViewModel,
+                assetSearchViewModel
+            )
+        }
+
+        composable("add-asset-table-maintenance"){
             AddAssetScreen(
                 navController = navController,
                 assetTableViewModel,
@@ -272,8 +282,13 @@ fun newNavigation(
         composable("maintenance-logs"){
             MaintenanceLog(
                 navController,
-                maintenanceLogTableViewModel
+                maintenanceLogTableViewModel,
+                maintenanceSearchViewModel
             )
+        }
+
+        composable("maintenance-filters"){
+            MaintenanceFilterPopup(navController = navController, maintenanceSearchViewModel = maintenanceSearchViewModel)
         }
 
         composable(

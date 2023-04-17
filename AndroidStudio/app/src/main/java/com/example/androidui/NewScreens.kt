@@ -206,7 +206,8 @@ fun CheckInOut(
 @Composable
 fun MaintenanceLog(
     navController: NavController,
-    maintenanceTableViewModel: MaintenanceTableViewModel
+    maintenanceTableViewModel: MaintenanceTableViewModel,
+    maintenanceSearchViewModel: MaintenanceSearchViewModel
 ){
     Column(
         modifier = Modifier
@@ -214,7 +215,18 @@ fun MaintenanceLog(
             .background(Color.White)
     ){
 
-        //SearchBar()
+        //Search Bar and Filter Button
+        Row{
+            MaintenanceSearchBar(maintenanceSearchViewModel = maintenanceSearchViewModel)
+            IconButton(
+                modifier = Modifier.offset(x=20.dp, y = 15.dp),
+                onClick = {
+                    navController.navigate("maintenance-filters")
+                }
+            ) {
+                Icon(Icons.Outlined.FilterAlt, "", modifier = Modifier.size(50.dp), tint = Color.DarkGray)
+            }
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -222,7 +234,8 @@ fun MaintenanceLog(
             width = 375,
             height = 550,
             navController = navController,
-            maintenanceLogTableViewModel = maintenanceTableViewModel
+            maintenanceLogTableViewModel = maintenanceTableViewModel,
+            maintenanceSearchViewModel = maintenanceSearchViewModel
         )
 
     }

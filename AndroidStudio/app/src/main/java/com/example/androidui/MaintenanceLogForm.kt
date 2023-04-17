@@ -78,11 +78,15 @@ fun MaintenanceLogFormScreen(
             }
 
             item {
-                Text(text = "Asset ID")
-                AppTextField(
-                    text = maintenanceFormViewModel.assetID,
-                    onChange = { maintenanceFormViewModel.onAssetIDChange(it) },
-                    placeholder = "Asset ID")
+                Button(onClick = {
+                    navController.navigate("add-asset-table-maintenance")
+                }) {
+                    Text(text = "+ Asset")
+                }
+            }
+
+            item {
+                Text("Asset ID: " + maintenanceFormViewModel.assetID)
             }
 
             item {
@@ -119,11 +123,19 @@ fun MaintenanceLogFormScreen(
             }
 
             item {
+                val maintenanceTypeDropDown = listOf(
+                    "Motor Replacement",
+                    "Battery Replacement",
+                    "Etc"
+                )
+
                 Text(text = "Maintenance Type")
-                AppTextField(
-                    text = maintenanceFormViewModel.typeOfMaintenane,
-                    onChange = { maintenanceFormViewModel.onTypeChange(it) },
-                    placeholder = "Maintenance Type")
+                AppTextFieldDropDown(
+                    selectedText = maintenanceFormViewModel.typeOfMaintenane,
+                    placeholder = "-Select-",
+                    dropDownItems = maintenanceTypeDropDown,
+                    onSelectedTextChange = { maintenanceFormViewModel.onTypeChange(it) }
+                )
             }
 
             item {

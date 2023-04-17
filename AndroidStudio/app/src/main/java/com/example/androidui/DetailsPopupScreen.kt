@@ -48,6 +48,7 @@ fun AssetDetailsPopUp(
     assetFormViewModel: FormViewModel,
     assetTableViewModel: AssetTableViewModel,
     checkInOutFormViewModel: CheckInOutFormViewModel,
+    maintenanceLogFormViewModel: MaintenanceLogFormViewModel,
     addParentButton: Boolean?,
     addChildButton: Boolean?,
     addAssetButton: Boolean?
@@ -70,7 +71,8 @@ fun AssetDetailsPopUp(
     else if (navController.previousBackStackEntry?.destination?.route == "child-table"){
         addCButton = true
     }
-    else if (navController.previousBackStackEntry?.destination?.route == "add-asset-table"){
+    else if (navController.previousBackStackEntry?.destination?.route == "add-asset-table-checkin" ||
+        navController.previousBackStackEntry?.destination?.route == "add-asset-table-maintenance"){
         addAButton = true
     }
     else{
@@ -238,8 +240,13 @@ fun AssetDetailsPopUp(
                         modifier = Modifier.fillMaxWidth()
                     ){
                         Button(onClick = {
-                            checkInOutFormViewModel.assetID = assetID
-                            //navController.navigate("check-in-out-form")
+                            if (navController.previousBackStackEntry?.destination?.route == "add-asset-table-checkin"){
+                                checkInOutFormViewModel.assetID = assetID
+                            }
+                            else{
+                                maintenanceLogFormViewModel.assetID = assetID
+                            }
+                            navController.popBackStack()
                             navController.popBackStack()
                             },
                             modifier = Modifier.align(Alignment.BottomCenter)) {
