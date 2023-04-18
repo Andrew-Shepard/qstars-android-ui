@@ -49,6 +49,7 @@ fun AssetDetailsPopUp(
     assetTableViewModel: AssetTableViewModel,
     checkInOutFormViewModel: CheckInOutFormViewModel,
     maintenanceLogFormViewModel: MaintenanceLogFormViewModel,
+    flightLogFormViewModel: FlightLogFormViewModel,
     addParentButton: Boolean?,
     addChildButton: Boolean?,
     addAssetButton: Boolean?
@@ -72,7 +73,9 @@ fun AssetDetailsPopUp(
         addCButton = true
     }
     else if (navController.previousBackStackEntry?.destination?.route == "add-asset-table-checkin" ||
-        navController.previousBackStackEntry?.destination?.route == "add-asset-table-maintenance"){
+        navController.previousBackStackEntry?.destination?.route == "add-asset-table-maintenance" ||
+        navController.previousBackStackEntry?.destination?.route == "add-asset-table-flightlog"
+            ){
         addAButton = true
     }
     else{
@@ -243,8 +246,11 @@ fun AssetDetailsPopUp(
                             if (navController.previousBackStackEntry?.destination?.route == "add-asset-table-checkin"){
                                 checkInOutFormViewModel.assetID = assetID
                             }
-                            else{
+                            else if(navController.previousBackStackEntry?.destination?.route == "add-asset-table-maintenance") {
                                 maintenanceLogFormViewModel.assetID = assetID
+                            }
+                            else{
+                                flightLogFormViewModel.droneID = assetID
                             }
                             navController.popBackStack()
                             navController.popBackStack()

@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -52,7 +53,7 @@ fun AssetFormScreen(
 
             //Serial Number
             item {
-                Text(text = "Asset ID")
+                MultiStyleText(text1 = "Asset ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = formViewModel.assetID,
                     onChange = { formViewModel.onAssetIDChange(it) },
@@ -61,7 +62,7 @@ fun AssetFormScreen(
 
             //Asset Name
             item {
-                Text(text = "Asset Name")
+                MultiStyleText(text1 = "Asset Name", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = formViewModel.assetName,
                     onChange = { formViewModel.onAssetNameChange(it)},
@@ -71,7 +72,7 @@ fun AssetFormScreen(
 
             //Asset Type
             item {
-                Text(text = "Asset Type")
+                MultiStyleText(text1 = "Asset Type", color1 = Color.Black, text2 = "*", color2 = Color.Red)
 
                 val assetTypeDropDown = listOf(
                     "Drone",
@@ -90,7 +91,7 @@ fun AssetFormScreen(
 
             // Status
             item {
-                Text(text = "Status")
+                MultiStyleText(text1 = "Status", color1 = Color.Black, text2 = "*", color2 = Color.Red)
 
                 val assetStatusDropDown = listOf(
                     "Active",
@@ -113,13 +114,13 @@ fun AssetFormScreen(
                     navController.navigate("parent-table")
 
                 }) {
-                    Text("+ Parent")
+                    Text("+ Parent", fontSize = 20.sp)
                 }
             }
 
             // Prints parents
             items(formViewModel.parents){ parent ->
-                Text(parent)
+                Text(parent, fontSize = 15.sp)
             }
 
             //Child Button
@@ -130,13 +131,13 @@ fun AssetFormScreen(
                     navController.navigate("child-table")
 7
                 }) {
-                    Text("+ Child")
+                    Text("+ Child", fontSize = 20.sp)
                 }
             }
 
             // Prints children
             items(formViewModel.children){ child ->
-                Text(child)
+                Text(child, fontSize = 15.sp)
             }
 
             // Location
@@ -153,7 +154,7 @@ fun AssetFormScreen(
 
                 val context = LocalContext.current
 
-                Text(text = "Purchase Date")
+                MultiStyleText(text1 = "Purchase Date", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     modifier = Modifier.clickable {
                         formViewModel.showDatePickerDialog(context)
@@ -193,8 +194,7 @@ fun AssetFormScreen(
                             formViewModel.assetName.isNotEmpty() &&
                             formViewModel.assetType.isNotEmpty() &&
                             formViewModel.assetStatus.isNotEmpty() &&
-                            formViewModel.datePurchased.isNotEmpty() &&
-                            formViewModel.currentLocation.isNotEmpty()
+                            formViewModel.datePurchased.isNotEmpty()
 
 
                     Button( modifier = Modifier.align(CenterHorizontally),

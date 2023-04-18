@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -63,7 +64,7 @@ fun CheckInFormScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             item {
-                Text(text = "ID")
+                MultiStyleText(text1 = "ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = checkInOutFormViewModel.ID,
                     onChange = { checkInOutFormViewModel.onIDChange(it) },
@@ -72,18 +73,18 @@ fun CheckInFormScreen(
 
             item {
                 Button(onClick = {
-                    navController.navigate("add-asset-table")
+                    navController.navigate("add-asset-table-checkin")
                 }) {
-                    Text(text = "+ Asset")
+                    Text(text = "+ Asset", fontSize = 20.sp)
                 }
             }
 
             item {
-                Text(checkInOutFormViewModel.assetID)
+                Text("Asset ID: " + checkInOutFormViewModel.assetID, fontSize = 15.sp)
             }
 
             item {
-                Text(text = "Employee ID")
+                MultiStyleText(text1 = "Employee ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = checkInOutFormViewModel.employeeID,
                     onChange = { checkInOutFormViewModel.onEmployeeIDChange(it) },
@@ -91,7 +92,7 @@ fun CheckInFormScreen(
             }
 
             item {
-                Text(text = "Employee Name")
+                MultiStyleText(text1 = "Employee Name", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = checkInOutFormViewModel.employeeName,
                     onChange = { checkInOutFormViewModel.onEmployeeNameChange(it) },
@@ -101,7 +102,7 @@ fun CheckInFormScreen(
             item {
                 val context = LocalContext.current
 
-                Text(text = "Check Out Date")
+                MultiStyleText(text1 = "Date of Check Out", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     modifier = Modifier.clickable {
                         checkInOutFormViewModel.showDatePickerDialog(context)
@@ -116,7 +117,7 @@ fun CheckInFormScreen(
             }
 
             item {
-                Text(text = "Current Location")
+                MultiStyleText(text1 = "Current Location", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = checkInOutFormViewModel.currentLocation,
                     onChange = { checkInOutFormViewModel.onCurrentLocationChange(it) },
@@ -124,7 +125,7 @@ fun CheckInFormScreen(
             }
 
             item {
-                Text(text = "Description")
+                Text(text = "Description", fontSize = 20.sp)
                 AppTextField(
                     text = checkInOutFormViewModel.description,
                     onChange = { checkInOutFormViewModel.onDescriptionChange(it) },
@@ -180,7 +181,7 @@ fun CheckInFormScreen(
 
 
                         }) {
-                        Text("Check out Asset")
+                        Text("Check out Asset", fontSize = 20.sp)
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))

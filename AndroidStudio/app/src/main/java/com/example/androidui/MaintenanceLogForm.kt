@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -70,7 +71,7 @@ fun MaintenanceLogFormScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             item {
-                Text(text = "ID")
+                MultiStyleText(text1 = "ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = maintenanceFormViewModel.ID,
                     onChange = { maintenanceFormViewModel.onIDChange(it) },
@@ -81,16 +82,16 @@ fun MaintenanceLogFormScreen(
                 Button(onClick = {
                     navController.navigate("add-asset-table-maintenance")
                 }) {
-                    Text(text = "+ Asset")
+                    Text(text = "+ Asset", fontSize = 20.sp)
                 }
             }
 
             item {
-                Text("Asset ID: " + maintenanceFormViewModel.assetID)
+                Text("Asset ID: " + maintenanceFormViewModel.assetID, fontSize = 15.sp)
             }
 
             item {
-                Text(text = "Employee ID")
+                MultiStyleText(text1 = "Employee ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = maintenanceFormViewModel.employeeID,
                     onChange = { maintenanceFormViewModel.onEmployeeIDChange(it) },
@@ -98,7 +99,7 @@ fun MaintenanceLogFormScreen(
             }
 
             item {
-                Text(text = "Employee Name")
+                MultiStyleText(text1 = "Employee Name", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = maintenanceFormViewModel.employeeName,
                     onChange = { maintenanceFormViewModel.onEmployeeNameChange(it) },
@@ -108,7 +109,7 @@ fun MaintenanceLogFormScreen(
             item {
                 val context = LocalContext.current
 
-                Text(text = "Date of Maintenance")
+                MultiStyleText(text1 = "Date of Maintenance", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     modifier = Modifier.clickable {
                         maintenanceFormViewModel.showDatePickerDialog(context)
@@ -129,7 +130,7 @@ fun MaintenanceLogFormScreen(
                     "Etc"
                 )
 
-                Text(text = "Maintenance Type")
+                MultiStyleText(text1 = "Maintenance Type", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextFieldDropDown(
                     selectedText = maintenanceFormViewModel.typeOfMaintenane,
                     placeholder = "-Select-",
@@ -139,7 +140,7 @@ fun MaintenanceLogFormScreen(
             }
 
             item {
-                Text(text = "Additional Details")
+                Text(text = "Additional Details", fontSize = 20.sp)
                 AppTextField(
                     text = maintenanceFormViewModel.additionalDetails,
                     onChange = { maintenanceFormViewModel.onDetailsChange(it) },
@@ -194,7 +195,7 @@ fun MaintenanceLogFormScreen(
 
 
                         }) {
-                        Text("Create Maintenance Log")
+                        Text("Create Maintenance Log", fontSize = 20.sp)
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))

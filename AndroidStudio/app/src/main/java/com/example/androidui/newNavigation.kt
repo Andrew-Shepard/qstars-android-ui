@@ -120,6 +120,7 @@ fun newNavigation(
                 assetTableViewModel,
                 checkInOutFormViewModel,
                 maintenanceFormViewModel,
+                flightLogFormViewModel,
                 lambdaParameter.arguments?.getBoolean("parentButton"),
                 lambdaParameter.arguments?.getBoolean("childButton"),
                 lambdaParameter.arguments?.getBoolean("addAssetButton")
@@ -138,6 +139,15 @@ fun newNavigation(
         // flight log filters
         composable("flight-log-filters"){
             FlightLogFilterPopup(navController = navController, flightLogSearchViewModel = flightLogSearchViewModel)
+        }
+
+        //  add asset table for flight logs
+        composable("add-asset-table-flightlog"){
+            AddAssetScreen(
+                navController = navController,
+                assetTableViewModel,
+                assetSearchViewModel
+            )
         }
 
 

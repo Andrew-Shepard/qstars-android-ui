@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -46,9 +47,9 @@ fun FlightLogFormScreen(
 
                     navController.popBackStack() },
                     modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(10.dp)
-                    .width(55.dp)
+                        .align(Alignment.TopEnd)
+                        .padding(10.dp)
+                        .width(55.dp)
             ) {
                 Icon(Icons.Filled.Close, "")
             }
@@ -67,7 +68,7 @@ fun FlightLogFormScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
             item {
-                Text(text = "Flight Log ID")
+                MultiStyleText(text1 = "Flight Log ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = flightLogFormViewModel.flightLogID,
                     onChange = { flightLogFormViewModel.onFlightLogIDChange(it) },
@@ -75,7 +76,7 @@ fun FlightLogFormScreen(
             }
 
             item {
-                Text(text = "Pilot ID")
+                MultiStyleText(text1 = "Pilot ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = flightLogFormViewModel.pilotID,
                     onChange = { flightLogFormViewModel.onPilotIDChange(it) },
@@ -83,7 +84,7 @@ fun FlightLogFormScreen(
             }
 
             item {
-                Text(text = "Pilot Name")
+                MultiStyleText(text1 = "Pilot Name", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = flightLogFormViewModel.pilotName,
                     onChange = { flightLogFormViewModel.onPilotNameChange(it) },
@@ -94,7 +95,7 @@ fun FlightLogFormScreen(
 
                 val context = LocalContext.current
 
-                Text(text = "Date of Log")
+                MultiStyleText(text1 = "Date of Log", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     modifier = Modifier.clickable {
                         flightLogFormViewModel.showDatePickerDialog(context)
@@ -109,7 +110,7 @@ fun FlightLogFormScreen(
             }
 
             item{
-                Text(text = "Success")
+                MultiStyleText(text1 = "Success", color1 = Color.Black, text2 = "*", color2 = Color.Red)
 
                 val flightLogSuccessDropDown = listOf(
                     "Yes",
@@ -125,7 +126,7 @@ fun FlightLogFormScreen(
             }
 
             item {
-                Text(text = "Total Time")
+                MultiStyleText(text1 = "Total Time", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = flightLogFormViewModel.totalTime,
                     onChange = { flightLogFormViewModel.onTotalTimeChange(it) },
@@ -133,7 +134,7 @@ fun FlightLogFormScreen(
             }
 
             item {
-                Text(text = "Observer ID")
+                Text(text = "Observer ID", fontSize = 20.sp)
                 AppTextField(
                     text = flightLogFormViewModel.observerID,
                     onChange = { flightLogFormViewModel.onObserverIDChange(it) },
@@ -141,7 +142,7 @@ fun FlightLogFormScreen(
             }
 
             item {
-                Text(text = "Test Mission")
+                MultiStyleText(text1 = "Test Mission", color1 = Color.Black, text2 = "*", color2 = Color.Red)
 
                 val flightTestMissionDropDown = listOf(
                     "Yes",
@@ -157,16 +158,20 @@ fun FlightLogFormScreen(
             }
 
             item {
-                Text(text = "Drone ID")
-                AppTextField(
-                    text = flightLogFormViewModel.droneID,
-                    onChange = { flightLogFormViewModel.onDroneIDChange(it) },
-                    placeholder = "Drone ID")
+                Button(onClick = {
+                    navController.navigate("add-asset-table-flightlog")
+                }) {
+                    Text(text = "+ Drone", fontSize = 20.sp)
+                }
+            }
+
+            item {
+                Text("Drone ID: " + flightLogFormViewModel.droneID, fontSize = 15.sp)
             }
 
 
             item {
-                Text(text = "# of Landings")
+                MultiStyleText(text1 = "# of Landings", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = flightLogFormViewModel.numOfLandings,
                     onChange = { flightLogFormViewModel.onNumLandingsChange(it) },
@@ -175,7 +180,7 @@ fun FlightLogFormScreen(
             }
 
             item {
-                Text(text = "# of Cycles")
+                MultiStyleText(text1 = "# of Cycles", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = flightLogFormViewModel.numOfCycles,
                     onChange = { flightLogFormViewModel.onCyclesChange(it) },
@@ -184,7 +189,7 @@ fun FlightLogFormScreen(
             }
 
             item {
-                Text(text = "Summary")
+                Text(text = "Summary", fontSize = 20.sp)
                 AppTextField(
                     text = flightLogFormViewModel.summary,
                     onChange = { flightLogFormViewModel.summary(it) },
@@ -253,7 +258,7 @@ fun FlightLogFormScreen(
 
 
                         }) {
-                        Text("Create Flight Log")
+                        Text("Create Flight Log", fontSize = 20.sp)
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
