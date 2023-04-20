@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -48,7 +49,11 @@ fun TopBar(scope: CoroutineScope,
         },
         actions = {
 
-            if (currentRoute != "home") {
+            if (currentRoute == "assets" ||
+                        currentRoute == "flight-logs" ||
+                        currentRoute == "check-in-out-logs" ||
+                        currentRoute == "maintenance-logs"
+                    ) {
                 IconButton(
                     onClick = {
 
@@ -91,6 +96,7 @@ fun TopBar(scope: CoroutineScope,
                     .padding(vertical = 10.dp)
                     .clip(CircleShape)
                     .clickable {
+                        navController.navigate("profile-screen")
                     }
             )
 

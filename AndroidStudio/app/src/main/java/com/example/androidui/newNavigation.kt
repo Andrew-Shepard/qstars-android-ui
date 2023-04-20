@@ -26,7 +26,12 @@ fun newNavigation(
 ){
     NavHost(
         navController = navController,
-        startDestination = "home"){
+        startDestination = "login"){
+
+        composable("login"){
+            LoginScreen(navController = navController)
+        }
+
 
         // home screen
         composable("home"){
@@ -37,6 +42,10 @@ fun newNavigation(
                 assetSearchViewModel = assetSearchViewModel,
                 flightLogSearchViewModel = flightLogSearchViewModel
             )
+        }
+        
+        composable("profile-screen"){
+            ProfileScreen(navController = navController)
         }
 
         //assets screen
