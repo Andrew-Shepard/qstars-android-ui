@@ -129,10 +129,7 @@ fun newNavigation(
                 assetTableViewModel,
                 checkInOutFormViewModel,
                 maintenanceFormViewModel,
-                flightLogFormViewModel,
-                lambdaParameter.arguments?.getBoolean("parentButton"),
-                lambdaParameter.arguments?.getBoolean("childButton"),
-                lambdaParameter.arguments?.getBoolean("addAssetButton")
+                flightLogFormViewModel
             )
         }
 

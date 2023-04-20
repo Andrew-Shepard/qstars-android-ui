@@ -49,10 +49,7 @@ fun AssetDetailsPopUp(
     assetTableViewModel: AssetTableViewModel,
     checkInOutFormViewModel: CheckInOutFormViewModel,
     maintenanceLogFormViewModel: MaintenanceLogFormViewModel,
-    flightLogFormViewModel: FlightLogFormViewModel,
-    addParentButton: Boolean?,
-    addChildButton: Boolean?,
-    addAssetButton: Boolean?
+    flightLogFormViewModel: FlightLogFormViewModel
 ){
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -272,7 +269,7 @@ fun FlightLogDetailsPopUp(
     fieldList: List<String>,
     navController: NavController,
     data: String?,
-    listOfFlightLogs: List<FlightLog>
+    listOfFlightLogs: ArrayList<FlightLog>
 ){
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -290,6 +287,7 @@ fun FlightLogDetailsPopUp(
             .border(width = 2.dp, color = Color.LightGray, shape = RectangleShape)
             .background(color = Color.White)
         ) {
+            var deleteButtonVisibility: Boolean = true
 
             Column{
                 Box(modifier = Modifier
@@ -297,6 +295,31 @@ fun FlightLogDetailsPopUp(
                     .fillMaxWidth()
                     .offset(x = 10.dp)
                 ){
+
+                    if (deleteButtonVisibility){
+                        Button(
+                            onClick = {
+                                var sizeOfAssetList: Int = listOfFlightLogs.size - 1
+                                var i: Int = 0
+                                while (i in 0..sizeOfAssetList){
+                                    if (listOfFlightLogs[i].flightLogID == data){
+                                        listOfFlightLogs.remove(listOfFlightLogs[i])
+                                        sizeOfAssetList -= 1
+                                        break
+                                    }
+                                    i++
+                                }
+
+                                navController.popBackStack()
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .width(50.dp)
+                                .offset(x = 25.dp)
+                        ) {
+                            Icon(Icons.Filled.Delete, "")
+                        }
+                    }
 
                     //Close Button
                     Button(
@@ -370,10 +393,11 @@ fun CheckOutLogDetailsPopUp(
     fieldList: List<String>,
     navController: NavController,
     data: String?,
-    listOfCheckInOut: List<CheckInOutLog>
+    listOfCheckInOut: ArrayList<CheckInOutLog>
 ){
     var height: Int = 520
 
+    var deleteButtonVisibility: Boolean = true
     Popup(
         alignment = Alignment.TopCenter
     ){
@@ -392,6 +416,31 @@ fun CheckOutLogDetailsPopUp(
                     .fillMaxWidth()
                     .offset(x = 10.dp)
                 ){
+
+                    if (deleteButtonVisibility){
+                        Button(
+                            onClick = {
+                                var sizeOfAssetList: Int = listOfCheckInOut.size - 1
+                                var i: Int = 0
+                                while (i in 0..sizeOfAssetList){
+                                    if (listOfCheckInOut[i].ID == data){
+                                        listOfCheckInOut.remove(listOfCheckInOut[i])
+                                        sizeOfAssetList -= 1
+                                        break
+                                    }
+                                    i++
+                                }
+
+                                navController.popBackStack()
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .width(50.dp)
+                                .offset(x = 25.dp)
+                        ) {
+                            Icon(Icons.Filled.Delete, "")
+                        }
+                    }
 
                     //Close Button
                     Button(
@@ -572,9 +621,10 @@ fun MaintenanceLogDetailsPopUp(
     fieldList: List<String>,
     navController: NavController,
     data: String?,
-    listOfMaintenanceLog: List<MaintenanceLog>
+    listOfMaintenanceLog: ArrayList<MaintenanceLog>
 ){
     var height: Int = 520
+    var deleteButtonVisibility: Boolean = true
 
     Popup(
         alignment = Alignment.TopCenter
@@ -594,6 +644,31 @@ fun MaintenanceLogDetailsPopUp(
                     .fillMaxWidth()
                     .offset(x = 10.dp)
                 ){
+
+                    // Delete Button
+                    if (deleteButtonVisibility){
+                        Button(
+                            onClick = {
+                                var sizeOfAssetList: Int = listOfMaintenanceLog.size - 1
+                                var i: Int = 0
+                                while (i in 0..sizeOfAssetList){
+                                    if (listOfMaintenanceLog[i].assetID == data){
+                                        listOfMaintenanceLog.remove(listOfMaintenanceLog[i])
+                                        sizeOfAssetList -= 1
+                                        break
+                                    }
+                                    i++
+                                }
+                                navController.popBackStack()
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .width(50.dp)
+                                .offset(x = 25.dp)
+                        ) {
+                            Icon(Icons.Filled.Delete, "")
+                        }
+                    }
 
                     //Close Button
                     Button(
@@ -651,6 +726,18 @@ fun MaintenanceLogDetailsPopUp(
                     }
                 }
             }
+        }
+    }
+}
+
+
+@Composable
+fun deletePopup(){
+    Popup() {
+        Box(modifier = Modifier
+            .height(300.dp)
+            .width(200.dp)){
+            Text("Oh No!")
         }
     }
 }
