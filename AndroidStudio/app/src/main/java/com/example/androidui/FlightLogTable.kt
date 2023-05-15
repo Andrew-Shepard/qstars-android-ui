@@ -18,7 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-
+// This file contains that asset table component and asset table composable functions
+// Similar to Asset Creation
 
 @Composable
 fun FlightLogTableComponent(

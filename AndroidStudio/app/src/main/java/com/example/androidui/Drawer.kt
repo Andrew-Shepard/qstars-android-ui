@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
+// this file contains the items and functionality of the slide menu drawer
 sealed class DrawerItems(var route: String, var title: String)
 {
     object Home: DrawerItems("home","Home")

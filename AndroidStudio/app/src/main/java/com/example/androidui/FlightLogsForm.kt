@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
+// this file contains the flight log form creation screen
 @Composable
 fun FlightLogFormScreen(
     navController: NavController,
@@ -126,11 +127,11 @@ fun FlightLogFormScreen(
             }
 
             item {
-                MultiStyleText(text1 = "Total Time", color1 = Color.Black, text2 = "*", color2 = Color.Red)
+                MultiStyleText(text1 = "Total Time (minutes)", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = flightLogFormViewModel.totalTime,
                     onChange = { flightLogFormViewModel.onTotalTimeChange(it) },
-                    placeholder = "Total Time")
+                    placeholder = "Total Time (minutes)")
             }
 
             item {
@@ -189,11 +190,11 @@ fun FlightLogFormScreen(
             }
 
             item {
-                Text(text = "Summary", fontSize = 20.sp)
+                Text(text = "Field Notes", fontSize = 20.sp)
                 AppTextField(
                     text = flightLogFormViewModel.summary,
                     onChange = { flightLogFormViewModel.summary(it) },
-                    placeholder = "Summary"
+                    placeholder = "Field Notes"
                 )
             }
 

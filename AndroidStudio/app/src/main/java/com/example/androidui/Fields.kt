@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.geometry.Size
 import androidx.navigation.NavController
 
+// this file contains the functionality for input fields used for creation of assets, flight logs, check in, etc.
+
 // Create a regular input field or a drop down input field
 @Composable
 fun InputField(inputField: InputFieldData, dropDownItems: List<String>, navController: NavController) {

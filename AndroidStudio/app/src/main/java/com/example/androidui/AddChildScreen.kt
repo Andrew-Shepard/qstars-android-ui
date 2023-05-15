@@ -1,6 +1,14 @@
 package com.example.androidui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -14,16 +22,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
-
-// This file contains that add asset screen
-// The screen that appears when "+ Drone" is clicked for a new flight log form
-// Also the screen that appears when "+ Asset" is clicked for a check out form
-// or maintenance log form
+// This file contains that add child screen
+// The screen that appears when "+ Child" is clicked for a new asset
 @Composable
-fun AddAssetScreen(
+fun AddChildScreen(
     navController: NavController,
     assetTableViewModel: AssetTableViewModel,
-    assetSearchViewModel: AssetSearchViewModel
+    assetSearchViewModel: AssetSearchViewModel = AssetSearchViewModel()
 ) {
 
     Column {
@@ -34,9 +39,7 @@ fun AddAssetScreen(
         ) {
             //Close Button
             Button(
-                onClick = {
-                    navController.popBackStack()
-                },
+                onClick = { navController.popBackStack() },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .width(50.dp)

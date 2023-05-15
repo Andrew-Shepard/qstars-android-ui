@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+// This file contains the Check In Out Form ViewModel
 class CheckInOutFormViewModel: ViewModel() {
     var ID: String by mutableStateOf("")
     var assetID: String by mutableStateOf("")
@@ -37,9 +38,12 @@ class CheckInOutFormViewModel: ViewModel() {
         employeeName = newEmployeeName
     }
 
+    /*
     fun onCurrentLocationChange(newLocation: String){
         currentLocation = newLocation
     }
+
+     */
 
     fun onDescriptionChange(newDescription: String){
         description = newDescription
@@ -47,6 +51,7 @@ class CheckInOutFormViewModel: ViewModel() {
 
     private var dateFormat = "MM-dd-yyyy"
 
+    // for check out date
     fun showDatePickerDialog(context: Context) {
         val calendar = getCalendar()
         DatePickerDialog(
@@ -60,6 +65,7 @@ class CheckInOutFormViewModel: ViewModel() {
             .show()
     }
 
+    // for check out date
     private fun getCalendar(): Calendar {
         return if (checkOutDate.isEmpty())
             Calendar.getInstance()
@@ -68,6 +74,7 @@ class CheckInOutFormViewModel: ViewModel() {
     }
 
 
+    // for check out date
     private fun getLastPickedDateCalendar(): Calendar {
         val dateFormat = SimpleDateFormat(dateFormat)
         val calendar = Calendar.getInstance()
@@ -75,6 +82,7 @@ class CheckInOutFormViewModel: ViewModel() {
         return calendar
     }
 
+    // for check out date
     private fun getPickedDateAsString( month: Int, day: Int, year: Int): String {
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day)

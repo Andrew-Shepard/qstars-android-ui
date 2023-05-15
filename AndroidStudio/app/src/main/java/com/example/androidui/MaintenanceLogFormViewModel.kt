@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-
+// this file contains the view model that stores and handles all the data of the maintenance log creation form
 class MaintenanceLogFormViewModel: ViewModel() {
     var ID: String by mutableStateOf("")
     var assetID: String by mutableStateOf("")

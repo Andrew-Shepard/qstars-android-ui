@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-
+// this file contains the view model that stores and handles all the data of the flight log search bar and filters
 class FlightLogSearchViewModel: ViewModel() {
     var flightLogID by mutableStateOf("")
     var pilotID by mutableStateOf("")

@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+// This file contains that maintance table component and maintenance table composable functions
+// Similar to Asset Creation
+
 @Composable
 fun MaintenanceTableComponent(
     navController: NavController,

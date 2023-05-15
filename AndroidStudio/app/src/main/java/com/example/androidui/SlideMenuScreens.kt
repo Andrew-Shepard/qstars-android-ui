@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
+// This file contains the screens that show up when a slide menu item is clicked
 @Composable
 fun Home(
     navController: NavController,

@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
+// This file contains the Asset class and the Asset Table View Model
 class Asset {
     var assetID : String = ""
     var assetName: String = ""
@@ -51,8 +52,11 @@ class Asset {
 }
 
 class AssetTableViewModel : ViewModel() {
+
+    // Mock data for the sake of testing
+    // Can be deleleted
     var allAssets: ArrayList<Asset> = arrayListOf(
-        Asset("123", "Motor5", "Motor", "Active", arrayListOf("parent1", "parent2"), arrayListOf("child1", "child2"), "04-01-2023", "", "04-15-2023", "", "", ""),
+        Asset("1", "Drone1", "Drone", "Active", arrayListOf("parent1", "parent2"), arrayListOf("child1", "child2"), "04-01-2023", "", "04-15-2023", "", "", ""),
         Asset("345", "Motor6", "Motor", "Checked Out", arrayListOf(""), arrayListOf(""), "03-25-2023", "", "", "", "", ""),
         Asset("335", "Motor7", "Motor", "Checked Out", arrayListOf(""), arrayListOf(""), "03-25-2023", "", "", "", "", ""),
         Asset("444", "Motor5", "Motor", "Checked Out", arrayListOf(""), arrayListOf(""), "02-24-2023", "", "", "", "", ""),
@@ -88,7 +92,21 @@ class AssetTableViewModel : ViewModel() {
                 description
             )
         )
+    }
 
+    fun removeAsset(
+        assetID : String,
+        assetName: String,
+        assetType: String,
+        assetStatus: String,
+        parents: ArrayList<String>,
+        children: ArrayList<String>,
+        datePurchased: String,
+        totalHoursUsed: String = "",
+        lastMaintenanceDate: String = "",
+        lastCheckOut: String = "",
+        currentLocation: String,
+        description: String) {
         allAssets.remove(
             Asset(
                 assetID,

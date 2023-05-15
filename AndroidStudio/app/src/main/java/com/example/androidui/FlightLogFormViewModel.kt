@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+// this file contains the view model that stores and handles all the data of the flight log creation form
 class FlightLogFormViewModel: ViewModel() {
     var flightLogID by mutableStateOf("")
     var pilotID: String by mutableStateOf("")

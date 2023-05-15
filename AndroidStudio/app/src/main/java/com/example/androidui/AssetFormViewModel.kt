@@ -5,14 +5,15 @@ import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.geometry.Size
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.NonDisposableHandle.parent
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FormViewModel : ViewModel() {
+
+// This file contains the form view model for asset
+// Its purpose is to handle the asset data
+class AssetFormViewModel : ViewModel() {
     var assetID by mutableStateOf("")
     var assetName by mutableStateOf("")
     var assetType by mutableStateOf("")
@@ -26,41 +27,64 @@ class FormViewModel : ViewModel() {
     var currentLocation by mutableStateOf("")
     var description by mutableStateOf("")
 
+    // this function clears the text
+    fun clearTextFields() {
+        assetID = ""
+        assetName = ""
+        assetType = ""
+        assetStatus = ""
+        datePurchased = ""
+        currentLocation = ""
+        description = ""
+        parents = arrayListOf()
+        children = arrayListOf()
+    }
+
     // sets assetID to new asset ID
-    fun onAssetIDChange(newID: String){
+    fun onAssetIDChange(newID: String) {
         assetID = newID
     }
 
 
     // sets asset name to new asset name
-    fun onAssetNameChange(newName: String){
+    fun onAssetNameChange(newName: String) {
         assetName = newName
     }
 
-    fun onAssetTypeChange(newType: String){
+    // sets asset type to new asset type
+    fun onAssetTypeChange(newType: String) {
         assetType = newType
     }
 
-    fun onStatusChange(newStatus: String){
+    // sets asset status to new status
+    fun onStatusChange(newStatus: String) {
         assetStatus = newStatus
     }
 
-    fun addParent(newParent: String){
+    // adds parent
+    fun addParent(newParent: String) {
         parents.add(newParent)
     }
 
-    fun locationChange(newLocation: String){
+    // sets location to new location
+    fun locationChange(newLocation: String) {
         currentLocation = newLocation
     }
 
+    // sets description to new description
+    fun onDescriptionChange(newDescription: String) {
+        description = newDescription
+    }
 
+    // format for date of purchase
     private var dateFormat = "MM-dd-yyyy"
 
+    // function for date of purchase
     fun showDatePickerDialog(context: Context) {
         val calendar = getCalendar()
         DatePickerDialog(
             context, { _, year, month, day ->
-                datePurchased = getPickedDateAsString( month, day,year)
+                datePurchased = getPickedDateAsString(month, day, year)
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -69,6 +93,7 @@ class FormViewModel : ViewModel() {
             .show()
     }
 
+    // function for date of purchase
     private fun getCalendar(): Calendar {
         return if (datePurchased.isEmpty())
             Calendar.getInstance()
@@ -77,6 +102,7 @@ class FormViewModel : ViewModel() {
     }
 
 
+    // function for date of purchase
     private fun getLastPickedDateCalendar(): Calendar {
         val dateFormat = SimpleDateFormat(dateFormat)
         val calendar = Calendar.getInstance()
@@ -84,15 +110,12 @@ class FormViewModel : ViewModel() {
         return calendar
     }
 
-    private fun getPickedDateAsString( month: Int, day: Int, year: Int): String {
+    // function for date of purchase
+    private fun getPickedDateAsString(month: Int, day: Int, year: Int): String {
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day)
         val dateFormat = SimpleDateFormat(dateFormat)
         return dateFormat.format(calendar.time)
-    }
-
-    fun onDescriptionChange(newDescription: String){
-        description = newDescription
     }
 
 }

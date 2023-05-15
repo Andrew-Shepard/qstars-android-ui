@@ -16,7 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
+
+// This file contains that asset table component and asset table composable functions
+
 
 // Prints out the rows of the table and navigates to asset details popup on click
 @Composable
@@ -38,12 +40,13 @@ fun AssetTableComponent(
         {
             detectTapGestures(
                 onTap = {
-                    //when asset clicked, show asset details popup
+                    //when asset clicked, navigate to asset details popup
                     navController.navigate("details-popup" + "/$assetID" + "/$parentButton" + "/$childButton" + "/$addAssetButton")
                 }
             )
         }
     ) {
+        // controls the asset column and the type of data
         TableCell(text = asset.assetID, weight = column1Weight)
         TableCell(text = asset.assetName, weight = column2Weight)
         TableCell(text = asset.assetType, weight = column3Weight)
@@ -54,7 +57,6 @@ fun AssetTableComponent(
 
 
 // sticky headers is an experimental feature
-// creates a custom table
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AssetTable(
@@ -65,40 +67,42 @@ fun AssetTable(
     assetSearchViewModel: AssetSearchViewModel
 ) {
 
+    // holds the previous navigation route
+    val previousRoute = navController.previousBackStackEntry?.destination?.route
+
+    // weights of columns
     val column1Weight = .3f
     val column2Weight = .3f
     val column3Weight = .2f
     val column4Weight = .2f
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    // variables that determine whether to show a button
+    var showParentButton = false
+    var showChildButton = false
+    var showAddAssetButton = false
 
-    var parentButton: Boolean = false
-    var childButton: Boolean = false
-    var addAssetButton: Boolean = false
+    // logic that determines whether to show Add Parent/Child/Asset Button based off previous route
+    when (previousRoute){
+        "parent-table" -> showParentButton = true
 
+        "child-table" -> showChildButton = true
 
-    when (navController.previousBackStackEntry?.destination?.route){
-        "parent-table" -> parentButton = true
-
-        "child-table" -> childButton = true
-
-        "add-asset-table" -> addAssetButton = true
+        "add-asset-table" -> showAddAssetButton = true
 
         else -> {
-            parentButton = false
-            childButton = false
-            addAssetButton = false
+            showParentButton = false
+            showChildButton = false
+            showAddAssetButton = false
         }
     }
 
-
-    var filterFieldsEmpty = assetSearchViewModel.userSearch.isEmpty() &&
-            assetSearchViewModel.nameSearch.isEmpty() &&
+    // variable that determines if the filter fields are empty
+    var filterFieldsEmpty = assetSearchViewModel.assetIDSearch.isEmpty() &&
+            assetSearchViewModel.assetNameSearch.isEmpty() &&
             assetSearchViewModel.assetTypeSearch.isEmpty() &&
             assetSearchViewModel.assetStatusSearch.isEmpty() &&
-            assetSearchViewModel.lastMaintenanceDate.isEmpty() &&
-            assetSearchViewModel.purchaseDate.isEmpty()
+            assetSearchViewModel.lastMaintenanceDateSearch.isEmpty() &&
+            assetSearchViewModel.purchaseDateSearch.isEmpty()
 
     //variables that will check whether the user field input matches an asset
     var assetIDMatch:Boolean
@@ -142,31 +146,33 @@ fun AssetTable(
             }
 
             // The table data
+            // Go through all assets
             items(assetTableViewModel.allAssets) { asset ->
 
-                assetIDMatch = assetSearchViewModel.userSearch == asset.assetID
-                nameMatch = assetSearchViewModel.nameSearch == asset.assetName
+                assetIDMatch = assetSearchViewModel.assetIDSearch == asset.assetID
+                nameMatch = assetSearchViewModel.assetNameSearch == asset.assetName
                 typeMatch = assetSearchViewModel.assetTypeSearch == asset.assetType
                 statusMatch = assetSearchViewModel.assetStatusSearch == asset.assetStatus
-                lastMaintenanceDateMatch = assetSearchViewModel.lastMaintenanceDate == asset.lastMaintenanceDate
-                purchaseDateMatch = assetSearchViewModel.purchaseDate == asset.datePurchased
+                lastMaintenanceDateMatch = assetSearchViewModel.lastMaintenanceDateSearch == asset.lastMaintenanceDate
+                purchaseDateMatch = assetSearchViewModel.purchaseDateSearch == asset.datePurchased
 
                 // stores ID of row to pass it
                 val assetID = asset.assetID
 
+                // search by asset ID
                 if (assetIDMatch){
 
-                    if (assetSearchViewModel.nameSearch.isEmpty() &&
+                    if (assetSearchViewModel.assetNameSearch.isEmpty() &&
                             assetSearchViewModel.assetTypeSearch.isEmpty() &&
                             assetSearchViewModel.assetStatusSearch.isEmpty() &&
-                            assetSearchViewModel.lastMaintenanceDate.isEmpty() &&
-                            assetSearchViewModel.purchaseDate.isEmpty()){
+                            assetSearchViewModel.lastMaintenanceDateSearch.isEmpty() &&
+                            assetSearchViewModel.purchaseDateSearch.isEmpty()){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -174,100 +180,23 @@ fun AssetTable(
                             column4Weight = column4Weight
                         )
                     }
-
-
-                    if(assetSearchViewModel.nameSearch.isNotEmpty() && nameMatch
-                    ){
-                        AssetTableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight ,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-
-                    if (assetSearchViewModel.assetTypeSearch.isNotEmpty() && typeMatch){
-                        AssetTableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight ,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-                    if (assetSearchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
-                        AssetTableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight ,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-                    if (assetSearchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
-                        AssetTableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight ,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
-                    if (assetSearchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
-                        AssetTableComponent(
-                            navController = navController,
-                            assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
-                            asset = asset,
-                            column1Weight = column1Weight,
-                            column2Weight = column2Weight,
-                            column3Weight = column3Weight,
-                            column4Weight = column4Weight
-                        )
-                    }
-
                 }
 
+                // search by asset name and any filters
                 if (nameMatch){
 
+                    // search by just asset name
                     if (
                         assetSearchViewModel.assetTypeSearch.isEmpty() &&
                         assetSearchViewModel.assetStatusSearch.isEmpty() &&
-                        assetSearchViewModel.lastMaintenanceDate.isEmpty() &&
-                        assetSearchViewModel.purchaseDate.isEmpty()){
+                        assetSearchViewModel.lastMaintenanceDateSearch.isEmpty() &&
+                        assetSearchViewModel.purchaseDateSearch.isEmpty()){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -280,9 +209,9 @@ fun AssetTable(
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -295,9 +224,9 @@ fun AssetTable(
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -306,13 +235,13 @@ fun AssetTable(
                         )
                     }
 
-                    if (assetSearchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
+                    if (assetSearchViewModel.lastMaintenanceDateSearch.isNotEmpty() && lastMaintenanceDateMatch){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -321,13 +250,13 @@ fun AssetTable(
                         )
                     }
 
-                    if (assetSearchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
+                    if (assetSearchViewModel.purchaseDateSearch.isNotEmpty() && purchaseDateMatch) {
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight,
                             column2Weight = column2Weight,
@@ -337,18 +266,104 @@ fun AssetTable(
                     }
                 }
 
+                // search by asset type
+                if (typeMatch){
+
+                    // search by just asset type
+                    if (
+                        assetSearchViewModel.assetNameSearch.isEmpty() &&
+                        assetSearchViewModel.assetStatusSearch.isEmpty() &&
+                        assetSearchViewModel.lastMaintenanceDateSearch.isEmpty() &&
+                        assetSearchViewModel.purchaseDateSearch.isEmpty()){
+                        AssetTableComponent(
+                            navController = navController,
+                            assetID = assetID,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
+                            asset = asset,
+                            column1Weight = column1Weight ,
+                            column2Weight = column2Weight,
+                            column3Weight = column3Weight,
+                            column4Weight = column4Weight
+                        )
+                    }
+
+                    if (assetSearchViewModel.assetNameSearch.isNotEmpty() && nameMatch){
+                        AssetTableComponent(
+                            navController = navController,
+                            assetID = assetID,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
+                            asset = asset,
+                            column1Weight = column1Weight ,
+                            column2Weight = column2Weight,
+                            column3Weight = column3Weight,
+                            column4Weight = column4Weight
+                        )
+                    }
+
+                    if (assetSearchViewModel.assetStatusSearch.isNotEmpty() && statusMatch){
+                        AssetTableComponent(
+                            navController = navController,
+                            assetID = assetID,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
+                            asset = asset,
+                            column1Weight = column1Weight ,
+                            column2Weight = column2Weight,
+                            column3Weight = column3Weight,
+                            column4Weight = column4Weight
+                        )
+                    }
+
+                    if (assetSearchViewModel.lastMaintenanceDateSearch.isNotEmpty() && lastMaintenanceDateMatch){
+                        AssetTableComponent(
+                            navController = navController,
+                            assetID = assetID,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
+                            asset = asset,
+                            column1Weight = column1Weight ,
+                            column2Weight = column2Weight,
+                            column3Weight = column3Weight,
+                            column4Weight = column4Weight
+                        )
+                    }
+
+                    if (assetSearchViewModel.purchaseDateSearch.isNotEmpty() && purchaseDateMatch) {
+                        AssetTableComponent(
+                            navController = navController,
+                            assetID = assetID,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
+                            asset = asset,
+                            column1Weight = column1Weight,
+                            column2Weight = column2Weight,
+                            column3Weight = column3Weight,
+                            column4Weight = column4Weight
+                        )
+                    }
+                }
+
+                // search by asset status
                 if (statusMatch){
 
-                    if (assetSearchViewModel.nameSearch.isEmpty() &&
+                    // search by just asset status
+                    if (assetSearchViewModel.assetNameSearch.isEmpty() &&
                         assetSearchViewModel.assetTypeSearch.isEmpty() &&
-                        assetSearchViewModel.lastMaintenanceDate.isEmpty() &&
-                        assetSearchViewModel.purchaseDate.isEmpty()){
+                        assetSearchViewModel.lastMaintenanceDateSearch.isEmpty() &&
+                        assetSearchViewModel.purchaseDateSearch.isEmpty()){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -357,15 +372,14 @@ fun AssetTable(
                         )
                     }
 
-
-                    if(assetSearchViewModel.nameSearch.isNotEmpty() && nameMatch
+                    if(assetSearchViewModel.assetNameSearch.isNotEmpty() && nameMatch
                     ){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -379,9 +393,9 @@ fun AssetTable(
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -390,13 +404,13 @@ fun AssetTable(
                         )
                     }
 
-                    if (assetSearchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch){
+                    if (assetSearchViewModel.lastMaintenanceDateSearch.isNotEmpty() && lastMaintenanceDateMatch){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -405,13 +419,13 @@ fun AssetTable(
                         )
                     }
 
-                    if (assetSearchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
+                    if (assetSearchViewModel.purchaseDateSearch.isNotEmpty() && purchaseDateMatch) {
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight,
                             column2Weight = column2Weight,
@@ -422,18 +436,20 @@ fun AssetTable(
 
                 }
 
-                if (lastMaintenanceDateMatch && assetSearchViewModel.lastMaintenanceDate.isNotEmpty()){
+                // search by last maintenance date
+                if (lastMaintenanceDateMatch && assetSearchViewModel.lastMaintenanceDateSearch.isNotEmpty()){
 
-                    if (assetSearchViewModel.nameSearch.isEmpty() &&
+                    // search by just last maintenance date
+                    if (assetSearchViewModel.assetNameSearch.isEmpty() &&
                         assetSearchViewModel.assetTypeSearch.isEmpty() &&
                         assetSearchViewModel.assetStatusSearch.isEmpty() &&
-                        assetSearchViewModel.purchaseDate.isEmpty()){
+                        assetSearchViewModel.purchaseDateSearch.isEmpty()){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -442,15 +458,14 @@ fun AssetTable(
                         )
                     }
 
-
-                    if(assetSearchViewModel.nameSearch.isNotEmpty() && nameMatch
+                    if(assetSearchViewModel.assetNameSearch.isNotEmpty() && nameMatch
                     ){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -464,9 +479,9 @@ fun AssetTable(
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -479,9 +494,9 @@ fun AssetTable(
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -490,13 +505,13 @@ fun AssetTable(
                         )
                     }
 
-                    if (assetSearchViewModel.purchaseDate.isNotEmpty() && purchaseDateMatch) {
+                    if (assetSearchViewModel.purchaseDateSearch.isNotEmpty() && purchaseDateMatch) {
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight,
                             column2Weight = column2Weight,
@@ -507,19 +522,20 @@ fun AssetTable(
 
                 }
 
-
+                // search by purchase date
                 if (purchaseDateMatch){
 
-                    if (assetSearchViewModel.nameSearch.isEmpty() &&
+                    // search by just the purchase date
+                    if (assetSearchViewModel.assetNameSearch.isEmpty() &&
                         assetSearchViewModel.assetTypeSearch.isEmpty() &&
                         assetSearchViewModel.assetStatusSearch.isEmpty() &&
-                        assetSearchViewModel.lastMaintenanceDate.isEmpty()){
+                        assetSearchViewModel.lastMaintenanceDateSearch.isEmpty()){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -529,14 +545,14 @@ fun AssetTable(
                     }
 
 
-                    if(assetSearchViewModel.nameSearch.isNotEmpty() && nameMatch
+                    if(assetSearchViewModel.assetNameSearch.isNotEmpty() && nameMatch
                     ){
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -550,9 +566,9 @@ fun AssetTable(
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -565,9 +581,9 @@ fun AssetTable(
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight ,
                             column2Weight = column2Weight,
@@ -576,13 +592,13 @@ fun AssetTable(
                         )
                     }
 
-                    if (assetSearchViewModel.lastMaintenanceDate.isNotEmpty() && lastMaintenanceDateMatch) {
+                    if (assetSearchViewModel.lastMaintenanceDateSearch.isNotEmpty() && lastMaintenanceDateMatch) {
                         AssetTableComponent(
                             navController = navController,
                             assetID = assetID,
-                            parentButton = parentButton,
-                            childButton = childButton,
-                            addAssetButton = addAssetButton,
+                            parentButton = showParentButton,
+                            childButton = showChildButton,
+                            addAssetButton = showAddAssetButton,
                             asset = asset,
                             column1Weight = column1Weight,
                             column2Weight = column2Weight,
@@ -592,6 +608,7 @@ fun AssetTable(
                     }
                 }
 
+                // show all assets when the filter fields are empty
                 if (filterFieldsEmpty){
 
                     Row(modifier = Modifier
@@ -601,11 +618,12 @@ fun AssetTable(
                             detectTapGestures(
                                 onTap = {
                                     //when asset clicked, show asset details popup
-                                    navController.navigate("details-popup" + "/$assetID" + "/$parentButton" + "/$childButton" + "/$addAssetButton")
+                                    navController.navigate("details-popup" + "/$assetID" + "/$showParentButton" + "/$showChildButton" + "/$showAddAssetButton")
                                 }
                             )
                         }
                     ) {
+                        // controls the asset column and the type of data
                         TableCell(text = asset.assetID, weight = column1Weight)
                         TableCell(text = asset.assetName, weight = column2Weight)
                         TableCell(text = asset.assetType, weight = column3Weight)

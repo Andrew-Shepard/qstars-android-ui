@@ -8,10 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun newNavigation(
+fun navigation(
     navController: NavHostController = rememberNavController(),
     assetTableViewModel: AssetTableViewModel = viewModel(),
-    assetFormViewModel: FormViewModel = viewModel(),
+    assetFormViewModel: AssetFormViewModel = viewModel(),
     flightLogTableViewModel: FlightLogTableViewModel = viewModel(),
     flightLogFormViewModel: FlightLogFormViewModel = viewModel(),
     checkInOutTableViewModel: CheckInOutTableViewModel = viewModel(),
@@ -178,7 +178,7 @@ fun newNavigation(
                 "Drone ID",
                 "# of Landings",
                 "# of Cycles",
-                "Summary"
+                "Field Notes"
             )
 
 

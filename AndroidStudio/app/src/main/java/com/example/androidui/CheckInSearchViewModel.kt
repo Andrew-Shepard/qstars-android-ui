@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+// This file contains the view model for the search of the "Check In an Asset" table
+// It also contails the view model for the search of the "Check Out Logs" table
 class CheckInSearchViewModel: ViewModel() {
     var checkInOutID by mutableStateOf("")
     var checkOutDate by mutableStateOf("")

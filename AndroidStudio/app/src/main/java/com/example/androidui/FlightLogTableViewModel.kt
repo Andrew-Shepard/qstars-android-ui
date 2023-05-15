@@ -1,7 +1,8 @@
 package com.example.androidui
 
 import androidx.lifecycle.ViewModel
-
+// This file contains the Flight Log class and the Flight Log Table View Model
+// Used to handle the data of the flight log table
 class FlightLog {
     var flightLogID: String = ""
     var pilotID: String = ""

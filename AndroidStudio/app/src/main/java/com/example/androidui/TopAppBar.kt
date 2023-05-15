@@ -30,6 +30,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
+// This file contains the topbar
 @Composable
 fun TopBar(scope: CoroutineScope,
            scaffoldState: ScaffoldState,

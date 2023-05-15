@@ -16,82 +16,113 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
+// This file contains the asset form screen
 @Composable
 fun AssetFormScreen(
     navController: NavController,
-    formViewModel: FormViewModel,
+    assetFormViewModel: AssetFormViewModel,
     assetTableViewModel: AssetTableViewModel
-){
-    Column{
+) {
+    Column {
 
-        //Title and Close Button
+        //Title and Close Button Box
         Box(modifier = Modifier.fillMaxWidth()) {
-            Button(onClick = { navController.popBackStack() }, modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(10.dp)
-                .width(55.dp)) {
+            // Close button
+            Button(
+                onClick = {
+                    assetFormViewModel.clearTextFields()
+                    navController.popBackStack()
+                }, modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(10.dp)
+                    .width(55.dp)
+            ) {
                 Icon(Icons.Filled.Close, "")
             }
+            // Title
             Text(
-                "Create New Asset",
-                Modifier
+                text = "Create New Asset",
+                modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .offset(y=20.dp),
+                    .offset(y = 20.dp),
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Medium
             )
         }
 
-        // All Fields
+        // All TextFields and DropDowns
         LazyColumn(
             modifier = Modifier.padding(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
-        ){
+        ) {
 
             //Serial Number
             item {
-                MultiStyleText(text1 = "Asset ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
+                MultiStyleText(
+                    text1 = "Asset ID",
+                    color1 = Color.Black,
+                    text2 = "*",
+                    color2 = Color.Red
+                )
                 AppTextField(
-                    text = formViewModel.assetID,
-                    onChange = { formViewModel.onAssetIDChange(it) },
-                    placeholder = "Asset ID")
+                    text = assetFormViewModel.assetID,
+                    onChange = { assetFormViewModel.onAssetIDChange(it) },
+                    placeholder = "Asset ID"
+                )
             }
 
             //Asset Name
             item {
-                MultiStyleText(text1 = "Asset Name", color1 = Color.Black, text2 = "*", color2 = Color.Red)
+                MultiStyleText(
+                    text1 = "Asset Name",
+                    color1 = Color.Black,
+                    text2 = "*",
+                    color2 = Color.Red
+                )
                 AppTextField(
-                    text = formViewModel.assetName,
-                    onChange = { formViewModel.onAssetNameChange(it)},
+                    text = assetFormViewModel.assetName,
+                    onChange = { assetFormViewModel.onAssetNameChange(it) },
                     placeholder = "Asset Name"
                 )
             }
 
             //Asset Type
             item {
-                MultiStyleText(text1 = "Asset Type", color1 = Color.Black, text2 = "*", color2 = Color.Red)
+                MultiStyleText(
+                    text1 = "Asset Type",
+                    color1 = Color.Black,
+                    text2 = "*",
+                    color2 = Color.Red
+                )
 
                 val assetTypeDropDown = listOf(
-                    "Drone",
-                    "Motor",
                     "Battery",
-                    "Other"
+                    "Case",
+                    "Drone",
+                    "Electronics",
+                    "Engine",
+                    "Frame",
+                    "Motor"
                 )
 
                 AppTextFieldDropDown(
-                    selectedText = formViewModel.assetType,
+                    selectedText = assetFormViewModel.assetType,
                     placeholder = "-Select-",
                     dropDownItems = assetTypeDropDown,
-                    onSelectedTextChange = { formViewModel.onAssetTypeChange(it) }
+                    onSelectedTextChange = { assetFormViewModel.onAssetTypeChange(it) }
                 )
             }
 
             // Status
             item {
-                MultiStyleText(text1 = "Status", color1 = Color.Black, text2 = "*", color2 = Color.Red)
+                MultiStyleText(
+                    text1 = "Status",
+                    color1 = Color.Black,
+                    text2 = "*",
+                    color2 = Color.Red
+                )
 
                 val assetStatusDropDown = listOf(
                     "Active",
@@ -100,10 +131,10 @@ fun AssetFormScreen(
                 )
 
                 AppTextFieldDropDown(
-                    selectedText = formViewModel.assetStatus,
+                    selectedText = assetFormViewModel.assetStatus,
                     placeholder = "-Select-",
                     dropDownItems = assetStatusDropDown,
-                    onSelectedTextChange = { formViewModel.onStatusChange(it) }
+                    onSelectedTextChange = { assetFormViewModel.onStatusChange(it) }
                 )
             }
 
@@ -118,8 +149,8 @@ fun AssetFormScreen(
                 }
             }
 
-            // Prints parents
-            items(formViewModel.parents){ parent ->
+            // Prints parent selected with "+ Parent" button
+            items(assetFormViewModel.parents) { parent ->
                 Text(parent, fontSize = 15.sp)
             }
 
@@ -129,14 +160,14 @@ fun AssetFormScreen(
 
                     //navigate to parent screen
                     navController.navigate("child-table")
-7
+                    7
                 }) {
                     Text("+ Child", fontSize = 20.sp)
                 }
             }
 
-            // Prints children
-            items(formViewModel.children){ child ->
+            // Prints children selected with "+ Children" button
+            items(assetFormViewModel.children) { child ->
                 Text(child, fontSize = 15.sp)
             }
 
@@ -144,9 +175,9 @@ fun AssetFormScreen(
             item {
                 Text(text = "Location")
                 AppTextField(
-                    text = formViewModel.currentLocation,
+                    text = assetFormViewModel.currentLocation,
                     placeholder = "Location",
-                    onChange = { formViewModel.locationChange(it) })
+                    onChange = { assetFormViewModel.locationChange(it) })
             }
 
             // Purchase Date
@@ -154,15 +185,20 @@ fun AssetFormScreen(
 
                 val context = LocalContext.current
 
-                MultiStyleText(text1 = "Purchase Date", color1 = Color.Black, text2 = "*", color2 = Color.Red)
+                MultiStyleText(
+                    text1 = "Purchase Date",
+                    color1 = Color.Black,
+                    text2 = "*",
+                    color2 = Color.Red
+                )
                 AppTextField(
                     modifier = Modifier.clickable {
-                        formViewModel.showDatePickerDialog(context)
+                        assetFormViewModel.showDatePickerDialog(context)
                     },
-                    text = formViewModel.datePurchased,
+                    text = assetFormViewModel.datePurchased,
                     placeholder = "MM-DD-YYYY",
                     onChange = {
-                        formViewModel.datePurchased = it
+                        assetFormViewModel.datePurchased = it
                     },
                     isEnabled = false
                 )
@@ -172,15 +208,15 @@ fun AssetFormScreen(
             item {
                 Text(text = "Description")
                 AppTextField(
-                    text = formViewModel.description,
+                    text = assetFormViewModel.description,
                     placeholder = "Description",
                     modifier = Modifier.height(150.dp),
-                    onChange = { formViewModel.onDescriptionChange(it) }
+                    onChange = { assetFormViewModel.onDescriptionChange(it) }
                 )
             }
 
             // Create Asset Button
-            item{
+            item {
                 Spacer(modifier = Modifier.height(20.dp))
                 Column(
                     modifier = Modifier
@@ -190,40 +226,33 @@ fun AssetFormScreen(
                 ) {
 
                     //checks whether any of the required fields are empty
-                    var requiredFieldsFilled = formViewModel.assetID.isNotEmpty() &&
-                            formViewModel.assetName.isNotEmpty() &&
-                            formViewModel.assetType.isNotEmpty() &&
-                            formViewModel.assetStatus.isNotEmpty() &&
-                            formViewModel.datePurchased.isNotEmpty()
+                    var requiredFieldsFilled = assetFormViewModel.assetID.isNotEmpty() &&
+                            assetFormViewModel.assetName.isNotEmpty() &&
+                            assetFormViewModel.assetType.isNotEmpty() &&
+                            assetFormViewModel.assetStatus.isNotEmpty() &&
+                            assetFormViewModel.datePurchased.isNotEmpty()
 
 
-                    Button( modifier = Modifier.align(CenterHorizontally),
+                    // create asset button
+                    Button(modifier = Modifier.align(CenterHorizontally),
                         enabled = requiredFieldsFilled,
                         onClick = {
 
                             //pass all values to create new asset
                             assetTableViewModel.newAsset(
-                                assetID = formViewModel.assetID,
-                                assetName = formViewModel.assetName,
-                                assetType = formViewModel.assetType,
-                                assetStatus =  formViewModel.assetStatus,
-                                parents = formViewModel.parents,
-                                children = formViewModel.children,
-                                datePurchased = formViewModel.datePurchased,
-                                currentLocation = formViewModel.currentLocation,
-                                description = formViewModel.description
+                                assetID = assetFormViewModel.assetID,
+                                assetName = assetFormViewModel.assetName,
+                                assetType = assetFormViewModel.assetType,
+                                assetStatus = assetFormViewModel.assetStatus,
+                                parents = assetFormViewModel.parents,
+                                children = assetFormViewModel.children,
+                                datePurchased = assetFormViewModel.datePurchased,
+                                currentLocation = assetFormViewModel.currentLocation,
+                                description = assetFormViewModel.description
                             )
 
-                            //clear textfields
-                            formViewModel.assetID = ""
-                            formViewModel.assetName = ""
-                            formViewModel.assetType= ""
-                            formViewModel.assetStatus = ""
-                            formViewModel.datePurchased = ""
-                            formViewModel.currentLocation= ""
-                            formViewModel.description = ""
-                            formViewModel.parents = arrayListOf()
-                            formViewModel.children = arrayListOf()
+                            //clear text fields
+                            assetFormViewModel.clearTextFields()
 
                             //navigate to asset screen
                             navController.navigate("assets")

@@ -36,7 +36,7 @@ fun MainScreen() {
         backgroundColor = Color.White
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
-            newNavigation(navController)
+            navigation(navController)
         }
     }
 }

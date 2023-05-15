@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
+// This file contains the creation screens for assets, flight logs, check in, and maintenance logs
 @Composable
 fun AssetCreationScreen(navController: NavController) {
 

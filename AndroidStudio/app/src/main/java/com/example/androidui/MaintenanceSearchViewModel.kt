@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-
+// this file contains the view model that stores and handles all the data of the maintenance log search bar and filters
 class MaintenanceSearchViewModel: ViewModel() {
     var ID by mutableStateOf("")
     var assetID by mutableStateOf("")

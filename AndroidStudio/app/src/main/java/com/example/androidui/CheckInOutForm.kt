@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
+// This file contains the screen for the Check In Form
 @Composable
 fun CheckInFormScreen(
     navController: NavController,
@@ -59,18 +60,22 @@ fun CheckInFormScreen(
             )
         }
 
+        // A LazyColumn for all the fields
         LazyColumn(
             modifier = Modifier.padding(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            // ID Field
             item {
                 MultiStyleText(text1 = "ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = checkInOutFormViewModel.ID,
                     onChange = { checkInOutFormViewModel.onIDChange(it) },
-                    placeholder = "Flight Log ID")
+                    placeholder = "ID"
+                )
             }
 
+            // + Asset Button
             item {
                 Button(onClick = {
                     navController.navigate("add-asset-table-checkin")
@@ -79,30 +84,51 @@ fun CheckInFormScreen(
                 }
             }
 
+            // Asset ID Text
             item {
                 Text("Asset ID: " + checkInOutFormViewModel.assetID, fontSize = 15.sp)
             }
 
+            // Employee ID
             item {
-                MultiStyleText(text1 = "Employee ID", color1 = Color.Black, text2 = "*", color2 = Color.Red)
+                MultiStyleText(
+                    text1 = "Employee ID",
+                    color1 = Color.Black,
+                    text2 = "*",
+                    color2 = Color.Red
+                )
                 AppTextField(
                     text = checkInOutFormViewModel.employeeID,
                     onChange = { checkInOutFormViewModel.onEmployeeIDChange(it) },
-                    placeholder = "Employee ID")
+                    placeholder = "Employee ID"
+                )
             }
 
+            // Employee Name
             item {
-                MultiStyleText(text1 = "Employee Name", color1 = Color.Black, text2 = "*", color2 = Color.Red)
+                MultiStyleText(
+                    text1 = "Employee Name",
+                    color1 = Color.Black,
+                    text2 = "*",
+                    color2 = Color.Red
+                )
                 AppTextField(
                     text = checkInOutFormViewModel.employeeName,
                     onChange = { checkInOutFormViewModel.onEmployeeNameChange(it) },
-                    placeholder = "Employee Name")
+                    placeholder = "Employee Name"
+                )
             }
 
+            // Check Out Date Field
             item {
                 val context = LocalContext.current
 
-                MultiStyleText(text1 = "Date of Check Out", color1 = Color.Black, text2 = "*", color2 = Color.Red)
+                MultiStyleText(
+                    text1 = "Date of Check Out",
+                    color1 = Color.Black,
+                    text2 = "*",
+                    color2 = Color.Red
+                )
                 AppTextField(
                     modifier = Modifier.clickable {
                         checkInOutFormViewModel.showDatePickerDialog(context)
@@ -116,6 +142,9 @@ fun CheckInFormScreen(
                 )
             }
 
+            // This was commented out because the sponsor did not want the current location to be during check out
+            // They wanted it during check in
+            /*
             item {
                 MultiStyleText(text1 = "Current Location", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
@@ -124,15 +153,20 @@ fun CheckInFormScreen(
                     placeholder = "Current Location")
             }
 
+             */
+
+            // Description Field
             item {
                 Text(text = "Description", fontSize = 20.sp)
                 AppTextField(
                     text = checkInOutFormViewModel.description,
                     onChange = { checkInOutFormViewModel.onDescriptionChange(it) },
-                    placeholder = "Description")
+                    placeholder = "Description"
+                )
             }
 
-            item{
+            // Check Out Button to create new check out log
+            item {
                 Spacer(modifier = Modifier.height(20.dp))
                 Column(
                     modifier = Modifier
@@ -141,31 +175,30 @@ fun CheckInFormScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
 
-                    //checks whether any of the required fields are empty
+                    // checks whether any of the required fields are empty
                     var requiredFieldsFilled = checkInOutFormViewModel.ID.isNotEmpty() &&
                             checkInOutFormViewModel.assetID.isNotEmpty() &&
                             checkInOutFormViewModel.employeeID.isNotEmpty() &&
                             checkInOutFormViewModel.employeeName.isNotEmpty() &&
-                            checkInOutFormViewModel.checkOutDate.isNotEmpty() &&
-                            checkInOutFormViewModel.currentLocation.isNotEmpty() &&
-                            checkInOutFormViewModel.description.isNotEmpty()
+                            checkInOutFormViewModel.checkOutDate.isNotEmpty()
+                    //checkInOutFormViewModel.currentLocation.isNotEmpty()
 
 
-                    Button( modifier = Modifier.align(Alignment.CenterHorizontally),
+                    Button(modifier = Modifier.align(Alignment.CenterHorizontally),
                         enabled = requiredFieldsFilled,
                         onClick = {
 
                             //pass all values to create new flight log
-                           checkInOutTableViewModel.newCheckInOutLog(
-                               checkInOutFormViewModel.ID,
-                               checkInOutFormViewModel.assetID,
-                               checkInOutFormViewModel.employeeID,
-                               checkInOutFormViewModel.employeeName,
-                               checkInOutFormViewModel.checkOutDate,
-                               checkInOutFormViewModel.checkInDate,
-                               checkInOutFormViewModel.currentLocation,
-                               checkInOutFormViewModel.description
-                           )
+                            checkInOutTableViewModel.newCheckInOutLog(
+                                checkInOutFormViewModel.ID,
+                                checkInOutFormViewModel.assetID,
+                                checkInOutFormViewModel.employeeID,
+                                checkInOutFormViewModel.employeeName,
+                                checkInOutFormViewModel.checkOutDate,
+                                checkInOutFormViewModel.checkInDate,
+                                checkInOutFormViewModel.currentLocation,
+                                checkInOutFormViewModel.description
+                            )
 
                             //clear textfields
                             checkInOutFormViewModel.ID = ""
@@ -186,12 +219,7 @@ fun CheckInFormScreen(
                 }
                 Spacer(modifier = Modifier.height(20.dp))
             }
-
-
-
-
         }
-
         Spacer(modifier = Modifier.height(20.dp))
     }
 }

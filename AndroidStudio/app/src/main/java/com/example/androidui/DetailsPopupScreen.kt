@@ -27,6 +27,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+// this file contains the popup that is displayed when an asset, flight log
+// maintenance log, or any check in/out log is clicked
+
+
 // this function makes the parents and children display themselves in a column
 @Composable
 fun ParentChildList(parentChildList: ArrayList<String> ){
@@ -37,7 +41,7 @@ fun ParentChildList(parentChildList: ArrayList<String> ){
     }
 }
 
-
+// this popup is displayed when an asset is clicked on the table
 @Composable
 fun AssetDetailsPopUp(
     popupTitle: String,
@@ -45,7 +49,7 @@ fun AssetDetailsPopUp(
     navController: NavController,
     data: String?,
     listOfAssets: ArrayList<Asset>,
-    assetFormViewModel: FormViewModel,
+    assetFormViewModel: AssetFormViewModel,
     assetTableViewModel: AssetTableViewModel,
     checkInOutFormViewModel: CheckInOutFormViewModel,
     maintenanceLogFormViewModel: MaintenanceLogFormViewModel,
@@ -263,6 +267,7 @@ fun AssetDetailsPopUp(
     }
 }
 
+// this popup is displayed when a flight log is clicked on the table
 @Composable
 fun FlightLogDetailsPopUp(
     popupTitle: String,
@@ -386,7 +391,7 @@ fun FlightLogDetailsPopUp(
     }
 }
 
-
+// this popup is displayed when an check out log is clicked on the table
 @Composable
 fun CheckOutLogDetailsPopUp(
     popupTitle: String,
@@ -503,7 +508,7 @@ fun CheckOutLogDetailsPopUp(
     }
 }
 
-
+// this popup is displayed when an check in log is clicked on the table
 @Composable
 fun CheckInLogDetailsPopUp(
     popupTitle: String,
@@ -614,7 +619,7 @@ fun CheckInLogDetailsPopUp(
     }
 }
 
-
+// this popup is displayed when a maintenance log is clicked on the table
 @Composable
 fun MaintenanceLogDetailsPopUp(
     popupTitle: String,
@@ -624,7 +629,7 @@ fun MaintenanceLogDetailsPopUp(
     listOfMaintenanceLog: ArrayList<MaintenanceLog>
 ){
     var height: Int = 520
-    var deleteButtonVisibility: Boolean = true
+    var deleteButtonVisibility: Boolean = false
 
     Popup(
         alignment = Alignment.TopCenter
@@ -726,18 +731,6 @@ fun MaintenanceLogDetailsPopUp(
                     }
                 }
             }
-        }
-    }
-}
-
-
-@Composable
-fun deletePopup(){
-    Popup() {
-        Box(modifier = Modifier
-            .height(300.dp)
-            .width(200.dp)){
-            Text("Oh No!")
         }
     }
 }

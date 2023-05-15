@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import java.text.SimpleDateFormat
 import java.util.*
 
+// This file contains the maintenance log creation form screen
 @Composable
 fun MaintenanceLogFormScreen(
     navController: NavController,
@@ -140,7 +141,7 @@ fun MaintenanceLogFormScreen(
             }
 
             item {
-                Text(text = "Additional Details", fontSize = 20.sp)
+                MultiStyleText(text1 = "Additional Details", color1 = Color.Black, text2 = "*", color2 = Color.Red)
                 AppTextField(
                     text = maintenanceFormViewModel.additionalDetails,
                     onChange = { maintenanceFormViewModel.onDetailsChange(it) },

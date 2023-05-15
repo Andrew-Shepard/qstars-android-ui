@@ -22,6 +22,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 
+// This file creates a custom dialog that is used for the creation screens
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CustomDialog(
@@ -30,13 +31,13 @@ fun CustomDialog(
     dropDownList: List<List<String>>,
     buttonName: String,
     navController: NavController
-){
+) {
 
-    val openDialog = remember{ mutableStateOf(true) }
+    val openDialog = remember { mutableStateOf(true) }
 
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
-        onDismissRequest = { openDialog.value = false}){
+        onDismissRequest = { openDialog.value = false }) {
 
         Box(
             modifier = Modifier
@@ -48,17 +49,19 @@ fun CustomDialog(
 
                 // Close Button of Asset Creation Screen
                 Box(modifier = Modifier.fillMaxWidth()) {
-                    Button(onClick = { navController.popBackStack() }, modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(10.dp)
-                        .width(55.dp)) {
+                    Button(
+                        onClick = { navController.popBackStack() }, modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(10.dp)
+                            .width(55.dp)
+                    ) {
                         Icon(Icons.Filled.Close, "")
                     }
                     Text(
                         dialogTitle,
                         Modifier
                             .align(Alignment.TopCenter)
-                            .offset(y=20.dp),
+                            .offset(y = 20.dp),
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Medium
                     )
@@ -69,9 +72,8 @@ fun CustomDialog(
                 // Creates all fields and drop-down fields
                 AllInputFields(inputFieldList, dropDownList, buttonName, navController)
 
-                }
-
             }
         }
+    }
 
 }

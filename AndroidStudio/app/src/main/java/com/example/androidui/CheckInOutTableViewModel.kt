@@ -3,6 +3,7 @@ package com.example.androidui
 import androidx.lifecycle.ViewModel
 
 
+// This file contains the Check In Out class and the Check In Out Table View Model
 class CheckInOutLog {
     var ID: String = ""
     var assetID: String = ""
@@ -38,12 +39,14 @@ class CheckInOutLog {
 
 class CheckInOutTableViewModel: ViewModel() {
 
+    // fake data that could be deleted
     var allCheckInOutLogs : ArrayList<CheckInOutLog> = arrayListOf(
         CheckInOutLog("1","23","e4","John Doe","02-04-2002","","warehouse","for mission"),
         CheckInOutLog("2","22","e4","John Doe","02-04-2002","03-03-2002","warehouse","for mission")
     )
 
 
+    // create a new check in out log
     fun newCheckInOutLog(
         ID: String,
         assetID: String,

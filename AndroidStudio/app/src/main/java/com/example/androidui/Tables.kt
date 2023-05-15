@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
 
+// This file contains the functionality of tables
+
 //an individual tablecell
 @Composable
 fun RowScope.TableCell(text: String, weight: Float)

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-
+// this file contains the screen for the filter popups
 @Composable
 fun AssetFilterPopup(
     navController: NavController,
@@ -76,7 +76,7 @@ fun AssetFilterPopup(
                             Column {
                                 Text(text = "Name")
                                 AppTextField(
-                                    text = assetSearchViewModel.nameSearch,
+                                    text = assetSearchViewModel.assetNameSearch,
                                     onChange = { assetSearchViewModel.onNameSearchChange(it) },
                                     placeholder = "Name",
                                     width = 250
@@ -89,10 +89,13 @@ fun AssetFilterPopup(
                         Box {
                             Column {
                                 val assetTypeDropDown = listOf(
-                                    "Drone",
-                                    "Motor",
                                     "Battery",
-                                    "Other"
+                                    "Case",
+                                    "Drone",
+                                    "Electronics",
+                                    "Engine",
+                                    "Frame",
+                                    "Motor"
                                 )
                                 Text(text = "Asset Type")
                                 AppTextFieldDropDown(
@@ -141,14 +144,13 @@ fun AssetFilterPopup(
                                     modifier = Modifier.clickable {
                                         assetSearchViewModel.showDatePickerDialog(context)
                                     },
-                                    text = assetSearchViewModel.lastMaintenanceDate,
+                                    text = assetSearchViewModel.lastMaintenanceDateSearch,
                                     placeholder = "MM-DD-YYYY",
                                     onChange = {
-                                        assetSearchViewModel.lastMaintenanceDate = it
+                                        assetSearchViewModel.lastMaintenanceDateSearch = it
                                     },
                                     isEnabled = false,
-                                    width = 250
-                                )
+                                    width = 250                                )
                             }
 
                         }
@@ -162,10 +164,10 @@ fun AssetFilterPopup(
                                     modifier = Modifier.clickable {
                                         assetSearchViewModel.showDatePickerDialog1(context)
                                     },
-                                    text = assetSearchViewModel.purchaseDate,
+                                    text = assetSearchViewModel.purchaseDateSearch,
                                     placeholder = "MM-DD-YYYY",
                                     onChange = {
-                                        assetSearchViewModel.purchaseDate = it
+                                        assetSearchViewModel.purchaseDateSearch = it
                                     },
                                     isEnabled = false,
                                     width = 250
@@ -182,11 +184,11 @@ fun AssetFilterPopup(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ){
                         Button(onClick = {
-                            assetSearchViewModel.nameSearch = ""
+                            assetSearchViewModel.assetNameSearch = ""
                             assetSearchViewModel.assetTypeSearch = ""
                             assetSearchViewModel.assetStatusSearch = ""
-                            assetSearchViewModel.lastMaintenanceDate = ""
-                            assetSearchViewModel.purchaseDate = ""
+                            assetSearchViewModel.lastMaintenanceDateSearch = ""
+                            assetSearchViewModel.purchaseDateSearch = ""
                         }) {
                             Text("Clear Filters")
                         }
@@ -439,7 +441,7 @@ fun CheckInFilterPopup(
                                 AppTextField(
                                     text = checkInSearchViewModel.assetSerialNum,
                                     onChange = { checkInSearchViewModel.onAssetSerialNumChange(it) },
-                                    placeholder = "Pilot ID",
+                                    placeholder = "Asset ID",
                                     width = 250
                                 )
                             }
@@ -719,7 +721,7 @@ fun MaintenanceFilterPopup(
                                     "Battery Replacement",
                                     "Etc"
                                 )
-                                Text(text = "Asset Type")
+                                Text(text = "Maintenance Type")
                                 AppTextFieldDropDown(
                                     selectedText = maintenanceSearchViewModel.maintenanceType,
                                     placeholder = "-Select-",

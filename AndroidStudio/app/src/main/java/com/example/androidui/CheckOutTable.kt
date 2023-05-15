@@ -545,7 +545,7 @@ fun CheckInTable(
     {
         // Table title
         Text(
-            text = "Check In Asset",
+            text = "Check In an Asset",
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -567,7 +567,7 @@ fun CheckInTable(
                     TableCell(text = "ID", weight = column1Weight)
                     TableCell(text = "Asset ID", weight = column2Weight)
                     TableCell(text = "Check Out Date", weight = column3Weight)
-                    TableCell(text = "Current Location", weight = column4Weight)
+                    TableCell(text = "Employee Name", weight = column4Weight)
                 }
             }
 
@@ -605,7 +605,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -632,7 +632,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -653,7 +653,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -674,7 +674,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -700,7 +700,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -721,7 +721,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -742,7 +742,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -768,7 +768,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -789,7 +789,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -810,7 +810,7 @@ fun CheckInTable(
                                 TableCell(text = log.ID, weight = column1Weight)
                                 TableCell(text = log.assetID, weight = column2Weight)
                                 TableCell(text = log.checkOutDate, weight = column3Weight)
-                                TableCell(text = log.currentLocation, weight = column4Weight)
+                                TableCell(text = log.employeeName, weight = column4Weight)
 
                             }
                         }
@@ -833,7 +833,7 @@ fun CheckInTable(
                             TableCell(text = log.ID, weight = column1Weight)
                             TableCell(text = log.assetID, weight = column2Weight)
                             TableCell(text = log.checkOutDate, weight = column3Weight)
-                            TableCell(text = log.currentLocation, weight = column4Weight)
+                            TableCell(text = log.employeeName, weight = column4Weight)
 
                         }
                     }

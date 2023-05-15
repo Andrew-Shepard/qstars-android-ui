@@ -27,11 +27,13 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 
+// This file contains the login screen
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(navController: NavController){
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
     Dialog(onDismissRequest = {  },
         DialogProperties(usePlatformDefaultWidth = false)
     ) {
